@@ -5,7 +5,7 @@
                 開始打造居家健身空間
             </h2>
             <div class="d-inline-block">
-                <a href="#" class="btn custom-premium-btn px-4 py-2 rounded-0 fs-6 text-dark text-decoration-none">
+                <a href="productList.php" class="btn custom-premium-btn px-4 py-2 rounded-0 fs-6 text-dark text-decoration-none">
                     瀏覽商品
                 </a>
             </div>

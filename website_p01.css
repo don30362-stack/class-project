@@ -1,4 +1,11 @@
-/* header */
+/* navbar */
+.product-dropdown-toggle {
+    border: 0;
+    background: transparent;
+    padding: 0 0.5rem 0 0;
+    color: rgba(0, 0, 0, 0.65);
+}
+
 @media screen and (min-width:992px) {
     .navbar .dropdown:hover > .dropdown-menu {
         display: block;
@@ -30,6 +37,10 @@
         position: static;
         margin-left: 0;
         background-color: #f8f9fa;
+    }
+
+    .product-dropdown-toggle {
+        padding: 0.5rem;
     }
 }
 
@@ -109,4 +120,39 @@
 
 .hover-white {
     transition: color 0.2s ease;
+}
+
+
+
+/*sidebar*/
+.sidebar, .accordion-button{
+    border: 2px solid #dfdfdf;
+    background-color: #f7f7f7;
+} 
+
+.sidebar{
+    padding: 5px;
+}
+
+.accordion-button{
+    font-size: clamp(14px, 1.5vw, 24px);
+}
+
+.accordion-body table td:hover{
+    background-color: antiquewhite;
+}
+
+.accordion-body{
+    padding: 0;
+}
+
+.table{
+    margin-bottom: 0;
+}
+
+.table td{
+    border-top: none;
+    border-bottom: 1px solid #dee2e6;
+    padding-left: 2rem;
+    font-size: clamp(12px, 0.8vw, 20px);
 }
