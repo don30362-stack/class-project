@@ -9,7 +9,7 @@ $hot = $link->query($SQLstring);
 
         <?php while ($data = $hot->fetch()) { ?>
             <div class="col">
-                <a href="#" class="text-decoration-none text-dark d-block">
+                <a href="productDetail.php?p_id=<?php echo $data['p_id']; ?>" class="text-decoration-none text-dark d-block">
                     <div class="card h-100 border rounded-0 shadow-sm">
                         <div class="ratio ratio-1x1 bg-light">
                             <img src="./product_img/<?php echo $data['img_file']; ?>" class="card-img-top object-fit-cover" alt="recommend<?php echo $data['h_sort']; ?>">

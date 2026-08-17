@@ -44,11 +44,11 @@ require_once('php_lib.php');
 
 
 
+  <?php require_once('jsfile.php'); ?>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script>
+
+  <!-- <script>
     document.querySelectorAll('.navbar .dropdown-toggle')
       .forEach(function(element) {
 
@@ -65,6 +65,51 @@ require_once('php_lib.php');
             e.stopPropagation();
 
             const submenu = this.nextElementSibling;
+            submenu.classList.toggle('show');
+          }
+
+        });
+
+      });
+  </script> -->
+  <script>
+    const productDropdownButton =
+      document.querySelector('.product-dropdown-toggle');
+
+    const productDropdownMenu =
+      document.querySelector('.product-dropdown > .dropdown-menu');
+
+    productDropdownButton.addEventListener('click', function(e) {
+
+      if (window.innerWidth < 992) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        productDropdownMenu.classList.toggle('show');
+
+        const isOpen =
+          productDropdownMenu.classList.contains('show');
+
+        this.setAttribute('aria-expanded', isOpen);
+      }
+
+    });
+
+
+    // 手機版第二層選單
+    document.querySelectorAll('.dropend > .dropdown-toggle')
+      .forEach(function(element) {
+
+        element.addEventListener('click', function(e) {
+
+          if (window.innerWidth < 992) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const submenu = this.nextElementSibling;
+
             submenu.classList.toggle('show');
           }
 

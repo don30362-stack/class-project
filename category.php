@@ -8,7 +8,7 @@
       <div class="row row-cols-2 row-cols-md-4 g-3 g-md-4  text-center">
         <?php while ($pyclass01_rows = $pyclass01->fetch()) { ?>
           <div class="col">
-            <a href="#" class="text-decoration-none text-dark d-block">
+            <a href="productList.php?classid=<?php echo $pyclass01_rows['classid']; ?>&level=<?php echo $pyclass01_rows['level']; ?>" class="text-decoration-none text-dark d-block">
               <div class="ratio ratio-1x1 mb-2 bg-light border">
                 <img src="./product_img/category0<?= $pyclass01_rows['classid']; ?>.png" alt="<?= $pyclass01_rows['cname']; ?>" class="img-fluid object-fit-cover">
               </div>
