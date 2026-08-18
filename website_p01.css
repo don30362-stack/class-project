@@ -1,21 +1,96 @@
 /* navbar */
+/* ==========================================================================
+   1. 基礎與通用樣式 (Global & Component Base)
+   ========================================================================== */
+
+/* 導覽列通用的不換行設定 */
+.navbar-nav .nav-item {
+    white-space: nowrap;
+}
+
+/* 商品專區容器：強制文字與按鈕絕對水平並排、不允許折行 */
+.product-dropdown .d-flex {
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+/* 商品專區主超連結：縮減右側多餘內距，為右邊的小箭頭騰出空間 */
+.product-dropdown .product-link {
+    padding-right: 4px;
+}
+
+/* 商品專區大選單 - 展開小按鈕 */
 .product-dropdown-toggle {
     border: 0;
     background: transparent;
-    padding: 0 0.5rem 0 0;
+    padding: 0;
+    /* 清除預設內距避免推開寬度 */
     color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    /* 確保箭頭垂直完美置中 */
 }
 
-@media screen and (min-width:992px) {
-    .navbar .dropdown:hover>.dropdown-menu {
+/* 內層下拉單品項基礎樣式 */
+.product-dropdown .dropdown-item {
+    color: #111111;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+/* 當前所在的大分類網址，優雅地亮起品牌霧金（移除預設藍底） */
+.product-dropdown .dropdown-item.active-nav {
+    color: #C19A6B;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+/* 手機版二層選單 - 展開小箭頭按鈕 */
+.submenu-toggle-btn {
+    border: 0;
+    background: transparent;
+    padding: 0.6rem 1.2rem;
+    color: #777777;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* 手機版小箭頭穿透設定：確保滑鼠按到 i 時，JS 抓取的依然是外層 button 節點 */
+.submenu-toggle-btn i {
+    pointer-events: none;
+}
+
+/* 手機版小箭頭被點開時的動態：順時針旋轉 90 度並轉為品牌金 */
+.submenu-toggle-btn.open {
+    transform: rotate(90deg);
+    color: #C19A6B;
+}
+
+
+/* ==========================================================================
+   2. 電腦版樣式 (Desktop Styles: >= 992px)
+   ========================================================================== */
+@media screen and (min-width: 992px) {
+    .product-dropdown {
+        position: relative;
+    }
+
+    /* 滑鼠懸停時自動彈出第一層大分類選單 */
+    .navbar .product-dropdown:hover>.dropdown-menu {
         display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
         margin-top: 0;
     }
 
+    /* 支援第二層子選單向右方彈出 (Dropend) */
     .navbar .dropend {
         position: relative;
     }
 
+    /* 滑鼠懸停在大分類時，子選單向右側完全展開 */
     .navbar .dropend:hover>.dropdown-menu {
         display: block;
         position: absolute;
@@ -25,24 +100,63 @@
     }
 }
 
+
+/* ==========================================================================
+   3. 手機版與平板樣式 (Mobile Styles: <= 991.98px)
+   ========================================================================== */
 @media (max-width: 991.98px) {
 
+    /* 調整大按鈕在手機版上的點擊熱區 */
+    .product-dropdown-toggle {
+        padding: 0.5rem;
+    }
+
+    /* 清除 Bootstrap 預設的框線與陰影，改為極簡垂直置中排版 */
     .navbar .dropdown-menu {
         border: 0;
         box-shadow: none;
         text-align: center;
     }
 
-    .navbar .dropend .dropdown-menu {
+    /* 第一層商品選單：改為靜態排版融入手機導覽列 */
+    .product-dropdown>.dropdown-menu {
         position: static;
-        margin-left: 0;
-        background-color: #f8f9fa;
+        width: 100%;
+        margin: 0;
     }
 
-    .product-dropdown-toggle {
-        padding: 0.5rem;
+    /* 第一層選單支援 JS 動態點擊控制顯示 */
+    .product-dropdown>.dropdown-menu.show {
+        display: block !important;
+    }
+
+    /* 第二層子選單：預設絕對隱藏，改為靜態推擠排版並帶有精緻的淺灰層次底色 */
+    .product-dropdown .dropdown-menu .submenu {
+        display: none !important;
+        position: static !important;
+        box-shadow: none !important;
+        background-color: #f8f9fa !important;
+        width: 100% !important;
+    }
+
+    /* 當點擊小箭頭觸發 JS 後，強制將第二層子選單滑出顯現 */
+    .product-dropdown .dropdown-menu .submenu.show {
+        display: block !important;
+    }
+
+    .category-nav-row>.dropdown-item {
+        width: auto;
+    }
+
+    .submenu-toggle-btn {
+        padding: 0.6rem 0.5rem;
+        margin-left: 0.15rem;
     }
 }
+
+
+
+
 
 
 /* carousel */
@@ -72,6 +186,117 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
 }
 
+
+/*breadcrumb*/
+.breadcrumb a {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: #C19A6B;
+}
+
+.breadcrumb-item.active {
+    color: #C19A6B;
+}
+
+
+/*productFilter*/
+/* .sidebar,
+.accordion-button {
+    border: 2px solid #dfdfdf;
+    background-color: #f7f7f7;
+}
+
+.sidebar {
+    padding: 5px;
+}
+
+.accordion-button {
+    font-size: clamp(14px, 1.5vw, 24px);
+}
+
+.accordion-body table td:hover {
+    background-color: antiquewhite;
+}
+
+.accordion-body {
+    padding: 0;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table td {
+    border-top: none;
+    border-bottom: 1px solid #dee2e6;
+    padding-left: 2rem;
+    font-size: clamp(12px, 0.8vw, 20px);
+} */
+
+/* 1. 大分類按鈕基礎樣式：平時收合是純黑色 */
+.accordion-button {
+    background-color: transparent !important;
+    color: #111111 !important;
+    /* 收合時是純黑 */
+    font-weight: 600;
+    padding: 1rem 0;
+    box-shadow: none !important;
+}
+
+/* 2. 當大分類被手動點開時，不要變成金色，依然維持純黑加粗 */
+.accordion-button:not(.collapsed) {
+    color: #111111 !important;
+}
+
+/* ⭐ 3. 只有真正符合當前網址頁面的大分類，才給予品牌霧金色 */
+.accordion-button.active-parent {
+    color: #C19A6B !important;
+    /* 只有它是金色 */
+}
+
+/* 4. 子分類列表與當前選中狀態 */
+.accordion-body {
+    padding: 0 0 1rem 0;
+}
+
+.category-list {
+    list-style: none;
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.category-item {
+    padding: 0.4rem 0;
+}
+
+.category-item a {
+    color: #777777 !important;
+    /* 平時子分類是灰色 */
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.category-item a:hover {
+    color: #111111 !important;
+}
+
+/* ⭐ 5. 被選中的子分類樣式：文字變黑、左側加上細金線 */
+.category-item a.active-child {
+    color: #111111 !important;
+    font-weight: bold;
+    border-left: 2px solid #C19A6B;
+    padding-left: 6px;
+}
+
+
+
+
+
+
 /*productCard*/
 
 
@@ -88,7 +313,8 @@
 .thumb-link:hover,
 .thumb-link.active {
     opacity: 1;
-    border-color: #2e2d2d;
+    border-color: #C19A6B;
+    box-shadow: 0 0 0 1px #C19A6B;
 }
 
 .thumb-img {
@@ -107,17 +333,28 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-
-/* 調整按鈕與細節的高度微調 */
-.py-2-5 {
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
+.custom-cart-btn-gold {
+    background-color: #C19A6B;
+    /* 霧金底 */
+    color: #ffffff;
+    /* 白字 */
+    border: 1px solid #C19A6B;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
 }
 
-.product-detail-content img {
+.custom-cart-btn-gold:hover {
+    background-color: #aa8254;
+    /* 懸停時稍微變深 */
+    border-color: #aa8254;
+    color: #ffffff;
+}
+
+/* .product-detail-content img {
     max-width: 100% !important;
     height: auto !important;
-}
+} */
+
 
 /* recommendation-section */
 #recommendation-section .card-title {
@@ -174,40 +411,4 @@ input[type="number"] {
 
 .hover-white {
     transition: color 0.2s ease;
-}
-
-
-
-/*sidebar*/
-.sidebar,
-.accordion-button {
-    border: 2px solid #dfdfdf;
-    background-color: #f7f7f7;
-}
-
-.sidebar {
-    padding: 5px;
-}
-
-.accordion-button {
-    font-size: clamp(14px, 1.5vw, 24px);
-}
-
-.accordion-body table td:hover {
-    background-color: antiquewhite;
-}
-
-.accordion-body {
-    padding: 0;
-}
-
-.table {
-    margin-bottom: 0;
-}
-
-.table td {
-    border-top: none;
-    border-bottom: 1px solid #dee2e6;
-    padding-left: 2rem;
-    font-size: clamp(12px, 0.8vw, 20px);
 }
