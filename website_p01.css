@@ -7,7 +7,7 @@
 }
 
 @media screen and (min-width:992px) {
-    .navbar .dropdown:hover > .dropdown-menu {
+    .navbar .dropdown:hover>.dropdown-menu {
         display: block;
         margin-top: 0;
     }
@@ -16,7 +16,7 @@
         position: relative;
     }
 
-    .navbar .dropend:hover > .dropdown-menu {
+    .navbar .dropend:hover>.dropdown-menu {
         display: block;
         position: absolute;
         top: 0;
@@ -51,8 +51,17 @@
     padding: 1rem 1.5rem;
 }
 
+.carousel-item {
+    height: 75vh;
+    min-height: 300px;
+}
 
-/* category-list */
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 #category-list a .ratio {
     overflow: hidden;
     transition: all 0.25s ease;
@@ -63,7 +72,52 @@
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
 }
 
+/*productCard*/
 
+
+/* productDetail*/
+.thumb-link {
+    display: block;
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.thumb-link:hover,
+.thumb-link.active {
+    opacity: 1;
+    border-color: #2e2d2d;
+}
+
+.thumb-img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+/* 調整按鈕與細節的高度微調 */
+.py-2-5 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+.product-detail-content img {
+    max-width: 100% !important;
+    height: auto !important;
+}
 
 /* recommendation-section */
 #recommendation-section .card-title {
@@ -125,32 +179,33 @@
 
 
 /*sidebar*/
-.sidebar, .accordion-button{
+.sidebar,
+.accordion-button {
     border: 2px solid #dfdfdf;
     background-color: #f7f7f7;
-} 
+}
 
-.sidebar{
+.sidebar {
     padding: 5px;
 }
 
-.accordion-button{
+.accordion-button {
     font-size: clamp(14px, 1.5vw, 24px);
 }
 
-.accordion-body table td:hover{
+.accordion-body table td:hover {
     background-color: antiquewhite;
 }
 
-.accordion-body{
+.accordion-body {
     padding: 0;
 }
 
-.table{
+.table {
     margin-bottom: 0;
 }
 
-.table td{
+.table td {
     border-top: none;
     border-bottom: 1px solid #dee2e6;
     padding-left: 2rem;
