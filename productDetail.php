@@ -107,14 +107,14 @@ require_once('php_lib.php');
 
                                     <div style="width: 140px; flex-shrink: 0;">
                                         <div class="input-group">
-                                            <button class="btn btn-outline-secondary px-3" type="button" onclick="changeQty(-1)">−</button>
+                                            <button class="btn btn-outline-dark px-3" type="button" onclick="changeQty(-1)">−</button>
                                             <input type="number" id="qty" name="qty" class="form-control text-center fw-bold border-secondary border-start-0 border-end-0" value="1" min="1" readonly>
-                                            <button class="btn btn-outline-secondary px-3" type="button" onclick="changeQty(1)">+</button>
+                                            <button class="btn btn-outline-dark px-3" type="button" onclick="changeQty(1)">+</button>
                                         </div>
                                     </div>
 
                                     <div class="flex-grow-1">
-                                        <button name="button01" id="button01" type="button" class="btn btn-success btn-lg w-100 fw-bold shadow-sm color-success py-2-5" onclick="addcart(<?php echo $imgList['p_id']; ?>)">
+                                        <button name="button01" id="button01" type="button" class="btn  custom-cart-btn-gold btn-lg w-100 fw-bold shadow-sm py-3" style="letter-spacing: 2px;" onclick="addcart(<?php echo $imgList['p_id']; ?>)">
                                             <i class="bi bi-cart-plus me-2"></i>加入購物車
                                         </button>
                                     </div>
@@ -156,16 +156,16 @@ require_once('php_lib.php');
     <?php require_once('jsfile.php'); ?>
     <script src="fancybox-2.1.7/source/jquery.fancybox.js"></script>
     <script>
-        $(function() {
-            $(".card .row.mt-2 .col-md-4 a").mouseover(function() {
-                var imgsrc = $(this).children("img").attr("src");
-                $("#showGoods").attr({
-                    "src": imgsrc
-                });
-            });
+        // $(function() {
+        //     $(".card .row.mt-2 .col-md-4 a").mouseover(function() {
+        //         var imgsrc = $(this).children("img").attr("src");
+        //         $("#showGoods").attr({
+        //             "src": imgsrc
+        //         });
+        //     });
 
-            $(".fancybox").fancybox();
-        });
+        //     $(".fancybox").fancybox();
+        // });
 
         function addcart(p_id) {
             var qty = $("#qty").val();

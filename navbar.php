@@ -5,15 +5,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center fw-bold text-center fs-5">
-                <li class="nav-item px-3">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center fw-bold text-center fs-5">
+                <li class="nav-item px-lg-3">
                     <a class="nav-link" aria-current="page" href="index.php">首頁</a>
                 </li>
                 <?php multiList02(); ?>
-                <li class="nav-item px-3">
+                <li class="nav-item px-lg-3">
                     <a class="nav-link" href="#">品牌介紹</a>
                 </li>
-                <li class="nav-item px-3">
+                <li class="nav-item px-lg-3">
                     <a class="nav-link" href="#">常見問題</a>
                 </li>
             </ul>
@@ -41,19 +41,23 @@
 function multiList02()
 {
     global $link;
-    $SQLstring = 'SELECT * FROM pyclass WHERE level=1 ORDER BY sort';
-    $pyclass01 = $link->query($SQLstring);
+    $current_classid = isset($_GET['classid']) ? intval($_GET['classid']) : 0;
+    $current_level = isset($_GET['level']) ? intval($_GET['level']) : 0;
+
+    $navParentSQL = 'SELECT * FROM pyclass WHERE level=1 ORDER BY sort';
+    $pyclass01 = $link->query($navParentSQL);
 ?>
-    <li class="nav-item dropdown product-dropdown">
+    <li class="nav-item dropdown product-dropdown ">
 
         <div class="d-flex align-items-center justify-content-center">
 
             <a class="nav-link product-link" href="productList.php">
                 商品專區
+                <i class="fa-solid fa-caret-down d-none d-lg-inline ms-1"></i>
             </a>
 
             <button
-                class="product-dropdown-toggle"
+                class="product-dropdown-toggle d-lg-none"
                 type="button"
                 aria-label="展開商品分類"
                 aria-expanded="false">
@@ -63,21 +67,36 @@ function multiList02()
         </div>
 
         <ul class="dropdown-menu">
-            <?php while ($pyclass01_rows = $pyclass01->fetch()) { ?>
-                <li class="nav-item dropend">
-                    <a class="dropdown-item dropdown-toggle" href="productList.php">
-                        <i class="fas <?= $pyclass01_rows['fonticon']; ?> fa-lg fa-fw"></i>
-                        <?= $pyclass01_rows['cname']; ?>
-                    </a>
+            <?php while ($pyclass01_rows = $pyclass01->fetch()) {
+                $isNavActive = ($current_level == 1 && $current_classid == $pyclass01_rows['classid']);
+            ?>
+                <!-- 💡 加上 d-flex 讓文字連結和手機版小按鈕可以並排 -->
+                <li class="nav-item dropend position-relative">
+                    <div class="d-flex align-items-center justify-content-center category-nav-row">
+
+                        <!-- ⭐ 移除 dropdown-toggle 類別，回歸純 A 標籤，點擊文字保證 100% 跳轉 -->
+                        <a class="dropdown-item <?php echo $isNavActive ? 'active-nav' : ''; ?>"
+                            href="productList.php?classid=<?php echo $pyclass01_rows['classid']; ?>&level=<?php echo $pyclass01_rows['level']; ?>">
+                            <i class="fas <?= $pyclass01_rows['fonticon']; ?> fa-lg fa-fw"></i>
+                            <?= $pyclass01_rows['cname']; ?>
+                        </a>
+
+                        <!-- ⭐ 新增：專門給手機版點擊展開二層選單的小按鈕 (電腦版會自動隱藏) -->
+                        <button type="button" class="submenu-toggle-btn d-lg-none" aria-label="展開子分類">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
                     <?php
-                    $SQLstring = sprintf("SELECT * FROM pyclass WHERE level=2 AND uplink=%d ORDER BY sort", $pyclass01_rows['classid']);
-                    $pyclass02 = $link->query($SQLstring);
+                    $navChildSQL = sprintf("SELECT * FROM pyclass WHERE level=2 AND uplink=%d ORDER BY sort", $pyclass01_rows['classid']);
+                    $pyclass02 = $link->query($navChildSQL);
                     ?>
                     <ul class="dropdown-menu submenu">
                         <?php while ($pyclass02_rows = $pyclass02->fetch()) { ?>
                             <li>
                                 <a href="productList.php?classid=<?php echo $pyclass02_rows['classid']; ?>" class="dropdown-item">
-                                    <i class="fas <?= $pyclass02_rows['fonticon']; ?> fa-fw"></i>
+
                                     <?= $pyclass02_rows['cname']; ?>
                                 </a>
                             </li>
@@ -85,8 +104,7 @@ function multiList02()
                     </ul>
                 </li>
             <?php } ?>
-
-
         </ul>
+
     </li>
 <?php } ?>

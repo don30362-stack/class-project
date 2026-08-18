@@ -72,7 +72,7 @@ require_once('php_lib.php');
 
       });
   </script> -->
-  <script>
+  <!-- <script>
     const productDropdownButton =
       document.querySelector('.product-dropdown-toggle');
 
@@ -116,7 +116,10 @@ require_once('php_lib.php');
         });
 
       });
-  </script>
+  </script> -->
+
+  
+
 </body>
 
 </html>
