@@ -4,6 +4,10 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <?php
+        $SQLstring = "SELECT * FROM cart WHERE orderid IS NULL AND ip='" . $_SERVER['REMOTE_ADDR'] . "'";
+        $cart_rs = $link->query($SQLstring);
+        ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center fw-bold text-center fs-5">
                 <li class="nav-item px-lg-3">
@@ -11,10 +15,10 @@
                 </li>
                 <?php multiList02(); ?>
                 <li class="nav-item px-lg-3">
-                    <a class="nav-link" href="#">品牌介紹</a>
+                    <a class="nav-link" href="brand.php">品牌介紹</a>
                 </li>
                 <li class="nav-item px-lg-3">
-                    <a class="nav-link" href="#">常見問題</a>
+                    <a class="nav-link" href="FAQ.php">常見問題</a>
                 </li>
             </ul>
             <form class="d-flex justify-content-center" role="search" action="productList.php" method="get">
@@ -25,12 +29,17 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
-            <ul class="navbar-nav me-lg-5 flex-row justify-content-center gap-3">
+            <ul class="navbar-nav me-lg-5 flex-row justify-content-center gap-3 mt-2 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa-solid fa-user"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a class="nav-link" href="#">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="badge">
+                            <?php echo ($cart_rs) ? $cart_rs->rowCount() : ''; ?>
+                        </span>
+                    </a>
                 </li>
             </ul>
         </div>

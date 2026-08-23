@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once('./Connections/conn_db.php');
-require_once('php_lib.php');
 ?>
 <!doctype html>
 <html lang="zh">
@@ -21,24 +20,6 @@ require_once('php_lib.php');
         <?php require_once('breadcrumb.php'); ?>
     </section>
 
-    <section id="categoryTitle">
-        <?php require_once('categoryTitle.php'); ?>
-    </section>
-
-    <section id="content" class="mt-5">
-        <div class="container-fluid">
-            <div class="row gy-4">
-                <div class="col-md-2">
-                    <?php require_once('productFilter.php');?>
-                </div>
-
-                <div class="col-md-10">
-                    <?php require_once('productCard.php'); ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="why-choose-us" class="py-4 py-md-5">
         <?php require_once('why_us.php'); ?>
     </section>
@@ -52,10 +33,9 @@ require_once('php_lib.php');
     </section>
 
 
+
     <?php require_once('jsfile.php'); ?>
 
-
-    
 
 </body>
 

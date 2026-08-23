@@ -25,12 +25,10 @@ $pList01 = $link->query($query);
 $i = 1;
 ?>
 <?php if ($pList01->rowCount() != 0) { ?>
-    <?php while ($pList01_Rows = $pList01->fetch()) { ?>
-        <?php if ($i % 4 == 1) { ?>
-            <div class="row text-center">
-            <?php } ?>
+    <div class="row text-center gy-4 gx-3">
+        <?php while ($pList01_Rows = $pList01->fetch()) { ?>
             <div class="col-6 col-md-3">
-                <div class="card h-100 border rounded-0 shadow-sm">
+                <div class="card h-100 rounded-0">
                     <a href="productDetail.php?p_id=<?php echo $pList01_Rows['p_id']; ?>">
                         <div class="ratio ratio-1x1 bg-light">
                             <img src="./product_img/<?= $pList01_Rows['img_file'] ?>" class="card-img-top" alt="<?= $pList01_Rows['p_name'] ?>" title="<?= $pList01_Rows['p_name'] ?>">
@@ -38,17 +36,14 @@ $i = 1;
                     </a>
                     <div class="card-body p-2 p-md-3">
                         <h5 class="card-title"><?= $pList01_Rows['p_name'] ?></h5>
-                        <p class="card-text"><?= $pList01_Rows['p_intro'] ?></p>
-                        <p class="card-text">NT<?= $pList01_Rows['p_price'] ?></p>
+                        <p class="card-price m-0"><span style="font-size: 80%; font-weight: 500; margin-right: 2px;">NT$</span> <?= number_format($pList01_Rows['p_price']) ?></p>
                     </div>
                 </div>
+            </div>
+        <?php } 
+        ?>
+    </div>
 
-            </div>
-            <?php if ($i % 4 == 0 || $i == $pList01->rowCount()) { ?>
-            </div>
-        <?php } ?>
-    <?php $i++;
-    } ?>
     <div class="row mt-2">
         <?php
         if (isset($_GET['totalRows_rs'])) {
@@ -67,7 +62,7 @@ $i = 1;
         ?>
 
         <nav aria-label="Page navigation example">
-            <ul class="pagination  justify-content-center">
+            <ul class="pagination  justify-content-center my-4">
                 <?php echo $page_rs[0] . $page_rs[1] . $page_rs[2]; ?>
             </ul>
         </nav>
