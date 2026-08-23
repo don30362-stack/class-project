@@ -67,6 +67,34 @@
     color: #C19A6B;
 }
 
+/* 讓購物車連結變成定位基準點 */
+.nav-link {
+    position: relative;
+    display: inline-block;
+}
+
+/* 購物車數量提示優化 */
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #B89047;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 18px;
+    /* 確保數字變多時維持圓形或橢圓 */
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 50%;
+
+    /* 讓數字在圓圈內完美居中 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
 /* ==========================================================================
    2. 電腦版樣式 (Desktop Styles: >= 992px)
@@ -160,31 +188,219 @@
 
 
 /* carousel */
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.35);
-    padding: 1rem 1.5rem;
-}
 
+/* ==========================================================================
+   2026 品牌官網級：極簡奢華風輪播圖 (手機文案下移、金屬濾鏡箭頭、膠囊指示燈)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   📱 【預設樣式：手機版行動端（螢幕小於 768px）】
+   -------------------------------------------------------------------------- */
+
+/* 1. 輪播主容器：手機版外殼高度自適應，底色改為純白 */
 .carousel-item {
-    height: 75vh;
-    min-height: 300px;
+    height: auto !important;
+    min-height: auto !important;
+    background-color: #ffffff !important;
 }
 
+/* 2. 商品圖片：高度自適應流動，限制最高佔螢幕 45% 避免過長 */
 .carousel-item img {
-    height: 100%;
+    height: auto !important;
+    max-height: 45vh !important;
     object-fit: cover;
     object-position: center;
 }
 
-#category-list a .ratio {
-    overflow: hidden;
-    transition: all 0.25s ease;
+/* 3. 文案區塊：拔除絕對定位，讓文字乖乖待在圖片下方的白底區，加大底部留白給分頁線 */
+.carousel-caption {
+    position: relative !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    max-width: 100% !important;
+    padding: 1.5rem 1rem 3.5rem !important;
+    /* 底部預留 3.5rem 確保指示燈不重疊 */
+    text-align: center !important;
+    /* 手機版文字置中 */
+    text-shadow: none !important;
+    /* 移除強烈黑影 */
 }
 
-#category-list a:hover .ratio {
-    transform: translateY(-4px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+/* 手機版標題：優雅純黑 */
+.carousel-caption h5 {
+    color: #111111 !important;
+    font-size: 1.4rem !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
 }
+
+/* 手機版描述：內斂深灰 */
+.carousel-caption p {
+    color: #666666 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5;
+}
+
+/* 4. 分頁指示燈（小線條）：鎖定在手機白底文字的最下方 */
+.carousel-indicators {
+    bottom: 1.2rem !important;
+    margin-bottom: 0 !important;
+    z-index: 15 !important;
+}
+
+/* 手機版指示燈熱區擴大（只影響感應範圍，外觀不變粗糙） */
+.carousel-indicators button,
+.carousel-indicators [data-bs-target] {
+    width: 6px !important;
+    /* 視覺上依然是精緻的 6px 小圓點 */
+    height: 6px !important;
+    border-radius: 50% !important;
+    background-color: #cccccc !important;
+    opacity: 1 !important;
+    margin: 0 8px !important;
+    /* 稍微拉開點點之間的左右距離，避免誤觸 */
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+
+    /* 🌟 防禦性微調：四個方向統包透明邊框，徹底覆蓋 Bootstrap 預設的左右干擾，並鎖定 30px 高度熱區 */
+    border: 12px solid transparent !important;
+    border-left: 0 !important;
+    /* 釋放左右空間，讓 margin 正常發揮 */
+    border-right: 0 !important;
+    background-clip: padding-box !important;
+    /* 確保背景色只填滿核心球體，不溢出到透明邊框 */
+
+    position: relative;
+    z-index: 20 !important;
+    /* 確保層級高於後方的圖片，不會被超連結搶走點擊 */
+}
+
+/* 確保當前選中的金色膠囊也套用相同的感應擴大 */
+.carousel-indicators .active {
+    background-color: #B89047 !important;
+    width: 20px !important;
+    border-radius: 4px !important;
+    /* 🌟 同步防禦性微調 */
+    border: 12px solid transparent !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    background-clip: padding-box !important;
+}
+
+/* 5. 左右控制按鈕（箭頭）：手機版直接常態顯示，且點擊感應範圍只留在圖片區 */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 12% !important;
+    height: 45vh !important;
+    /* 核心高度：與圖片同高，避免干擾下方文字閱讀 */
+    top: 0 !important;
+    opacity: 0.5 !important;
+    /* 手機版免滑鼠移入，直接半透明顯示 */
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 0.9 !important;
+}
+
+/* 修正後的箭頭圖示：透過正確的 CSS 濾鏡，將預設白箭頭過濾為品牌霧面金色 */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+    filter: invert(65%) sepia(19%) saturate(1142%) hue-rotate(5deg) brightness(91%) contrast(85%) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   🖥️ 【補回：響應式斷點 - 桌機 / 平板端（螢幕寬度大於等於 768px）】
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+
+    /* 輪播主容器：恢復大氣的 75% 視窗高度，維持奢華黑底 */
+    .carousel-item {
+        height: 75vh !important;
+        background-color: #000000 !important;
+    }
+
+    .carousel-item img {
+        height: 100% !important;
+        max-height: none !important;
+        object-fit: cover;
+    }
+
+    /* 文案區塊：恢復高級的「左下角雜誌風」懸浮排版，加上輕微陰影確保深色圖片上的清晰度 */
+    .carousel-caption {
+        position: absolute !important;
+        text-align: left !important;
+        left: 8% !important;
+        bottom: 8% !important;
+        padding: 0 !important;
+        max-width: 550px !important;
+        text-shadow: 1px 1px 12px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* 桌機版標題：拉大尺寸與精緻字距 */
+    .carousel-caption h5 {
+        color: #ffffff !important;
+        font-size: 2.2rem !important;
+        letter-spacing: 2px;
+        margin-bottom: 0.8rem;
+    }
+
+    /* 桌機版描述：微灰白，與標題拉出視覺層次 */
+    .carousel-caption p {
+        color: #eaeaea !important;
+        font-size: 1rem !important;
+    }
+
+    /* 指示燈：桌機版回歸到圖片內部的靠底中央 */
+    .carousel-indicators {
+        bottom: 5% !important;
+    }
+
+    /* 桌機版指示燈預設：回歸黑底配純白點，清除手機版的擴大透明邊框 */
+    .carousel-indicators button,
+    .carousel-indicators [data-bs-target] {
+        background-color: #ffffff !important;
+        width: 8px !important;
+        height: 8px !important;
+        border: none !important;
+        /* 清除手機版的防禦透明框 */
+        margin: 0 6px !important;
+    }
+
+    /* 桌機版當前選中指示燈：放大版金色膠囊 */
+    .carousel-indicators .active {
+        background-color: #B89047 !important;
+        width: 24px !important;
+    }
+
+    /* 左右控制按鈕（箭頭）：桌機版恢復為 100% 全高感應，且平時隱藏，滑鼠移入才優雅浮現 */
+    .carousel-control-prev,
+    .carousel-control-next {
+        height: 100% !important;
+        opacity: 0 !important;
+    }
+
+    /* 滑鼠懸停在整張輪播圖上時，箭頭才浮現 */
+    .carousel:hover .carousel-control-prev,
+    .carousel:hover .carousel-control-next {
+        opacity: 0.6 !important;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+    }
+}
+
+
+
+
+
 
 
 /*breadcrumb*/
@@ -203,38 +419,6 @@
 
 
 /*productFilter*/
-/* .sidebar,
-.accordion-button {
-    border: 2px solid #dfdfdf;
-    background-color: #f7f7f7;
-}
-
-.sidebar {
-    padding: 5px;
-}
-
-.accordion-button {
-    font-size: clamp(14px, 1.5vw, 24px);
-}
-
-.accordion-body table td:hover {
-    background-color: antiquewhite;
-}
-
-.accordion-body {
-    padding: 0;
-}
-
-.table {
-    margin-bottom: 0;
-}
-
-.table td {
-    border-top: none;
-    border-bottom: 1px solid #dee2e6;
-    padding-left: 2rem;
-    font-size: clamp(12px, 0.8vw, 20px);
-} */
 
 /* 1. 大分類按鈕基礎樣式：平時收合是純黑色 */
 .accordion-button {
@@ -295,9 +479,131 @@
 
 
 
-
-
 /*productCard*/
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card:hover {
+    border-color: #B89047 !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-4px);
+}
+
+/* 3. 圖片容器與動畫 */
+.ratio-1x1 {
+    overflow: hidden;
+    background-color: #f9f9f9 !important;
+}
+
+.card-img-top {
+    transition: transform 0.6s ease;
+    object-fit: cover;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.04);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 1.5rem 1rem !important;
+    justify-content: space-between;
+}
+
+/* 5. 產品名稱升級 */
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #111111;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .card-title {
+        font-size: 16px;
+    }
+}
+
+.card-price {
+    margin-top: auto;
+    font-weight: 700;
+    color: #B89047;
+    letter-spacing: 0.5px;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    .card-price {
+        font-size: 17px;
+    }
+}
+
+
+/*pagination*/
+.pagination .page-item .page-link {
+    background-color: transparent !important;
+    border: none !important;
+    color: #111111 !important;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border-radius: 0 !important;
+    /* 移除圓角 */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    color: #B89047 !important;
+}
+
+.pagination .page-item .page-link:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 15%;
+    width: 70%;
+    height: 1.5px;
+    background-color: #B89047;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.pagination .page-link:focus {
+    box-shadow: none !important;
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    font-size: 18px;
+    color: #6c757d !important;
+}
+
+.pagination .page-item:first-child .page-link:hover,
+.pagination .page-item:last-child .page-link:hover {
+    color: #B89047 !important;
+}
+
+
+
 
 
 /* productDetail*/
@@ -355,6 +661,146 @@ input[type="number"] {
     height: auto !important;
 } */
 
+.product-main-title {
+    border-left: 4px solid #c9a227;
+}
+
+.product-detail-section {
+    margin-bottom: 40px;
+}
+
+.product-detail-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d4af37;
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+}
+
+.product-detail-description p {
+    margin-bottom: 16px;
+}
+
+.product-detail-image {
+    text-align: center;
+}
+
+.product-detail-image img {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-feature-list {
+    padding-left: 22px;
+    margin-bottom: 0;
+}
+
+.product-feature-list li {
+    margin-bottom: 10px;
+}
+
+.product-spec-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-spec-table th,
+.product-spec-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.product-spec-table th {
+    width: 30%;
+    background-color: #f5f5f5;
+    font-weight: 600;
+    text-align: center;
+}
+
+.product-spec-table td {
+    background-color: #fff;
+}
+
+
+
+
+/*category-list*/
+/* ==========================================
+   方案 A：極簡奢華風商品分類
+   ========================================== */
+#category-list {
+    background-color: #ffffff;
+}
+
+/* 1. 調整標題排版，拉開字距增加呼吸感 */
+#category-list h2 {
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    /* 精品感核心：拉開字距 */
+    color: #111111;
+    margin-bottom: 2.5rem !important;
+    /* 加大下方留白 */
+}
+
+/* 2. 圖片容器升級（拔除原本的 bg-light 與 border，改由 CSS 控制） */
+#category-list .ratio-1x1 {
+    overflow: hidden;
+    /* 確保圖片放大時不溢出 */
+    border: none !important;
+    /* 徹底消滅廉價的灰色格線 */
+    background-color: #f9f9f9 !important;
+    /* 改用高級的微灰底 */
+    transition: all 0.4s ease;
+}
+
+/* 3. 圖片基本樣式與動畫 */
+#category-list .img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 4. 分類文字樣式微調 */
+#category-list .category-title {
+    font-size: 0.95rem;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+    color: #222222;
+    margin-top: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================
+   🚀 核心高級感：滑鼠懸停（Hover）聯動動畫 
+   ========================================== */
+#category-list a:hover .ratio-1x1 {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    /* 極輕柔的煙霧陰影 */
+}
+
+#category-list a:hover .img-fluid {
+    transform: scale(1.05);
+    /* 圖片緩慢放大 5%，像 Zara 官網 */
+}
+
+#category-list a:hover .category-title {
+    color: #B89047 !important;
+    /* 文字優雅轉變為品牌金色 */
+    transform: translateY(-2px);
+    /* 文字微微往上浮動 */
+}
+
+
+
+
+
+
 
 /* recommendation-section */
 #recommendation-section .card-title {
@@ -368,47 +814,250 @@ input[type="number"] {
 }
 
 
+
+
+/*why_us*/
+/* ==========================================
+   2026 品牌官網級：品牌優勢區塊 (Why Us) 優化
+   ========================================== */
+
+/* 1. 區塊大標題優化：拉開呼吸字距 */
+.container h2 {
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    /* 精品感核心 */
+    color: #111111;
+}
+
+/* 2. 每個優勢卡片的基礎樣式 */
+.why-us-item {
+    background-color: #ffffff;
+    padding: 2.5rem 1.5rem;
+    /* 加大內部留白，營造空間感 */
+    border: 1px solid #f1f1f1;
+    /* 極細的時尚淡灰邊框 */
+    border-radius: 0px;
+    /* 堅持黑白金的硬朗硬邊極簡風 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 3. 圖示升級：改為優雅的品牌金色，並縮小尺寸更顯精緻 */
+.why-us-icon i {
+    color: #B89047 !important;
+    /* 點綴品牌金色 */
+    font-size: 2.2rem !important;
+    /* 從超大 3x 縮小至 2.2rem，更具內斂美感 */
+    transition: transform 0.4s ease;
+}
+
+/* 4. 標題與內文層次化 */
+.why-us-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111111;
+    /* 純黑主標題 */
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+}
+
+.why-us-desc {
+    font-size: 0.85rem;
+    color: #888888;
+    /* 淺灰輔助文字 */
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   🚀 核心高級感：滑鼠懸停（Hover）動態
+   ========================================== */
+.why-us-item:hover {
+    border-color: #B89047 !important;
+    /* 懸停時邊框輕微亮起金色 */
+    box-shadow: 0 15px 35px rgba(184, 144, 71, 0.06);
+    /* 極其輕微的金色煙霧陰影 */
+    transform: translateY(-5px);
+    /* 卡片平滑上浮 */
+}
+
+.why-us-item:hover .why-us-icon i {
+    transform: scale(1.1);
+    /* 圖示微幅放大 */
+}
+
+
+
+
+
 /* pre-footer-cta */
+/* ==========================================
+   2026 品牌官網級：頁尾前導購區塊 (Pre-footer CTA)
+   ========================================== */
+
 #pre-footer-cta {
     background-image: url('./product_img/cta_01.png');
     background-size: cover;
     background-position: center;
-    min-height: 320px;
+    background-attachment: scroll;
+    /* 手機版流暢滾動，若想走高級感也可以在桌機試試 fixed 視差效果 */
+    min-height: 350px;
+    position: relative;
+    overflow: hidden;
 }
 
+/* 🌟 核心升級：加上一層高級的半透明暗黑遮罩（防禦背景圖過亮，並聚焦文字） */
+#pre-footer-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+    /* 擋在圖片上方 */
+}
+
+/* 確保容器內容浮在遮罩之上 */
+#pre-footer-cta .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. 標題排版升級 */
 #pre-footer-cta h2 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    /* 稍微加大字級 */
+    font-weight: 700 !important;
+    letter-spacing: 3px !important;
+    /* 拉開字距，消滅作業感 */
+    color: #ffffff !important;
+    line-height: 1.3;
+    text-transform: uppercase;
 }
 
+/* 3. 徹底改造按鈕：從「灰白」升級為「極簡黑底金邊」或「金底奢華風」 */
+.custom-premium-btn {
+    background-color: #B89047 !important;
+    /* 平時直接使用品牌金色，在黑底圖上極度耀眼 */
+    color: #ffffff !important;
+    /* 白字 */
+    font-weight: 600;
+    letter-spacing: 2px;
+    /* 按鈕文字也要拉開字距 */
+    padding: 12px 40px !important;
+    /* 加寬按鈕，彰顯大氣 */
+    border: 1px solid #B89047 !important;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    box-shadow: 0 4px 15px rgba(184, 144, 71, 0.2);
+    /* 輕微的金色光暈 */
+}
+
+/* 按鈕懸停特效：反轉成黑金精品風 */
+.custom-premium-btn:hover {
+    background-color: transparent !important;
+    /* 變成透明底 */
+    color: #B89047 !important;
+    /* 字變金色 */
+    border-color: #B89047 !important;
+    /* 留下精緻的金邊框 */
+    transform: translateY(-3px);
+    /* 微幅上浮 */
+    box-shadow: 0 8px 25px rgba(184, 144, 71, 0.35);
+    /* 光暈放大 */
+}
+
+/* 4. 響應式高度調整（桌機端放大） */
 @media (min-width: 768px) {
     #pre-footer-cta {
-        min-height: 450px;
+        min-height: 480px;
+        /* 增加大螢幕的視覺衝擊力 */
     }
 }
 
-.custom-premium-btn {
-    background-color: rgba(230, 230, 230, 0.85);
-    letter-spacing: 1px;
-    font-weight: 500;
-}
 
-.custom-premium-btn:hover {
-    background-color: #1a1a1a !important;
-    color: #ffffff !important;
-    border-color: #1a1a1a;
-}
+
 
 
 
 /* footer */
+/* ==========================================
+   2026 品牌官網級：極簡奢華深黑頁尾 (Footer)
+   ========================================== */
+
 #footer {
-    background-color: #525457;
+    background-color: #0b0b0b !important;
+    /* 🌟 核心：改成極致深黑，才能襯托金色的奢華與純白的乾淨 */
+    border-top: 1px solid #1a1a1a;
+    /* 頂部加上一條若隱若現的極細暗線，增加層次 */
+    padding-top: 4rem !important;
+    /* 加大上下留白 */
+    padding-bottom: 2rem !important;
 }
 
-.hover-white:hover {
-    color: #ffffff !important;
+/* 2. 導覽連結優化：拉開字距，預設優雅深灰 */
+#footer .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    /* 拉開字距 */
+    color: #888888 !important;
+    /* 預設維持優雅的暗灰 */
+    transition: all 0.3s ease !important;
 }
 
-.hover-white {
-    transition: color 0.2s ease;
+/* 🌟 核心修改：滑鼠移入時，連結不要變白，而是變成「品牌金色」，與全站金色呼應 */
+#footer .nav-link:hover {
+    color: #B89047 !important;
+    /* 變成點綴金色 */
+}
+
+/* 3. 社群圖示優化 */
+#footer .text-white-50 {
+    color: #888888 !important;
+    /* 預設暗灰 */
+    transition: all 0.3s ease;
+}
+
+#footer .text-white-50:hover {
+    color: #B89047 !important;
+    /* 懸停時社群圖示也同步變金色，非常有細節感 */
+    transform: translateY(-2px);
+    /* 微微上浮 */
+}
+
+/* 4. 🌟 全新加入：最下方的版權宣告線條與文字樣式 */
+.footer-bottom {
+    border-top: 1px solid #1a1a1a;
+    /* 與上方內容區隔的細線 */
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+}
+
+.copyright-text {
+    font-size: 11px;
+    /* 國際精品標準：版權字要極小、極精緻 */
+    color: #555555;
+    /* 低調的暗灰色 */
+    letter-spacing: 1px;
+}
+
+.footer-bottom-link {
+    font-size: 11px;
+    color: #555555 !important;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-link:hover {
+    color: #B89047 !important;
+    /* 懸停變金色 */
 }
