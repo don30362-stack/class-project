@@ -104,3 +104,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.addEventListener('resize', resetMobileDropdowns);
 });
+
+function btn_confirmLink(message, url) {
+    if (message == "" || url == "") {
+        return false;
+    }
+    if (confirm(message)) {
+        window.location = url;
+    }
+    return false;
+}
