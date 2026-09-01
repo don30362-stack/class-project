@@ -32,7 +32,7 @@ require_once('php_lib.php');
                     <?php require_once('productFilter.php');?>
                 </div>
 
-                <div class="col-md-10">
+                <div class="col-md-10 productCard">
                     <?php require_once('productCard.php'); ?>
                 </div>
             </div>

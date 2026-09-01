@@ -20,6 +20,9 @@
                 <li class="nav-item px-lg-3">
                     <a class="nav-link" href="FAQ.php">常見問題</a>
                 </li>
+                <li class="nav-item px-lg-3">
+                    <a class="nav-link" href="register.php">會員註冊</a>
+                </li>
             </ul>
             <form class="d-flex justify-content-center" role="search" action="productList.php" method="get">
                 <div>
@@ -30,11 +33,17 @@
                 </button>
             </form>
             <ul class="navbar-nav me-lg-5 flex-row justify-content-center gap-3 mt-2 mt-lg-0">
+                <?php if (isset($_SESSION['login'])) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0);" onclick="btn_confirmLink('是否確定登出?', 'logout.php')">會員登出</a>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.php"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                <?php } ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa-solid fa-user"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="cart.php">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="badge">
                             <?php echo ($cart_rs) ? $cart_rs->rowCount() : ''; ?>
@@ -42,6 +51,20 @@
                     </a>
                 </li>
             </ul>
+            <?php if (isset($_SESSION['login'])) { ?>
+                <ul class="navbar-nav ms-auto me-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="uploads/<?= ($_SESSION['imgname'] != '') ? $_SESSION['imgname'] : 'avatar.svg' ?>" width="40" height="40" class="rounded-circle">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="orderlist.php">Order List</a>
+                            <a class="dropdown-item" href="profile.php">Edit Profile</a>
+                            <a class="dropdown-item" href="#" onclick="btn_confirmLink('請確定是否要登出', 'logout.php')">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            <?php } ?>
         </div>
     </div>
 </nav>
