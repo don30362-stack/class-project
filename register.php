@@ -496,18 +496,29 @@ require_once('php_lib.php');
 
                             <div class="register-captcha">
 
-                                <div class="register-captcha-image">
+                                <div class="register-captcha-box">
 
-                                    <a
-                                        href="javascript:void(0)"
-                                        title="點擊更新驗證碼"
-                                        onclick="getCaptcha()">
-                                        <canvas id="can"></canvas>
-                                    </a>
-
-                                    <span>
-                                        點擊圖片可更新
+                                    <span class="register-captcha-label">
+                                        驗證碼圖片
                                     </span>
+
+                                    <div class="register-captcha-canvas-wrap">
+
+                                        <canvas id="can"></canvas>
+
+                                        <button
+                                            type="button"
+                                            class="captcha-refresh-btn"
+                                            onclick="getCaptcha()"
+                                            aria-label="更新驗證碼">
+                                            <i class="fa-solid fa-rotate-right"></i>
+                                        </button>
+
+                                    </div>
+
+                                    <small>
+                                        看不清楚？點擊右側圖示重新產生
+                                    </small>
 
                                 </div>
 
@@ -515,7 +526,7 @@ require_once('php_lib.php');
                                 <div class="register-field">
 
                                     <label for="recaptcha">
-                                        驗證碼
+                                        輸入驗證碼
                                         <span class="required-mark">*</span>
                                     </label>
 
@@ -524,7 +535,7 @@ require_once('php_lib.php');
                                         name="recaptcha"
                                         id="recaptcha"
                                         class="register-input"
-                                        placeholder="請輸入圖片中的驗證碼"
+                                        placeholder="請輸入左側驗證碼"
                                         autocomplete="off">
 
                                 </div>
@@ -775,7 +786,17 @@ require_once('php_lib.php');
 
         function getCaptcha() {
             var inputText = document.getElementById("captcha");
-            inputText.value = captchaCode("can", 150, 50, "blue", "white", "28px", 5);
+
+            inputText.value =
+                captchaCode(
+                    "can",
+                    150,
+                    50,
+                    "#222222",
+                    "#f8f7f4",
+                    "24px",
+                    5
+                );
         }
 
         $(function() {
