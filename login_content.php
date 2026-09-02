@@ -1,72 +1,137 @@
-<style>
-    .col-md-10 {
-        background-repeat: no-repeat;
-        background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-    }
+<div class="login-wrapper">
 
-    .mycard.mycard-container {
-        max-width: 400px;
-        height: 450px;
-    }
+    <!-- 左側品牌視覺 -->
+    <div class="login-visual">
 
-    .mycard {
-        background-color: #f7f7f7;
-        padding: 20px 25px 30px;
-        margin: 0 auto 25px;
-        margin-top: 50px;
-        border-radius: 10px;
-    }
+        <div class="login-visual-overlay"></div>
 
-    .profile-img-card {
-        margin: 0 auto 10px;
-        display: block;
-        width: 100px;
-    }
+        <div class="login-brand-content">
 
-    .form-signin input,
-    .form-signin button {
-        width: 100%;
-        height: 44px;
-        font-size: 16px;
-        display: block;
-        margin-bottom: 20px;
-    }
+            <span class="login-brand-eyebrow">
+                MEMBER
+            </span>
 
-    .btn-signin {
-        font-weight: 700;
-        background-color: rgb(104, 145, 162);
-        color: white;
-        height: 38px;
-        transition: background-color 1s;
-    }
+            <h1>
+                歡迎回來
+            </h1>
 
-    .btn-signin:hover,
-    .btn-signin:active,
-    .btn-signin:focus {
-        background-color: rgb(12, 97, 33);
-    }
+            <p>
+                登入會員帳號，查看訂單紀錄、會員資料，
+                並享受更完整的購物體驗。
+            </p>
 
-    .other a {
-        color: rgb(104, 145, 162);
-    }
+        </div>
 
-    .other a:hover,
-    .other a:active,
-    .other a:focus {
-        color: rgb(12, 97, 33);
-    }
-</style>
-
-<div class="mycard mycard-container">
-    <img id="profile-img" class="profile-img-card" src="images/logo03.svg" alt="logo">
-    <p id="profile-name" class="profile-name-card">電商藥粧：會員登入</p>
-    <form action="" method="POST" class="form-signin" id="form1">
-        <input type="email" id="inputAccount" name="inputAccount" class="form-control" placeholder="Account" required autofocus>
-        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
-        <button type="submit" class="btn btn-signin mt-4">sign in</button>
-    </form>
-    <div class="other mt-5 text-center">
-        <a href="register.php">New User/</a>
-        <a href="#">Forgot the password?</a>
     </div>
+
+
+    <!-- 右側登入 -->
+    <div class="login-form-area">
+
+        <div class="login-form-container">
+
+            <div class="login-heading">
+
+                <span class="login-eyebrow">
+                    WELCOME BACK
+                </span>
+
+                <h2>會員登入</h2>
+
+                <p>
+                    請輸入您的會員帳號與密碼
+                </p>
+
+            </div>
+
+
+            <form
+                action=""
+                method="POST"
+                id="form1"
+                class="login-form">
+
+                <!-- Email -->
+                <div class="login-field">
+
+                    <label for="inputAccount">
+                        電子信箱
+                    </label>
+
+                    <div class="login-input-wrapper">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="inputAccount"
+                            name="inputAccount"
+                            placeholder="example@email.com"
+                            required
+                            autofocus>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="login-field">
+
+                    <div class="login-label-row">
+
+                        <label for="inputPassword">
+                            密碼
+                        </label>
+
+                        <a href="#" class="forgot-password">
+                            忘記密碼？
+                        </a>
+
+                    </div>
+
+
+                    <div class="login-input-wrapper">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="inputPassword"
+                            name="inputPassword"
+                            placeholder="請輸入密碼"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="login-submit-btn">
+                    登入
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+
+            <div class="login-register">
+
+                <span>
+                    還不是會員？
+                </span>
+
+                <a href="register.php">
+                    立即註冊
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

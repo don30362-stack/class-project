@@ -4,23 +4,37 @@ $SQLstring = 'SELECT * FROM hot,product,product_img WHERE hot.p_id=product_img.p
 $hot = $link->query($SQLstring);
 ?>
 <div class="container">
-    <h2 class="text-center fw-bold mb-4">推薦商品</h2>
-    <div class="row row-cols-2 row-cols-md-4 g-3 g-md-4 text-center">
+    <div class="text-center mb-5">
+        <span class="recommend-eyebrow">RECOMMENDED</span>
+        <h2 class="recommend-heading">推薦商品</h2>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-4 g-4 g-lg-5">
 
         <?php while ($data = $hot->fetch()) { ?>
             <div class="col">
-                <a href="productDetail.php?p_id=<?php echo $data['p_id']; ?>" class="text-decoration-none text-dark d-block">
-                    <div class="card h-100 border rounded-0 shadow-sm">
-                        <div class="ratio ratio-1x1 bg-light">
-                            <img src="./product_img/<?php echo $data['img_file']; ?>" class="card-img-top object-fit-cover" alt="recommend<?php echo $data['h_sort']; ?>">
-                        </div>
-                        <div class="card-body p-2 p-md-3">
-                            <h5 class="card-title fw-bold fs-6 mb-1"><?php echo $data['p_name']; ?></h5>
-                            <p class="card-text fw-bold mb-0">$<?php echo $data['p_price']; ?></p>
-                        </div>
+                <a href="productDetail.php?p_id=<?php echo $data['p_id']; ?>"
+                    class="home-recommend-product text-decoration-none">
+
+                    <div class="home-recommend-image ratio ratio-1x1">
+                        <img
+                            src="./product_img/<?php echo $data['img_file']; ?>"
+                            alt="<?php echo $data['p_name']; ?>">
                     </div>
+
+                    <div class="home-recommend-info text-center">
+                        <h3 class="home-recommend-name">
+                            <?php echo $data['p_name']; ?>
+                        </h3>
+
+                        <p class="home-recommend-price">
+                            NT$ <?php echo number_format($data['p_price']); ?>
+                        </p>
+                    </div>
+
                 </a>
             </div>
         <?php } ?>
+
     </div>
 </div>

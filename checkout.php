@@ -18,186 +18,411 @@ require_once('php_lib.php');
         <?php require_once('navbar.php'); ?>
     </section>
 
-    <section id="content" class="mt-2">
-        <div class="container">
-            <?php //require_once('checkout.php'); 
-            ?>
-            <h3>電商藥粧：會員結帳作業</h3>
-            <div class="row">
-                <div class="card col">
-                    <div class="card-header" style="color: #007bff;"><i class="fas fa-truck fa-flip-horizontal me-1"></i>
-                        配送資訊
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">收件人資訊：</h4>
-                        <h5 class="card-title">姓名：李小明</h5>
-                        <p class="card-text">電話：0912345678</p>
-                        <p class="card-text">郵遞區號：407台中市西屯區</p>
-                        <p class="card-text">地址：中正路1號</p>
-                        <a href="#" class="btn btn-outline-primary">選擇其他收件人</a>
-                    </div>
-                </div>
-                <div class="card col ms-3">
-                    <div class="card-header" style="color: #000;"><i class="fas fa-credit-card me-1"></i>
-                        付款方式
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">收件人資訊：</h4>
-                        <h5 class="card-title">姓名：李小明</h5>
-                        <p class="card-text">電話：0912345678</p>
-                        <p class="card-text">郵遞區號：407台中市西屯區</p>
-                        <p class="card-text">地址：中正路1號</p>
-                        <a href="#" class="btn btn-outline-primary">選擇其他收件人</a>
-                    </div>
-                </div>
-            </div>
-            <?php
-            $SQLstring = "SELECT * FROM cart,product,product_img WHERE ip='" . $_SERVER['REMOTE_ADDR'] . "' AND orderid IS NULL AND cart.p_id = product_img.p_id AND cart.p_id = product.p_id AND product_img.sort = 1 ORDER BY cartid DESC";
-            $cart_rs = $link->query($SQLstring);
-            $ptotal = 0;
-            ?>
-            <?php if ($cart_rs->rowCount() != 0) { ?>
-                <div class="table-responsive-md">
-                    <table class="table table-hover mt-3">
-                        <thead>
-                            <tr class="table-warning">
-                                <td width="10%">產品編號</td>
-                                <td width="10%">圖片</td>
-                                <td width="25%">名稱</td>
-                                <td width="15%">價格</td>
-                                <td width="10%">數量</td>
-                                <td width="15%">小計</td>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php while ($cart_data = $cart_rs->fetch()) { ?>
-                                <tr>
-                                    <td><?php echo $cart_data['p_id']; ?></td>
-                                    <td>
-                                        <img src="product_img/<?php echo $cart_data['img_file']; ?>" alt="<?php echo $cart_data['p_name']; ?>" class="img-fluid">
-                                    </td>
-                                    <td><?php echo $cart_data['p_name']; ?></td>
-                                    <td>
-                                        <h4 class="color_e600a0 pt-1">$<?php echo $cart_data['p_price']; ?></h4>
-                                    </td>
-                                    <td style="min-width: 100px;">
-                                        <div class="input-group">
-                                            <input type="number" class="form-control" id="qty[]" name="qty[]" value="<?php echo $cart_data['qty']; ?>" min="1" max="49" cartid="<?php echo $cart_data['cartid']; ?>" required disabled>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <h4 class="color_e600a0 pt-1">$<?php echo $cart_data['p_price'] * $cart_data['qty']; ?></h4>
-                                    </td>
-                                </tr>
-
-                            <?php
-                                $ptotal += $cart_data['p_price'] * $cart_data['qty'];
-                            }
-                            ?>
-
-                        </tbody>
-
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">累計：<?= $ptotal ?></td>
-                            </tr>
-                            <tr>
-                                <td colspan="6">運費：100</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="color_red">總計：<?= $ptotal + 100 ?></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-            <?php } else { ?>
-                <div class="alert alert-warning" role="alert">
-                    抱歉！目前購物車沒有相關產品。
-                </div>
-            <?php } ?>
-
-            <!-- <div class="table-responsive-md">
-                <table class="table table-hover mt-3">
-                    <thead>
-                        <tr class="text-bg-primary">
-                            <td width="10%">產品編號</td>
-                            <td width="10%">圖片</td>
-                            <td width="30%">名稱</td>
-                            <td width="15%">價格</td>
-                            <td width="15%">數量</td>
-                            <td width="20%">小計</td>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <img src="product_img/zoom-front-174388.webp" alt="Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色" class="img-fluid">
-                            </td>
-                            <td>Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                            <td>10</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="product_img/zoom-front-174388.webp" alt="Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色" class="img-fluid">
-                            </td>
-                            <td>Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                            <td>10</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <img src="product_img/zoom-front-174388.webp" alt="Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色" class="img-fluid">
-                            </td>
-                            <td>Maybelline 媚比琳純淨礦物極效幻膚BB凝露 升級版 SPF 50/PA++++ 01白皙色</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                            <td>10</td>
-                            <td>
-                                <h4 class="color_e600a0">$999</h4>
-                            </td>
-                        </tr>
-                    </tbody>
-
-                    <tfoot>
-                        <tr>
-                            <td colspan="7">累計：546566</td>
-                        </tr>
-                        <tr>
-                            <td colspan="7">運費：566</td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="color_red">總計：546566</td>
-                        </tr>
-                        <tr>
-                            <td colspan="7">
-                                <button type="button" id="btn04" name="btn04" class="btn btn-danger"><i class="fas fa-cart-arrow-down"></i>確認結帳</button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div> -->
-        </div>
+    <section id="breadcrumb">
+        <?php require_once('breadcrumb.php'); ?>
     </section>
 
-    <hr>
+    <section id="content" class="checkout-page py-4 py-md-5">
+        <div class="container">
+
+            <!-- 頁面標題 -->
+            <div class="checkout-header text-center">
+                <span class="checkout-eyebrow">CHECKOUT</span>
+                <h1 class="checkout-title">結帳</h1>
+            </div>
+
+
+            <?php
+            $SQLstring = "SELECT * FROM cart,product,product_img
+                      WHERE ip='" . $_SERVER['REMOTE_ADDR'] . "'
+                      AND orderid IS NULL
+                      AND cart.p_id = product_img.p_id
+                      AND cart.p_id = product.p_id
+                      AND product_img.sort = 1
+                      ORDER BY cartid DESC";
+
+            $cart_rs = $link->query($SQLstring);
+
+            $ptotal = 0;
+            $shipping = 100;
+            ?>
+
+
+            <?php if ($cart_rs->rowCount() != 0) { ?>
+
+                <div class="row g-4 g-xl-5">
+
+                    <!-- =====================================================
+                     左側：配送與付款
+                     ===================================================== -->
+                    <div class="col-lg-7">
+
+                        <!-- 配送資訊 -->
+                        <section class="checkout-section">
+
+                            <div class="checkout-section-header">
+
+                                <div class="checkout-section-title">
+                                    <span class="checkout-step">01</span>
+
+                                    <div>
+                                        <span class="checkout-section-en">
+                                            DELIVERY
+                                        </span>
+
+                                        <h2>配送資訊</h2>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-truck checkout-section-icon"></i>
+
+                            </div>
+
+
+                            <div class="checkout-section-body">
+
+                                <div class="recipient-info">
+
+                                    <div class="recipient-row">
+                                        <span class="recipient-label">收件人</span>
+                                        <strong>李小明</strong>
+                                    </div>
+
+                                    <div class="recipient-row">
+                                        <span class="recipient-label">聯絡電話</span>
+                                        <span>0912-345-678</span>
+                                    </div>
+
+                                    <div class="recipient-row">
+                                        <span class="recipient-label">配送地址</span>
+
+                                        <span>
+                                            407 台中市西屯區<br>
+                                            中正路 1 號
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="checkout-outline-btn">
+                                    更改收件資訊
+                                </button>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- 付款方式 -->
+                        <section class="checkout-section">
+
+                            <div class="checkout-section-header">
+
+                                <div class="checkout-section-title">
+                                    <span class="checkout-step">02</span>
+
+                                    <div>
+                                        <span class="checkout-section-en">
+                                            PAYMENT
+                                        </span>
+
+                                        <h2>付款方式</h2>
+                                    </div>
+                                </div>
+
+                                <i class="fa-regular fa-credit-card checkout-section-icon"></i>
+
+                            </div>
+
+
+                            <div class="checkout-section-body">
+
+                                <div class="payment-options">
+
+                                    <!-- 信用卡 -->
+                                    <label class="payment-option">
+
+                                        <input
+                                            type="radio"
+                                            name="payment"
+                                            value="credit"
+                                            checked>
+
+                                        <span class="payment-option-content">
+
+                                            <span class="payment-radio"></span>
+
+                                            <span class="payment-text">
+                                                <strong>信用卡</strong>
+                                                <small>
+                                                    VISA / Mastercard / JCB
+                                                </small>
+                                            </span>
+
+                                            <i class="fa-regular fa-credit-card"></i>
+
+                                        </span>
+
+                                    </label>
+
+
+                                    <!-- ATM -->
+                                    <label class="payment-option">
+
+                                        <input
+                                            type="radio"
+                                            name="payment"
+                                            value="atm">
+
+                                        <span class="payment-option-content">
+
+                                            <span class="payment-radio"></span>
+
+                                            <span class="payment-text">
+                                                <strong>ATM 轉帳</strong>
+                                                <small>
+                                                    完成訂單後取得付款資訊
+                                                </small>
+                                            </span>
+
+                                            <i class="fa-solid fa-building-columns"></i>
+
+                                        </span>
+
+                                    </label>
+
+
+                                    <!-- 貨到付款 -->
+                                    <label class="payment-option">
+
+                                        <input
+                                            type="radio"
+                                            name="payment"
+                                            value="cod">
+
+                                        <span class="payment-option-content">
+
+                                            <span class="payment-radio"></span>
+
+                                            <span class="payment-text">
+                                                <strong>貨到付款</strong>
+                                                <small>
+                                                    商品送達時付款
+                                                </small>
+                                            </span>
+
+                                            <i class="fa-solid fa-hand-holding-dollar"></i>
+
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- 訂購商品 -->
+                        <section class="checkout-section">
+
+                            <div class="checkout-section-header">
+
+                                <div class="checkout-section-title">
+                                    <span class="checkout-step">03</span>
+
+                                    <div>
+                                        <span class="checkout-section-en">
+                                            ITEMS
+                                        </span>
+
+                                        <h2>訂購商品</h2>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-bag-shopping checkout-section-icon"></i>
+
+                            </div>
+
+
+                            <div class="checkout-product-list">
+
+                                <?php while ($cart_data = $cart_rs->fetch()) { ?>
+
+                                    <?php
+                                    $subtotal =
+                                        $cart_data['p_price'] *
+                                        $cart_data['qty'];
+
+                                    $ptotal += $subtotal;
+                                    ?>
+
+                                    <div class="checkout-product">
+
+                                        <div class="checkout-product-image">
+
+                                            <img
+                                                src="product_img/<?= $cart_data['img_file']; ?>"
+                                                alt="<?= $cart_data['p_name']; ?>">
+
+                                        </div>
+
+
+                                        <div class="checkout-product-info">
+
+                                            <div class="checkout-product-main">
+
+                                                <div>
+
+                                                    <span class="checkout-product-code">
+                                                        PRODUCT <?= $cart_data['p_id']; ?>
+                                                    </span>
+
+                                                    <h3>
+                                                        <?= $cart_data['p_name']; ?>
+                                                    </h3>
+
+                                                    <span class="checkout-product-unit-price">
+                                                        NT$ <?= number_format($cart_data['p_price']); ?>
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="checkout-product-qty">
+                                                    × <?= $cart_data['qty']; ?>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="checkout-product-subtotal">
+
+                                                <span>小計</span>
+
+                                                <strong>
+                                                    NT$ <?= number_format($subtotal); ?>
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                <?php } ?>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- =====================================================
+                     右側：訂單摘要
+                     ===================================================== -->
+                    <div class="col-lg-5 col-xl-4 offset-xl-1">
+
+                        <aside class="checkout-summary">
+
+                            <span class="checkout-summary-eyebrow">
+                                ORDER SUMMARY
+                            </span>
+
+                            <h2 class="checkout-summary-title">
+                                訂單摘要
+                            </h2>
+
+
+                            <div class="checkout-summary-row">
+
+                                <span>商品金額</span>
+
+                                <span>
+                                    NT$ <?= number_format($ptotal); ?>
+                                </span>
+
+                            </div>
+
+
+                            <div class="checkout-summary-row">
+
+                                <span>運費</span>
+
+                                <span>
+                                    NT$ <?= number_format($shipping); ?>
+                                </span>
+
+                            </div>
+
+
+                            <div class="checkout-summary-divider"></div>
+
+
+                            <div class="checkout-summary-total">
+
+                                <span>應付總額</span>
+
+                                <strong>
+                                    NT$ <?= number_format($ptotal + $shipping); ?>
+                                </strong>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="checkout-submit-btn">
+                                確認送出訂單
+                                <i class="fa-solid fa-arrow-right ms-2"></i>
+                            </button>
+
+
+                            <p class="checkout-notice">
+                                送出訂單即表示您已確認配送資訊、
+                                商品內容與付款方式。
+                            </p>
+
+
+                            <a href="cart.php" class="checkout-back-link">
+                                <i class="fa-solid fa-arrow-left me-2"></i>
+                                返回購物車
+                            </a>
+
+                        </aside>
+
+                    </div>
+
+                </div>
+
+
+            <?php } else { ?>
+
+                <div class="checkout-empty">
+
+                    <i class="fa-solid fa-bag-shopping"></i>
+
+                    <h2>目前沒有可結帳的商品</h2>
+
+                    <p>
+                        請先將商品加入購物車，再進行結帳。
+                    </p>
+
+                    <a href="productList.php">
+                        前往商品專區
+                    </a>
+
+                </div>
+
+            <?php } ?>
+
+        </div>
+    </section>
 
     <section id="why-choose-us" class="py-4 py-md-5">
         <?php require_once('why_us.php'); ?>

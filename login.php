@@ -29,8 +29,8 @@ if (isset($_SESSION['login'])) {
         <?php require_once('navbar.php'); ?>
     </section>
 
-    <section id="content" class="mt-2">
-        <div class="container-fluid">
+    <section id="content" class="login-page">
+        <div class="container-xl">
             <?php require_once('login_content.php'); ?>
         </div>
     </section>
@@ -50,7 +50,9 @@ if (isset($_SESSION['login'])) {
 <script src="commlib.js"></script>
 <script>
     $(function() {
-        $("#form1").submit(function() {
+        $("#form1").submit(function(e) {
+            e.preventDefault();
+
             const inputAccount = $("#inputAccount").val();
             const inputPassword = MD5($("#inputPassword").val());
 

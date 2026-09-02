@@ -14,7 +14,12 @@ if ($current_page == 'brand.php') {
     $breadcrumbItems[] = ['name' => '品牌介紹', 'url' => '', 'active' => true];
 } elseif ($current_page == 'FAQ.php') {
     $breadcrumbItems[] = ['name' => '常見問題', 'url' => '', 'active' => true];
+} elseif ($current_page == 'cart.php') {
+    $breadcrumbItems[] = ['name' => '購物車', 'url' => '', 'active' => true];
+} elseif ($current_page == 'checkout.php') {
+    $breadcrumbItems[] = ['name' => '結帳', 'url' => '', 'active' => true];
 }
+
 
 // -------------------------------------------------------------
 // 情境 B：凡是 productList.php 或 productDetail.php 都屬於商品專區

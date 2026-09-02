@@ -1,6 +1,11 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-xl">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php"><img src="product_img/logo-s.png" class="img-fluid" alt="logo" style="max-width: 120px;"></a>
+        <a class="navbar-brand" href="index.php">
+            <img
+                src="product_img/logo-s.png"
+                class="site-logo"
+                alt="Home Fit">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,18 +15,15 @@
         ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center fw-bold text-center fs-5">
-                <li class="nav-item px-lg-3">
+                <li class="nav-item px-xl-2 px-xxl-3">
                     <a class="nav-link" aria-current="page" href="index.php">首頁</a>
                 </li>
                 <?php multiList02(); ?>
-                <li class="nav-item px-lg-3">
+                <li class="nav-item px-xl-2 px-xxl-3">
                     <a class="nav-link" href="brand.php">品牌介紹</a>
                 </li>
-                <li class="nav-item px-lg-3">
+                <li class="nav-item px-xl-2 px-xxl-3">
                     <a class="nav-link" href="FAQ.php">常見問題</a>
-                </li>
-                <li class="nav-item px-lg-3">
-                    <a class="nav-link" href="register.php">會員註冊</a>
                 </li>
             </ul>
             <form class="d-flex justify-content-center" role="search" action="productList.php" method="get">
@@ -33,17 +35,15 @@
                 </button>
             </form>
             <ul class="navbar-nav me-lg-5 flex-row justify-content-center gap-3 mt-2 mt-lg-0">
-                <?php if (isset($_SESSION['login'])) { ?>
+                <?php if (!isset($_SESSION['login'])) { ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);" onclick="btn_confirmLink('是否確定登出?', 'logout.php')">會員登出</a>
-                    </li>
-                <?php } else { ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php"><i class="fa-solid fa-user"></i></a>
+                        <a class="nav-link" href="login.php">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
                     </li>
                 <?php } ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="cart.php">
+                    <a class="nav-link cart-link mt-2 mt-xl-0" href="cart.php">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="badge">
                             <?php echo ($cart_rs) ? $cart_rs->rowCount() : ''; ?>
@@ -52,16 +52,45 @@
                 </li>
             </ul>
             <?php if (isset($_SESSION['login'])) { ?>
-                <ul class="navbar-nav ms-auto me-4">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="uploads/<?= ($_SESSION['imgname'] != '') ? $_SESSION['imgname'] : 'avatar.svg' ?>" width="40" height="40" class="rounded-circle">
+                <ul class="navbar-nav account-nav flex-row justify-content-center mt-2 mt-lg-0">
+                    <li class="nav-item dropdown account-dropdown">
+
+                        <a
+                            class="nav-link dropdown-toggle account-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img
+                                src="uploads/<?= ($_SESSION['imgname'] != '') ? $_SESSION['imgname'] : 'avatar.svg' ?>"
+                                width="40"
+                                height="40"
+                                class="rounded-circle"
+                                alt="會員頭像">
                         </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="orderlist.php">Order List</a>
-                            <a class="dropdown-item" href="profile.php">Edit Profile</a>
-                            <a class="dropdown-item" href="#" onclick="btn_confirmLink('請確定是否要登出', 'logout.php')">Log Out</a>
+
+                        <div class="dropdown-menu dropdown-menu-end account-dropdown-menu">
+                            <a class="dropdown-item" href="orderlist.php">
+                                <i class="fa-solid fa-receipt me-2"></i>
+                                訂單紀錄
+                            </a>
+
+                            <a class="dropdown-item" href="profile.php">
+                                <i class="fa-solid fa-user-pen me-2"></i>
+                                會員資料
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a
+                                class="dropdown-item"
+                                href="#"
+                                onclick="btn_confirmLink('請確定是否要登出', 'logout.php')">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                登出
+                            </a>
                         </div>
+
                     </li>
                 </ul>
             <?php } ?>
@@ -85,11 +114,11 @@ function multiList02()
 
             <a class="nav-link product-link" href="productList.php">
                 商品專區
-                <i class="fa-solid fa-caret-down d-none d-lg-inline ms-1"></i>
+                <i class="fa-solid fa-caret-down d-none d-xl-inline ms-1"></i>
             </a>
 
             <button
-                class="product-dropdown-toggle d-lg-none"
+                class="product-dropdown-toggle d-xl-none"
                 type="button"
                 aria-label="展開商品分類"
                 aria-expanded="false">
@@ -114,7 +143,7 @@ function multiList02()
                         </a>
 
                         <!-- ⭐ 新增：專門給手機版點擊展開二層選單的小按鈕 (電腦版會自動隱藏) -->
-                        <button type="button" class="submenu-toggle-btn d-lg-none" aria-label="展開子分類">
+                        <button type="button" class="submenu-toggle-btn d-xl-none" aria-label="展開子分類">
                             <i class="fa-solid fa-chevron-right"></i>
                         </button>
 
