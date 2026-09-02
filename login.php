@@ -24,7 +24,7 @@ if (isset($_SESSION['login'])) {
     <?php require_once('headfile.php'); ?>
 </head>
 
-<body>
+<body class="login-body">
     <section id="header">
         <?php require_once('navbar.php'); ?>
     </section>
@@ -39,11 +39,13 @@ if (isset($_SESSION['login'])) {
         <?php require_once('footer.php'); ?>
     </section>
 
+    <div id="loading">
+        <i class="fas fa-spinner fa-spin fa-3x"></i>
+    </div>
+
     <?php require_once('jsfile.php'); ?>
 
-    <div id="loading" name="loading" style="display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(255, 255, 255, .5); z-index: 9999;">
-        <i class="fas fa-spinner fa-spin fa-5x fa-fw" style="position: absolute; top: 50%; left: 50%;"></i>
-    </div>
+
 
 </body>
 
@@ -56,7 +58,7 @@ if (isset($_SESSION['login'])) {
             const inputAccount = $("#inputAccount").val();
             const inputPassword = MD5($("#inputPassword").val());
 
-            $("#loading").show();
+            $("#loading").css("display", "flex");
 
             $.ajax({
                 url: 'auth_user.php',
@@ -66,6 +68,7 @@ if (isset($_SESSION['login'])) {
                     inputAccount: inputAccount,
                     inputPassword: inputPassword
                 },
+
                 success: function(data) {
                     if (data.c == true) {
                         alert(data.m);
@@ -74,12 +77,17 @@ if (isset($_SESSION['login'])) {
                         alert(data.m);
                     }
                 },
-                error: function(data) {
+
+                error: function() {
                     alert("系統目前無法連接到後台資料庫。");
+                },
+
+                complete: function() {
+                    $("#loading").hide();
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 </script>
 
 </html>

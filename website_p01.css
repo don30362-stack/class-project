@@ -2613,6 +2613,39 @@ input[type="number"] {
 
 /*login*/
 /* ==========================================================================
+   Login Page Layout
+   頁面內容不足一個螢幕時，Footer 仍貼齊底部
+   ========================================================================== */
+
+.login-body {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-body #header {
+    flex-shrink: 0;
+}
+
+.login-body .login-page {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+}
+
+.login-body .login-page>.container-xl {
+    width: 100%;
+}
+
+.login-body #footer {
+    flex-shrink: 0;
+
+    margin-top: auto;
+}
+
+/* ==========================================================================
    Login Page
    黑 / 白 / 金 極簡會員登入
    ========================================================================== */
@@ -2974,6 +3007,28 @@ input[type="number"] {
 
 .login-submit-btn:hover i {
     transform: translateX(4px);
+}
+
+
+/* ==========================================================================
+   Loading
+   ========================================================================== */
+
+#loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+#loading i {
+    color: #B89047;
 }
 
 
@@ -3718,8 +3773,7 @@ input[type="number"] {
 
 .register-captcha {
     display: grid;
-
-    grid-template-columns: 170px 1fr;
+    grid-template-columns: 190px 1fr;
 
     gap: 1.5rem;
 
@@ -3727,21 +3781,71 @@ input[type="number"] {
 }
 
 
-.register-captcha-image a {
+.register-captcha-label {
     display: block;
 
-    width: fit-content;
+    margin-bottom: 0.5rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* 驗證碼本體 */
+.register-captcha-canvas-wrap {
+    display: flex;
+    align-items: center;
+
+    height: 50px;
 
     border: 1px solid #dddddd;
+
+    background-color: #f8f7f4;
+
+    overflow: hidden;
 }
 
 
-.register-captcha-image canvas {
+.register-captcha-canvas-wrap canvas {
     display: block;
+
+    width: 150px;
+    height: 50px;
+
+    flex-shrink: 0;
 }
 
 
-.register-captcha-image span {
+/* 重新整理 */
+.captcha-refresh-btn {
+    width: 40px;
+    height: 100%;
+
+    flex-shrink: 0;
+
+    border: 0;
+    border-left: 1px solid #e5e5e5;
+
+    background-color: transparent;
+
+    color: #999999;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+
+.captcha-refresh-btn:hover {
+    color: #B89047;
+
+    background-color: #ffffff;
+}
+
+
+.register-captcha-box small {
     display: block;
 
     margin-top: 0.45rem;
@@ -3749,6 +3853,8 @@ input[type="number"] {
     color: #aaaaaa;
 
     font-size: 0.65rem;
+
+    line-height: 1.5;
 }
 
 
@@ -3968,11 +4074,18 @@ input[type="number"] {
 
     .register-captcha {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .register-captcha-canvas-wrap {
+        width: 190px;
     }
 
 
     .register-submit-btn {
         height: 50px;
     }
+
+
 
 }
