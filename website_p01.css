@@ -2,6 +2,18 @@
 /* ==========================================================================
    1. 基礎與通用樣式 (Global & Component Base)
    ========================================================================== */
+.navbar {
+    padding: 0.65rem 0;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.site-logo {
+    width: 100px;
+    height: auto;
+}
 
 /* 導覽列通用的不換行設定 */
 .navbar-nav .nav-item {
@@ -68,7 +80,7 @@
 }
 
 /* 讓購物車連結變成定位基準點 */
-.nav-link {
+.cart-link {
     position: relative;
     display: inline-block;
 }
@@ -94,7 +106,7 @@
     justify-content: center;
 }
 
-.dropdown-menu a:active{
+.dropdown-menu a:active {
     background-color: transparent;
 }
 
@@ -103,7 +115,7 @@
 /* ==========================================================================
    2. 電腦版樣式 (Desktop Styles: >= 992px)
    ========================================================================== */
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1200px) {
     .product-dropdown {
         position: relative;
     }
@@ -136,7 +148,11 @@
 /* ==========================================================================
    3. 手機版與平板樣式 (Mobile Styles: <= 991.98px)
    ========================================================================== */
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
+
+    .site-logo {
+        width: 92px;
+    }
 
     /* 調整大按鈕在手機版上的點擊熱區 */
     .product-dropdown-toggle {
@@ -184,6 +200,97 @@
         padding: 0.6rem 0.5rem;
         margin-left: 0.15rem;
     }
+
+    /* 手機版會員區 */
+    .account-nav {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 1rem !important;
+        padding-top: 1rem;
+        border-top: 1px solid #eeeeee;
+    }
+
+    /* 會員 dropdown 佔滿 navbar */
+    .account-dropdown {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 頭像置中 */
+    .account-toggle {
+        width: fit-content;
+        margin: 0 auto;
+        padding: 0.4rem;
+    }
+
+    /* 手機版不要再使用浮動 dropdown */
+    .account-dropdown-menu {
+        position: static !important;
+        transform: none !important;
+
+        width: 100%;
+        min-width: 0;
+
+        margin: 0.5rem 0 0;
+        padding: 0;
+
+        border: 0;
+        box-shadow: none;
+        background-color: transparent;
+
+        text-align: center;
+    }
+
+    /* 手機版選項 */
+    .account-dropdown-menu .dropdown-item {
+        padding: 0.75rem 1rem;
+        color: #555555;
+    }
+
+    /* 分隔線縮短 */
+    .account-dropdown-menu .dropdown-divider {
+        width: 70%;
+        margin: 0.25rem auto;
+    }
+}
+
+/* ==============================
+   4. 會員選單
+   ============================== */
+
+.account-nav {
+    margin-right: 1.5rem;
+}
+
+.account-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 頭像 */
+.account-toggle img {
+    object-fit: cover;
+}
+
+/* 桌機版會員下拉選單 */
+.account-dropdown-menu {
+    min-width: 180px;
+    padding: 0.5rem 0;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 不要讓商品 dropdown 的樣式污染會員 dropdown */
+.account-dropdown-menu .dropdown-item {
+    padding: 0.7rem 1rem;
+    color: #333333;
+    font-size: 0.9rem;
+}
+
+.account-dropdown-menu .dropdown-item:hover {
+    background-color: #f8f8f8;
+    color: #B89047;
 }
 
 
@@ -422,6 +529,117 @@
 }
 
 
+
+
+
+/*recommend*/
+/* 首頁推薦商品 */
+.recommend-eyebrow {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: #B89047;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+}
+
+.recommend-heading {
+    margin: 0;
+    color: #111;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+
+/* 商品圖片 */
+.home-recommend-image {
+    overflow: hidden;
+    background-color: #f7f7f7;
+}
+
+.home-recommend-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 0.6s ease;
+}
+
+
+/* 文字區 */
+.home-recommend-info {
+    padding-top: 1.25rem;
+}
+
+.home-recommend-name {
+    margin-bottom: 0.5rem;
+
+    color: #222;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    min-height: 2.85em;
+}
+
+.home-recommend-price {
+    display: inline-block;
+
+    margin: 0;
+    padding-bottom: 0.4rem;
+
+    color: #B89047;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+
+    border-bottom: 1px solid #D8C09A;
+}
+
+
+/* Hover：不要整張卡片浮起 */
+.home-recommend-product:hover .home-recommend-image img {
+    transform: scale(1.045);
+}
+
+.home-recommend-product:hover .home-recommend-name {
+    color: #B89047;
+}
+
+
+@media (max-width: 767.98px) {
+
+    .recommend-heading {
+        font-size: 1.45rem;
+    }
+
+    .home-recommend-info {
+        padding-top: 0.9rem;
+    }
+
+    .home-recommend-name {
+        font-size: 0.82rem;
+    }
+
+    .home-recommend-price {
+        font-size: 0.82rem;
+    }
+}
+
+
+
+
+
+
+
+
 /*productFilter*/
 
 /* 1. 大分類按鈕基礎樣式：平時收合是純黑色 */
@@ -491,28 +709,28 @@
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.productCard  .card:hover {
+.productCard .card:hover {
     border-color: #B89047 !important;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05) !important;
     transform: translateY(-4px);
 }
 
 /* 3. 圖片容器與動畫 */
-.productCard  .ratio-1x1 {
+.productCard .ratio-1x1 {
     overflow: hidden;
     background-color: #f9f9f9 !important;
 }
 
-.productCard  .card-img-top {
+.productCard .card-img-top {
     transition: transform 0.6s ease;
     object-fit: cover;
 }
 
-.productCard  .card:hover .card-img-top {
+.productCard .card:hover .card-img-top {
     transform: scale(1.04);
 }
 
-.productCard  .card-body {
+.productCard .card-body {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -522,7 +740,7 @@
 }
 
 /* 5. 產品名稱升級 */
-.productCard  .card-title {
+.productCard .card-title {
     font-size: 14px;
     font-weight: 600;
     line-height: 1.5;
@@ -534,12 +752,12 @@
 }
 
 @media (min-width: 768px) {
-    .productCard  .card-title {
+    .productCard .card-title {
         font-size: 16px;
     }
 }
 
-.productCard  .card-price {
+.productCard .card-price {
     margin-top: auto;
     font-weight: 700;
     color: #B89047;
@@ -826,7 +1044,7 @@ input[type="number"] {
    ========================================== */
 
 /* 1. 區塊大標題優化：拉開呼吸字距 */
-.container h2 {
+#why-choose-us h2 {
     font-size: 1.8rem;
     font-weight: 700 !important;
     letter-spacing: 3px;
@@ -1001,9 +1219,9 @@ input[type="number"] {
     /* 🌟 核心：改成極致深黑，才能襯托金色的奢華與純白的乾淨 */
     border-top: 1px solid #1a1a1a;
     /* 頂部加上一條若隱若現的極細暗線，增加層次 */
-    padding-top: 4rem !important;
+    padding-top: 3rem !important;
     /* 加大上下留白 */
-    padding-bottom: 2rem !important;
+    padding-bottom: 1.75rem !important;
 }
 
 /* 2. 導覽連結優化：拉開字距，預設優雅深灰 */
@@ -1066,21 +1284,2695 @@ input[type="number"] {
     /* 懸停變金色 */
 }
 
-
-
-
-.color_red {
-    color: red !important;
+.footer-logo {
+    width: 105px;
+    height: auto;
 }
 
-.table-responsive-md table td {
+
+
+
+
+
+/*cart*/
+/* ==========================================================================
+   Cart Page
+   黑 / 白 / 金 極簡購物車
+   ========================================================================== */
+
+.cart-page {
+    background-color: #ffffff;
+}
+
+
+/* ----------
+   標題
+   ---------- */
+
+.cart-header {
+    margin-bottom: 3.5rem;
+}
+
+.cart-eyebrow {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #B89047;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+}
+
+.cart-title {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+
+/* ==========================================================================
+   商品列表
+   ========================================================================== */
+
+.cart-list {
+    border-top: 1px solid #dedede;
+}
+
+.cart-item {
+    display: grid;
+
+    grid-template-columns: 150px 1fr;
+
+    gap: 1.75rem;
+
+    padding: 1.75rem 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+/* ----------
+   商品圖片
+   ---------- */
+
+.cart-item-image {
+    display: block;
+
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+
+    background-color: #f7f7f7;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+}
+
+.cart-item-image:hover img {
+    transform: scale(1.04);
+}
+
+
+/* ----------
+   商品內容
+   ---------- */
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    min-width: 0;
+}
+
+
+.cart-item-main {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+/* 商品編號 */
+.cart-product-code {
+    display: block;
+
+    margin-bottom: 0.45rem;
+
+    color: #999999;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+}
+
+
+/* 商品名稱 */
+.cart-product-name {
+    display: inline-block;
+
+    margin-bottom: 0.6rem;
+
+    color: #222222;
+
+    text-decoration: none;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    transition: color 0.25s ease;
+}
+
+.cart-product-name:hover {
+    color: #B89047;
+}
+
+
+/* 單價 */
+.cart-product-price {
+    color: #777777;
+
+    font-size: 0.9rem;
+}
+
+
+/* ----------
+   刪除商品
+   ---------- */
+
+.cart-remove-btn {
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+
+    border: 0;
+
+    background-color: transparent;
+
+    color: #999999;
+
+    font-size: 0.9rem;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.cart-remove-btn:hover {
+    color: #111111;
+    background-color: #f5f5f5;
+}
+
+
+/* ----------
+   下半部
+   ---------- */
+
+.cart-item-bottom {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 1rem;
+
+    margin-top: 1.5rem;
+}
+
+
+/* 數量 */
+.cart-quantity label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    color: #777777;
+
+    font-size: 0.75rem;
+}
+
+.cart-quantity input {
+    width: 75px;
+    height: 38px;
+
+    padding: 0 0.5rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    text-align: center;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition: border-color 0.25s ease;
+}
+
+.cart-quantity input:invalid {
+    border-color: #dc3545;
+    background-color: #fff8f8;
+    box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.15);
+}
+
+.cart-quantity input:focus:valid {
+    border-color: #B89047;
+}
+
+.cart-quantity input:focus:invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.12);
+}
+
+.quantity-error {
+    display: none;
+    margin-top: 0.35rem;
+    color: #dc3545;
+    font-size: 0.7rem;
+}
+
+.cart-quantity input:invalid+.quantity-error {
+    display: block;
+}
+
+
+/* 小計 */
+.cart-subtotal {
+    text-align: right;
+}
+
+.cart-subtotal span {
+    display: block;
+
+    margin-bottom: 0.25rem;
+
+    color: #888888;
+
+    font-size: 0.72rem;
+}
+
+.cart-subtotal strong {
+    color: #B89047;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    letter-spacing: 0.03em;
+}
+
+
+/* ----------
+   清空購物車
+   ---------- */
+
+.cart-list-footer {
+    padding-top: 1.25rem;
+}
+
+.cart-clear-btn {
+    padding: 0;
+
+    border: 0;
+    border-bottom: 1px solid #777777;
+
+    background-color: transparent;
+
+    color: #777777;
+
+    font-size: 0.8rem;
+
+    transition:
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.cart-clear-btn:hover {
+    color: #111111;
+    border-color: #111111;
+}
+
+
+/* ==========================================================================
+   訂單摘要
+   ========================================================================== */
+
+.cart-summary {
+    padding: 2rem;
+
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+.cart-summary-title {
+    margin-bottom: 2rem;
+
+    color: #ffffff;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+
+.cart-summary-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+
+    color: #bdbdbd;
+
+    font-size: 0.88rem;
+}
+
+
+.cart-summary-divider {
+    margin: 1.75rem 0;
+
+    border-top: 1px solid #333333;
+}
+
+
+/* 總計 */
+.cart-summary-total {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-bottom: 2rem;
+}
+
+.cart-summary-total span {
+    color: #ffffff;
+
+    font-size: 0.9rem;
+}
+
+.cart-summary-total strong {
+    color: #C19A6B;
+
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+
+/* ----------
+   結帳按鈕
+   ---------- */
+
+.cart-checkout-btn {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #B89047;
+
+    background-color: #B89047;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+.cart-checkout-btn:hover {
+    background-color: transparent;
+
+    color: #B89047;
+}
+
+
+/* 繼續購物 */
+.cart-continue-link {
+    display: block;
+
+    margin-top: 1.25rem;
+
+    color: #aaaaaa;
+
+    text-align: center;
+    text-decoration: none;
+
+    font-size: 0.8rem;
+
+    transition: color 0.25s ease;
+}
+
+.cart-continue-link:hover {
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   空購物車
+   ========================================================================== */
+
+.empty-cart {
+    max-width: 520px;
+
+    margin: 0 auto;
+
+    padding: 5rem 1rem;
+
     text-align: center;
 }
 
-/* .table-responsive-md table tfoot td{
-    text-align: center;
-} */
+.empty-cart-icon {
+    margin-bottom: 1.5rem;
 
-.table-responsive-md table tr:hover td {
-    background-color: rgba(152, 214, 245, 0.3) !important;
+    color: #B89047;
+
+    font-size: 2.2rem;
+}
+
+.empty-cart h2 {
+    margin-bottom: 1rem;
+
+    color: #111111;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+.empty-cart p {
+    margin-bottom: 2rem;
+
+    color: #888888;
+
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+.empty-cart-btn {
+    display: inline-block;
+
+    padding: 0.85rem 2rem;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.85rem;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+.empty-cart-btn:hover {
+    background-color: transparent;
+    color: #111111;
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+
+    .cart-header {
+        margin-bottom: 2.25rem;
+    }
+
+    .cart-title {
+        font-size: 1.55rem;
+    }
+
+
+    /* 商品改成較小圖片 + 右側資訊 */
+    .cart-item {
+        grid-template-columns: 105px 1fr;
+
+        gap: 1rem;
+
+        padding: 1.25rem 0;
+    }
+
+    .cart-product-name {
+        font-size: 0.88rem;
+    }
+
+    .cart-product-price {
+        font-size: 0.8rem;
+    }
+
+
+    /* 手機上下區塊收緊 */
+    .cart-item-bottom {
+        align-items: flex-end;
+
+        margin-top: 1rem;
+    }
+
+    .cart-quantity input {
+        width: 62px;
+        height: 34px;
+    }
+
+    .cart-subtotal strong {
+        font-size: 0.9rem;
+    }
+
+
+    /* 摘要在手機版與商品區拉開 */
+    .cart-summary {
+        margin-top: 1rem;
+
+        padding: 1.5rem;
+    }
+}
+
+
+
+
+
+/*checkout*/
+/* ==========================================================================
+   Checkout
+   ========================================================================== */
+
+.checkout-page {
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Page Header
+   ========================================================================== */
+
+.checkout-header {
+    margin-bottom: 3.5rem;
+}
+
+.checkout-eyebrow {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #B89047;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.3em;
+}
+
+.checkout-title {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    letter-spacing: 0.15em;
+}
+
+
+/* ==========================================================================
+   Checkout Section
+   ========================================================================== */
+
+.checkout-section {
+    margin-bottom: 3rem;
+
+    border-top: 1px solid #dddddd;
+}
+
+.checkout-section-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1.5rem 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.checkout-section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+}
+
+
+/* 步驟編號 */
+.checkout-step {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* 小英文 */
+.checkout-section-en {
+    display: block;
+
+    margin-bottom: 0.2rem;
+
+    color: #B89047;
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    letter-spacing: 0.2em;
+}
+
+
+/* 避免之前 .container h2 污染 */
+.checkout-section-title h2 {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* 右側圖示 */
+.checkout-section-icon {
+    color: #B89047;
+
+    font-size: 1.15rem;
+}
+
+
+/* 內容 */
+.checkout-section-body {
+    padding: 1.75rem 0;
+}
+
+
+/* ==========================================================================
+   Recipient
+   ========================================================================== */
+
+.recipient-info {
+    max-width: 550px;
+}
+
+.recipient-row {
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+
+    color: #444444;
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+}
+
+.recipient-label {
+    color: #999999;
+
+    font-size: 0.8rem;
+}
+
+
+/* 更改資訊按鈕 */
+.checkout-outline-btn {
+    margin-top: 0.75rem;
+
+    padding: 0.65rem 1.25rem;
+
+    border: 1px solid #111111;
+
+    background-color: transparent;
+
+    color: #111111;
+
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+
+    transition: all 0.3s ease;
+}
+
+.checkout-outline-btn:hover {
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Payment
+   ========================================================================== */
+
+.payment-options {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.75rem;
+}
+
+
+/* 隱藏原始 radio */
+.payment-option input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.payment-option-content {
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    padding: 1rem 1.1rem;
+
+    border: 1px solid #e3e3e3;
+
+    background-color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+
+/* 自製 radio */
+.payment-radio {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+
+    margin-right: 1rem;
+
+    border: 1px solid #aaaaaa;
+    border-radius: 50%;
+
+    position: relative;
+}
+
+
+/* 選擇狀態 */
+.payment-option input:checked+.payment-option-content {
+    border-color: #B89047;
+
+    background-color: #fdfbf7;
+}
+
+
+.payment-option input:checked+.payment-option-content .payment-radio {
+    border-color: #B89047;
+}
+
+
+.payment-option input:checked+.payment-option-content .payment-radio::after {
+    content: '';
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    top: 3px;
+    left: 3px;
+
+    border-radius: 50%;
+
+    background-color: #B89047;
+}
+
+
+/* 付款文字 */
+.payment-text {
+    display: flex;
+
+    flex-direction: column;
+
+    flex-grow: 1;
+}
+
+.payment-text strong {
+    color: #222222;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.payment-text small {
+    margin-top: 0.2rem;
+
+    color: #999999;
+
+    font-size: 0.72rem;
+}
+
+
+/* 右側付款 icon */
+.payment-option-content>i {
+    margin-left: 1rem;
+
+    color: #888888;
+
+    font-size: 1.1rem;
+}
+
+
+/* ==========================================================================
+   Checkout Products
+   ========================================================================== */
+
+.checkout-product-list {
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.checkout-product {
+    display: grid;
+
+    grid-template-columns: 105px 1fr;
+
+    gap: 1.25rem;
+
+    padding: 1.5rem 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.checkout-product:last-child {
+    border-bottom: 0;
+}
+
+
+/* 圖片 */
+.checkout-product-image {
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+
+    background-color: #f7f7f7;
+}
+
+.checkout-product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* 資訊 */
+.checkout-product-info {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    min-width: 0;
+}
+
+
+.checkout-product-main {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.checkout-product-code {
+    display: block;
+
+    margin-bottom: 0.35rem;
+
+    color: #aaaaaa;
+
+    font-size: 0.62rem;
+    font-weight: 500;
+
+    letter-spacing: 0.1em;
+}
+
+
+.checkout-product h3 {
+    margin-bottom: 0.35rem;
+
+    color: #222222;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+
+.checkout-product-unit-price {
+    color: #888888;
+
+    font-size: 0.78rem;
+}
+
+
+/* 數量 */
+.checkout-product-qty {
+    flex-shrink: 0;
+
+    color: #666666;
+
+    font-size: 0.85rem;
+}
+
+
+/* 小計 */
+.checkout-product-subtotal {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-top: 1rem;
+}
+
+.checkout-product-subtotal span {
+    color: #999999;
+
+    font-size: 0.7rem;
+}
+
+.checkout-product-subtotal strong {
+    color: #B89047;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================================================
+   Order Summary
+   ========================================================================== */
+
+.checkout-summary {
+    position: sticky;
+
+    top: 2rem;
+
+    padding: 2rem;
+
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+.checkout-summary-eyebrow {
+    display: block;
+
+    margin-bottom: 0.45rem;
+
+    color: #B89047;
+
+    font-size: 0.63rem;
+    font-weight: 600;
+
+    letter-spacing: 0.22em;
+}
+
+
+.checkout-summary .checkout-summary-title {
+    margin-bottom: 2rem;
+
+    color: #ffffff;
+
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    letter-spacing: 0.1em;
+}
+
+
+/* 金額列 */
+.checkout-summary-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+
+    color: #bdbdbd;
+
+    font-size: 0.85rem;
+}
+
+
+.checkout-summary-divider {
+    margin: 1.75rem 0;
+
+    border-top: 1px solid #333333;
+}
+
+
+/* 總金額 */
+.checkout-summary-total {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-bottom: 2rem;
+}
+
+
+.checkout-summary-total span {
+    font-size: 0.9rem;
+}
+
+
+.checkout-summary-total strong {
+    color: #C19A6B;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================================================
+   Submit
+   ========================================================================== */
+
+.checkout-submit-btn {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 0.95rem 1rem;
+
+    border: 1px solid #B89047;
+
+    background-color: #B89047;
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    letter-spacing: 0.1em;
+
+    transition: all 0.3s ease;
+}
+
+.checkout-submit-btn:hover {
+    background-color: transparent;
+
+    color: #B89047;
+}
+
+
+/* 提示 */
+.checkout-notice {
+    margin: 1.2rem 0 0;
+
+    color: #777777;
+
+    font-size: 0.7rem;
+
+    line-height: 1.7;
+
+    text-align: center;
+}
+
+
+/* 回購物車 */
+.checkout-back-link {
+    display: block;
+
+    margin-top: 1.4rem;
+
+    color: #aaaaaa;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-size: 0.78rem;
+
+    transition: color 0.25s ease;
+}
+
+.checkout-back-link:hover {
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Empty
+   ========================================================================== */
+
+.checkout-empty {
+    padding: 5rem 1rem;
+
+    text-align: center;
+}
+
+.checkout-empty>i {
+    margin-bottom: 1.5rem;
+
+    color: #B89047;
+
+    font-size: 2.2rem;
+}
+
+.checkout-empty h2 {
+    margin-bottom: 0.75rem;
+
+    color: #111111;
+
+    font-size: 1.35rem;
+}
+
+.checkout-empty p {
+    margin-bottom: 2rem;
+
+    color: #888888;
+
+    font-size: 0.9rem;
+}
+
+.checkout-empty a {
+    display: inline-block;
+
+    padding: 0.8rem 1.8rem;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.82rem;
+
+    letter-spacing: 0.1em;
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+
+    .checkout-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .checkout-title {
+        font-size: 1.55rem;
+    }
+
+
+    .checkout-section {
+        margin-bottom: 2.5rem;
+    }
+
+
+    .checkout-section-header {
+        padding: 1.2rem 0;
+    }
+
+
+    .checkout-step {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .checkout-section-title {
+        gap: 0.75rem;
+    }
+
+
+    .checkout-section-title h2 {
+        font-size: 1rem;
+    }
+
+
+    /* 配送資訊 */
+    .recipient-row {
+        grid-template-columns: 80px 1fr;
+
+        gap: 0.75rem;
+
+        font-size: 0.82rem;
+    }
+
+
+    /* 商品 */
+    .checkout-product {
+        grid-template-columns: 85px 1fr;
+
+        gap: 1rem;
+
+        padding: 1.2rem 0;
+    }
+
+
+    .checkout-product h3 {
+        font-size: 0.82rem;
+    }
+
+
+    /* 手機取消 sticky */
+    .checkout-summary {
+        position: static;
+
+        margin-top: 0.5rem;
+
+        padding: 1.5rem;
+    }
+}
+
+
+
+
+
+/*login*/
+/* ==========================================================================
+   Login Page
+   黑 / 白 / 金 極簡會員登入
+   ========================================================================== */
+
+.login-page {
+    padding: 4.5rem 0 5rem;
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.login-wrapper {
+    display: grid;
+    grid-template-columns: 44% 56%;
+
+    max-width: 1180px;
+    min-height: 580px;
+
+    margin: 0 auto;
+
+    background-color: #ffffff;
+
+    border: 0;
+    box-shadow: none;
+}
+
+
+/* ==========================================================================
+   左側品牌視覺
+   ========================================================================== */
+
+.login-visual {
+    position: relative;
+
+    min-height: 580px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 2.75rem;
+
+    overflow: hidden;
+
+    background-image: url('./product_img/cta_01.png');
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* 黑色漸層遮罩 */
+.login-visual-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(0, 0, 0, 0.03) 25%,
+            rgba(0, 0, 0, 0.72) 100%);
+
+    z-index: 1;
+}
+
+
+/* 品牌文字 */
+.login-brand-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 520px;
+
+    color: #ffffff;
+}
+
+
+.login-brand-eyebrow {
+    display: block;
+
+    margin-bottom: 0.8rem;
+
+    color: #C19A6B;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.3em;
+}
+
+
+.login-brand-content h1 {
+    margin-bottom: 1rem;
+
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.login-brand-content p {
+    margin: 0;
+
+    max-width: 440px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.9rem;
+
+    line-height: 1.9;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   右側登入區
+   ========================================================================== */
+
+.login-form-area {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 3.5rem 5rem;
+
+    background-color: #ffffff;
+}
+
+
+.login-form-container {
+    width: 100%;
+
+    max-width: 400px;
+}
+
+
+/* ==========================================================================
+   Heading
+   ========================================================================== */
+
+.login-heading {
+    margin-bottom: 2.75rem;
+}
+
+
+/* Logo 不要再放超大 */
+
+.login-eyebrow {
+    display: block;
+
+    margin-bottom: 0.55rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.login-heading h2 {
+    margin-bottom: 0.7rem;
+
+    color: #111111;
+
+    font-size: 1.9rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.login-heading p {
+    margin: 0;
+
+    color: #999999;
+
+    font-size: 0.84rem;
+
+    line-height: 1.7;
+}
+
+
+/* ==========================================================================
+   Form
+   ========================================================================== */
+
+.login-field {
+    margin-bottom: 1.6rem;
+}
+
+
+.login-field label {
+    display: block;
+
+    margin-bottom: 0.55rem;
+
+    color: #333333;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* 密碼 Label / 忘記密碼 */
+.login-label-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.login-label-row label {
+    margin-bottom: 0.55rem;
+}
+
+
+.forgot-password {
+    margin-bottom: 0.55rem;
+
+    color: #999999;
+
+    text-decoration: none;
+
+    font-size: 0.72rem;
+
+    transition: color 0.25s ease;
+}
+
+
+.forgot-password:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+
+.login-input-wrapper {
+    position: relative;
+}
+
+
+.login-input-wrapper>i {
+    position: absolute;
+
+    top: 50%;
+    left: 1rem;
+
+    transform: translateY(-50%);
+
+    color: #aaaaaa;
+
+    font-size: 0.85rem;
+
+    pointer-events: none;
+
+    transition: color 0.25s ease;
+}
+
+
+.login-input-wrapper input {
+    width: 100%;
+    height: 50px;
+
+    padding: 0 1rem 0 2.8rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    color: #222222;
+
+    font-size: 0.88rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.login-input-wrapper input::placeholder {
+    color: #bbbbbb;
+}
+
+
+.login-input-wrapper input:focus {
+    border-color: #B89047;
+
+    box-shadow:
+        0 0 0 2px rgba(184, 144, 71, 0.08);
+}
+
+
+.login-input-wrapper:focus-within>i {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Login Button
+   ========================================================================== */
+
+.login-submit-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.7rem;
+
+    width: 100%;
+    height: 50px;
+
+    margin-top: 2rem;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    letter-spacing: 0.15em;
+
+    transition: all 0.3s ease;
+}
+
+
+.login-submit-btn i {
+    font-size: 0.75rem;
+
+    transition: transform 0.3s ease;
+}
+
+
+.login-submit-btn:hover {
+    border-color: #B89047;
+
+    background-color: #B89047;
+
+    color: #ffffff;
+}
+
+
+.login-submit-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* ==========================================================================
+   Register
+   ========================================================================== */
+
+.login-register {
+    margin-top: 2rem;
+
+    padding-top: 1.6rem;
+
+    border-top: 1px solid #eeeeee;
+
+    text-align: center;
+
+    font-size: 0.78rem;
+}
+
+
+.login-register span {
+    color: #999999;
+}
+
+
+.login-register a {
+    margin-left: 0.4rem;
+
+    color: #111111;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #B89047;
+
+    transition: color 0.25s ease;
+}
+
+
+.login-register a:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Tablet / Mobile
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+
+    .login-page {
+        padding: 4rem 0 5rem;
+    }
+
+    .login-wrapper {
+        display: block;
+
+        max-width: 520px;
+        min-height: auto;
+
+        border: 0;
+        box-shadow: none;
+    }
+
+    .login-visual {
+        display: none;
+    }
+
+    .login-form-area {
+        min-height: auto;
+
+        padding: 2rem 1.5rem;
+    }
+
+    .login-form-container {
+        max-width: 430px;
+    }
+
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 575.98px) {
+
+    .login-form-area {
+        min-height: auto;
+
+        padding: 3.5rem 1.25rem 4.5rem;
+    }
+
+
+    .login-heading {
+        margin-bottom: 2.25rem;
+    }
+
+
+    .login-heading h2 {
+        font-size: 1.55rem;
+    }
+
+
+    .login-heading p {
+        font-size: 0.78rem;
+    }
+
+
+    .login-input-wrapper input {
+        height: 48px;
+
+        font-size: 0.82rem;
+    }
+
+
+    .login-submit-btn {
+        height: 48px;
+    }
+
+}
+
+
+
+
+
+
+
+
+/*register*/
+
+/* ==========================================================================
+   Register Page
+   ========================================================================== */
+
+.register-page {
+    padding: 4.5rem 0 5rem;
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.register-wrapper {
+    display: grid;
+    grid-template-columns: 34% 66%;
+
+    max-width: 1180px;
+
+    margin: 0 auto;
+
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+
+/* ==========================================================================
+   左側品牌介紹
+   ========================================================================== */
+
+.register-intro {
+    position: relative;
+
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+.register-intro-content {
+    position: sticky;
+
+    top: 2rem;
+
+    padding: 4rem 3rem;
+}
+
+
+.register-intro-eyebrow {
+    display: block;
+
+    margin-bottom: 1rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.register-intro h1 {
+    margin-bottom: 1.5rem;
+
+    color: #ffffff;
+
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+}
+
+
+.register-intro>div>p {
+    margin: 0;
+
+    color: #aaaaaa;
+
+    font-size: 0.85rem;
+
+    line-height: 1.9;
+}
+
+
+/* ==========================================================================
+   左側會員優勢
+   ========================================================================== */
+
+.register-benefits {
+    margin-top: 3.5rem;
+
+    border-top: 1px solid #333333;
+}
+
+
+.register-benefit {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.25rem 0;
+
+    border-bottom: 1px solid #333333;
+}
+
+
+.register-benefit span {
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.1em;
+}
+
+
+.register-benefit p {
+    margin: 0;
+
+    color: #cccccc;
+
+    font-size: 0.78rem;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   表單主區
+   ========================================================================== */
+
+.register-form-area {
+    padding: 4rem 4.5rem;
+
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.register-heading {
+    margin-bottom: 3.5rem;
+}
+
+
+.register-eyebrow {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.register-heading h2 {
+    margin-bottom: 0.8rem;
+
+    color: #111111;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.register-heading p {
+    margin: 0;
+
+    color: #999999;
+
+    font-size: 0.8rem;
+
+    line-height: 1.7;
+}
+
+
+.required-mark {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Section
+   ========================================================================== */
+
+.register-section {
+    margin-bottom: 3.5rem;
+}
+
+
+.register-section-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 1.75rem;
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid #e8e8e8;
+}
+
+
+/* 黑色步驟方塊 */
+.register-section-heading>span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+
+.register-section-heading small {
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    color: #B89047;
+
+    font-size: 0.6rem;
+    font-weight: 600;
+
+    letter-spacing: 0.2em;
+}
+
+
+.register-section-heading h3 {
+    margin: 0;
+
+    color: #222222;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* ==========================================================================
+   Form Grid
+   ========================================================================== */
+
+.register-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.4rem 1.5rem;
+}
+
+
+.register-field-full {
+    grid-column: 1 / -1;
+}
+
+
+/* ==========================================================================
+   Labels
+   ========================================================================== */
+
+.register-field label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   Inputs
+   ========================================================================== */
+
+.register-input-wrapper {
+    position: relative;
+}
+
+
+.register-input-wrapper>i {
+    position: absolute;
+
+    top: 50%;
+    left: 1rem;
+
+    transform: translateY(-50%);
+
+    color: #aaaaaa;
+
+    font-size: 0.82rem;
+
+    pointer-events: none;
+
+    transition: color 0.25s ease;
+}
+
+
+.register-input-wrapper .register-input {
+    padding-left: 2.8rem;
+}
+
+
+.register-input {
+    display: block;
+
+    width: 100%;
+    height: 48px;
+
+    padding: 0 1rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    color: #222222;
+
+    font-size: 0.85rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.register-input::placeholder {
+    color: #b8b8b8;
+}
+
+
+.register-input:focus {
+    border-color: #B89047;
+
+    box-shadow:
+        0 0 0 2px rgba(184, 144, 71, 0.08);
+}
+
+
+.register-input-wrapper:focus-within>i {
+    color: #B89047;
+}
+
+
+/* Select */
+.register-select {
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================
+   Register Validation
+   ========================================== */
+
+/* 錯誤欄位 */
+.register-form .register-invalid {
+    border-color: #b96b62;
+    background-color: #fffafa;
+}
+
+
+/* 錯誤欄位取得焦點時仍維持錯誤狀態 */
+.register-form .register-invalid:focus {
+    border-color: #b96b62;
+
+    box-shadow:
+        0 0 0 2px rgba(185, 107, 98, 0.08);
+}
+
+
+/* 錯誤訊息 */
+.register-error {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.4rem;
+
+    margin-top: 0.45rem;
+
+    color: #a85f57;
+
+    font-size: 0.7rem;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+
+/* 沒有錯誤文字時完全隱藏 */
+.register-error:empty {
+    display: none;
+}
+
+
+/* 錯誤提示 icon */
+.register-error:not(:empty)::before {
+    content: "\f06a";
+
+    flex-shrink: 0;
+
+    margin-top: 0.08rem;
+
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+
+    color: #b96b62;
+
+    font-size: 0.68rem;
+}
+
+
+
+
+/* ==========================================================================
+   ZIP
+   ========================================================================== */
+
+.register-zipcode {
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 1rem;
+
+    border-left: 2px solid #B89047;
+
+    background-color: #f8f8f8;
+
+    color: #777777;
+
+    font-size: 0.8rem;
+}
+
+
+/* ==========================================================================
+   Avatar Upload
+   ========================================================================== */
+
+.register-upload {
+    display: grid;
+
+    grid-template-columns: 1fr 120px;
+
+    gap: 2rem;
+
+    align-items: center;
+}
+
+
+.register-upload-control>label {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+.register-file-input {
+    display: block;
+
+    width: 100%;
+
+    padding: 0.65rem;
+
+    border: 1px solid #dddddd;
+
+    background-color: #ffffff;
+
+    color: #777777;
+
+    font-size: 0.78rem;
+}
+
+
+.register-upload-control p {
+    margin: 0.55rem 0 1rem;
+
+    color: #aaaaaa;
+
+    font-size: 0.68rem;
+}
+
+
+.register-upload-btn {
+    padding: 0.7rem 1.25rem;
+
+    border: 1px solid #111111;
+
+    background-color: transparent;
+
+    color: #111111;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+
+    transition: all 0.25s ease;
+}
+
+
+.register-upload-btn:hover {
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+/* 預覽 */
+.register-upload-preview {
+    position: relative;
+
+    width: 110px;
+    height: 110px;
+
+    overflow: hidden;
+
+    background-color: #f5f5f5;
+
+    border: 1px solid #e3e3e3;
+}
+
+
+.register-preview-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #cccccc;
+
+    font-size: 2rem;
+}
+
+
+.register-preview-image {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* Progress */
+.register-upload-progress {
+    height: 5px;
+
+    margin-top: 1.25rem;
+
+    border-radius: 0;
+
+    background-color: #eeeeee;
+}
+
+
+.register-upload-progress .progress-bar {
+    background-color: #B89047;
+}
+
+
+/* ==========================================================================
+   Captcha
+   ========================================================================== */
+
+.register-captcha {
+    display: grid;
+
+    grid-template-columns: 170px 1fr;
+
+    gap: 1.5rem;
+
+    align-items: end;
+}
+
+
+.register-captcha-image a {
+    display: block;
+
+    width: fit-content;
+
+    border: 1px solid #dddddd;
+}
+
+
+.register-captcha-image canvas {
+    display: block;
+}
+
+
+.register-captcha-image span {
+    display: block;
+
+    margin-top: 0.45rem;
+
+    color: #aaaaaa;
+
+    font-size: 0.65rem;
+}
+
+
+/* ==========================================================================
+   Submit
+   ========================================================================== */
+
+.register-submit-area {
+    padding-top: 2rem;
+
+    border-top: 1px solid #e8e8e8;
+}
+
+
+.register-submit-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.8rem;
+
+    width: 100%;
+    height: 52px;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+
+.register-submit-btn:hover {
+    border-color: #B89047;
+
+    background-color: #B89047;
+}
+
+
+.register-submit-btn i {
+    font-size: 0.72rem;
+
+    transition: transform 0.3s ease;
+}
+
+
+.register-submit-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+.register-submit-area p {
+    margin: 1.5rem 0 0;
+
+    color: #999999;
+
+    text-align: center;
+
+    font-size: 0.75rem;
+}
+
+
+.register-submit-area a {
+    margin-left: 0.3rem;
+
+    color: #111111;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #B89047;
+}
+
+
+.register-submit-area a:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Tablet
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+
+    .register-page {
+        padding: 3rem 0 4rem;
+    }
+
+
+    .register-wrapper {
+        display: block;
+
+        max-width: 760px;
+
+        border: 0;
+    }
+
+
+    /* Navbar 收合時，左側黑色區也改成簡短 Header */
+    .register-intro {
+        background-color: #111111;
+    }
+
+
+    .register-intro-content {
+        position: static;
+
+        padding: 2.5rem;
+    }
+
+
+    .register-intro h1 {
+        font-size: 2rem;
+    }
+
+
+    .register-benefits {
+        display: none;
+    }
+
+
+    .register-form-area {
+        padding: 3rem 2.5rem;
+    }
+
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 575.98px) {
+
+    .register-page {
+        padding: 0;
+    }
+
+
+    .register-wrapper {
+        max-width: none;
+    }
+
+
+    .register-intro-content {
+        padding: 2rem 1.25rem;
+    }
+
+
+    .register-intro h1 {
+        margin-bottom: 0.8rem;
+
+        font-size: 1.65rem;
+    }
+
+
+    .register-intro>div>p {
+        font-size: 0.78rem;
+    }
+
+
+    .register-form-area {
+        padding: 2.5rem 1.25rem 4rem;
+    }
+
+
+    .register-heading {
+        margin-bottom: 2.75rem;
+    }
+
+
+    .register-heading h2 {
+        font-size: 1.6rem;
+    }
+
+
+    /* 所有欄位單欄 */
+    .register-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+
+    .register-field-full {
+        grid-column: auto;
+    }
+
+
+    .register-section {
+        margin-bottom: 3rem;
+    }
+
+
+    .register-upload {
+        grid-template-columns: 1fr;
+
+        gap: 1.5rem;
+    }
+
+
+    .register-upload-preview {
+        width: 90px;
+        height: 90px;
+    }
+
+
+    .register-captcha {
+        grid-template-columns: 1fr;
+    }
+
+
+    .register-submit-btn {
+        height: 50px;
+    }
+
 }

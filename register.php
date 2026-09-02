@@ -11,27 +11,6 @@ require_once('php_lib.php');
 
 <head>
     <?php require_once('headfile.php'); ?>
-    <style>
-        .input-group>.form-control {
-            width: 100%;
-        }
-
-        span.error-tips,
-        span.error-tips::before {
-            font-family: "Font Awesome 5 Free";
-            color: red;
-            font-weight: 900;
-            content: "\f0c4";
-        }
-
-        span.valid-tips,
-        span.valid-tips::before {
-            font-family: "Font Awesome 5 Free";
-            color: greenyellow;
-            font-weight: 900;
-            content: "\f00c";
-        }
-    </style>
 
 </head>
 
@@ -69,96 +48,537 @@ require_once('php_lib.php');
     }
     ?>
 
-    <section id="content" class="mt-2">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h1>會員註冊頁面</h1>
-                    <p>請輸入相關資料，*為必須輸入欄位</p>
-                </div>
-            </div>
+    <section id="content" class="register-page">
+        <div class="container-xl">
 
-            <div class="row">
-                <div class="col-8 offset-2 text-left">
-                    <form id="reg" name="reg" action="register.php" method="POST">
-                        <div class="input-group mb-3">
-                            <input type="email" name="email" id="email" class="form-control" placeholder="請輸入email帳號" autocomplete="off">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" name="pw1" id="pw1" class="form-control" placeholder="請輸入密碼">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" name="pw2" id="pw2" class="form-control" placeholder="請再次確認密碼">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" name="cname" id="cname" class="form-control" placeholder="請輸入姓名">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" name="tssn" id="tssn" class="form-control" placeholder="請輸入身份證字號">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" name="birthday" id="birthday" onfocus="(this.type='date')" class="form-control" placeholder="*請選擇生日">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" name="mobile" id="mobile" class="form-control" placeholder="請輸入手機號碼">
-                        </div>
-                        <div class="input-group mb-3">
-                            <select name="myCity" id="myCity" class="form-control">
-                                <option value="">請選擇市區</option>
-                                <?php
-                                $city = "SELECT * FROM city WHERE State = 0";
-                                $city_rs = $link->query($city);
-                                while ($city_rows = $city_rs->fetch()) {
-                                ?>
-                                    <option value="<?= $city_rows['AutoNo'] ?>">
-                                        <?= $city_rows['Name'] ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <br>
-                            <select name="myTown" id="myTown" class="form-control">
-                                <option value="">請選擇地區</option>
-                            </select>
-                        </div>
-                        <label for="address" class="form-control" id="zipcode" name="zipcode">郵遞區號：地址</label>
-                        <div class="input-group mb-3">
-                            <input type="hidden" name="myZip" id="myZip" value="">
-                            <input type="text" name="address" id="address" class="form-control" placeholder="請輸入後續地址">
-                        </div>
+            <div class="register-wrapper">
 
-                        <label for="fileToUpload" class="form-control">上傳相片：</label>
+                <!-- 左側品牌區 -->
+                <aside class="register-intro">
 
-                        <div class="input-group mb-3">
-                            <input type="file" name="fileToUpload" id="fileToUpload" class="form-control" title="請上傳相片圖示" accept="image/x-png,image/jpeg,image/gif,image/jpg">
+                    <div class="register-intro-content">
 
-                            <p><button type="button" class="btn btn-danger" id="uploadForm" name="uploadForm">開始上傳</button></p>
+                        <span class="register-intro-eyebrow">
+                            HOME FIT MEMBER
+                        </span>
 
-                            <div id="progress-div01" class="progress" style="width: 100%; display: none;">
-                                <div id="progress-bar01" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <h1>
+                            建立您的<br>
+                            會員帳號
+                        </h1>
+
+                        <p>
+                            完成會員註冊後，可管理個人資料、查看訂單紀錄，
+                            並享有更完整的購物體驗。
+                        </p>
+
+                        <div class="register-benefits">
+
+                            <div class="register-benefit">
+                                <span>01</span>
+                                <p>快速管理會員資料</p>
                             </div>
 
-                            <input type="hidden" name="uploadname" id="uploadname" value="">
-                            <img id="showimg" name="showimg" src="" alt="photo" style="display: none;" class="img-fluid">
+                            <div class="register-benefit">
+                                <span>02</span>
+                                <p>查看歷史訂單紀錄</p>
+                            </div>
+
+                            <div class="register-benefit">
+                                <span>03</span>
+                                <p>簡化後續購物流程</p>
+                            </div>
+
                         </div>
 
-                        <div class="input-group mb-3">
-                            <input type="hidden" name="captcha" id="captcha" value="">
-                            <a href="javascript:void(0)" title="按我更新認證" onclick="getCaptcha()">
-                                <canvas id="can"></canvas>
-                            </a>
-                            <input type="text" name="recaptcha" id="recaptcha" class="form-control" placeholder="請輸入認證碼">
+                    </div>
+
+                </aside>
+
+
+                <!-- 右側表單 -->
+                <main class="register-form-area">
+
+                    <div class="register-heading">
+
+                        <span class="register-eyebrow">
+                            CREATE ACCOUNT
+                        </span>
+
+                        <h2>會員註冊</h2>
+
+                        <p>
+                            請填寫以下會員資料，標示
+                            <span class="required-mark">*</span>
+                            為必填欄位。
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        id="reg"
+                        name="reg"
+                        action="register.php"
+                        method="POST"
+                        class="register-form">
+
+                        <!-- ==========================================
+                         01 帳號資訊
+                         ========================================== -->
+                        <section class="register-section">
+
+                            <div class="register-section-heading">
+                                <span>01</span>
+
+                                <div>
+                                    <small>ACCOUNT</small>
+                                    <h3>帳號資訊</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="register-grid">
+
+                                <div class="register-field register-field-full">
+                                    <label for="email">
+                                        電子信箱
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <div class="register-input-wrapper">
+                                        <i class="fa-regular fa-envelope"></i>
+
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            class="register-input"
+                                            placeholder="example@email.com"
+                                            autocomplete="off">
+                                    </div>
+                                </div>
+
+
+                                <div class="register-field">
+                                    <label for="pw1">
+                                        密碼
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <div class="register-input-wrapper">
+                                        <i class="fa-solid fa-lock"></i>
+
+                                        <input
+                                            type="password"
+                                            name="pw1"
+                                            id="pw1"
+                                            class="register-input"
+                                            placeholder="請輸入 4～20 位密碼">
+                                    </div>
+                                </div>
+
+
+                                <div class="register-field">
+                                    <label for="pw2">
+                                        確認密碼
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <div class="register-input-wrapper">
+                                        <i class="fa-solid fa-lock"></i>
+
+                                        <input
+                                            type="password"
+                                            name="pw2"
+                                            id="pw2"
+                                            class="register-input"
+                                            placeholder="請再次輸入密碼">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ==========================================
+                         02 個人資料
+                         ========================================== -->
+                        <section class="register-section">
+
+                            <div class="register-section-heading">
+                                <span>02</span>
+
+                                <div>
+                                    <small>PROFILE</small>
+                                    <h3>個人資料</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="register-grid">
+
+                                <div class="register-field">
+                                    <label for="cname">
+                                        姓名
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="cname"
+                                        id="cname"
+                                        class="register-input"
+                                        placeholder="請輸入姓名">
+                                </div>
+
+
+                                <div class="register-field">
+                                    <label for="tssn">
+                                        身分證字號
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="tssn"
+                                        id="tssn"
+                                        class="register-input"
+                                        placeholder="請輸入身分證字號">
+                                </div>
+
+
+                                <div class="register-field">
+                                    <label for="birthday">
+                                        生日
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        name="birthday"
+                                        id="birthday"
+                                        class="register-input">
+                                </div>
+
+
+                                <div class="register-field">
+                                    <label for="mobile">
+                                        手機號碼
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="mobile"
+                                        id="mobile"
+                                        class="register-input"
+                                        placeholder="例：0912345678">
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ==========================================
+                         03 配送地址
+                         ========================================== -->
+                        <section class="register-section">
+
+                            <div class="register-section-heading">
+                                <span>03</span>
+
+                                <div>
+                                    <small>ADDRESS</small>
+                                    <h3>配送地址</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="register-grid">
+
+                                <div class="register-field">
+
+                                    <label for="myCity">
+                                        縣市
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <select
+                                        name="myCity"
+                                        id="myCity"
+                                        class="register-input register-select">
+                                        <option value="">請選擇縣市</option>
+
+                                        <?php
+                                        $city = "SELECT * FROM city WHERE State = 0";
+                                        $city_rs = $link->query($city);
+
+                                        while ($city_rows = $city_rs->fetch()) {
+                                        ?>
+                                            <option value="<?= $city_rows['AutoNo'] ?>">
+                                                <?= $city_rows['Name'] ?>
+                                            </option>
+                                        <?php } ?>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="register-field">
+
+                                    <label for="myTown">
+                                        地區
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <select
+                                        name="myTown"
+                                        id="myTown"
+                                        class="register-input register-select">
+                                        <option value="">請選擇地區</option>
+                                    </select>
+
+                                </div>
+
+
+                                <div class="register-field register-field-full">
+
+                                    <label>
+                                        郵遞區號 / 區域
+                                    </label>
+
+                                    <div
+                                        id="zipcode"
+                                        class="register-zipcode">
+                                        選擇縣市與地區後將自動顯示
+                                    </div>
+
+                                    <input
+                                        type="hidden"
+                                        name="myZip"
+                                        id="myZip"
+                                        value="">
+
+                                </div>
+
+
+                                <div class="register-field register-field-full">
+
+                                    <label for="address">
+                                        詳細地址
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        id="address"
+                                        class="register-input"
+                                        placeholder="請輸入路名、巷弄、門牌等詳細地址">
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ==========================================
+                         04 會員照片
+                         ========================================== -->
+                        <section class="register-section">
+
+                            <div class="register-section-heading">
+                                <span>04</span>
+
+                                <div>
+                                    <small>PROFILE PHOTO</small>
+                                    <h3>會員照片</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="register-upload">
+
+                                <div class="register-upload-control">
+
+                                    <label for="fileToUpload">
+                                        選擇會員照片
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="fileToUpload"
+                                        id="fileToUpload"
+                                        class="register-file-input"
+                                        accept="image/x-png,image/jpeg,image/gif,image/jpg">
+
+                                    <p>
+                                        支援 JPG、JPEG、PNG、GIF 格式
+                                    </p>
+
+
+                                    <button
+                                        type="button"
+                                        class="register-upload-btn"
+                                        id="uploadForm"
+                                        name="uploadForm">
+                                        <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>
+                                        上傳照片
+                                    </button>
+
+                                </div>
+
+
+                                <div class="register-upload-preview">
+
+                                    <div class="register-preview-placeholder">
+                                        <i class="fa-regular fa-user"></i>
+                                    </div>
+
+                                    <img
+                                        id="showimg"
+                                        name="showimg"
+                                        src=""
+                                        alt="會員照片預覽"
+                                        class="register-preview-image"
+                                        style="display: none;">
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                id="progress-div01"
+                                class="progress register-upload-progress"
+                                style="display: none;">
+                                <div
+                                    id="progress-bar01"
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    style="width: 0%;"
+                                    aria-valuenow="0"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    0%
+                                </div>
+                            </div>
+
+
+                            <input
+                                type="hidden"
+                                name="uploadname"
+                                id="uploadname"
+                                value="">
+
+                        </section>
+
+
+                        <!-- ==========================================
+                         05 驗證
+                         ========================================== -->
+                        <section class="register-section">
+
+                            <div class="register-section-heading">
+                                <span>05</span>
+
+                                <div>
+                                    <small>VERIFICATION</small>
+                                    <h3>安全驗證</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="register-captcha">
+
+                                <div class="register-captcha-image">
+
+                                    <a
+                                        href="javascript:void(0)"
+                                        title="點擊更新驗證碼"
+                                        onclick="getCaptcha()">
+                                        <canvas id="can"></canvas>
+                                    </a>
+
+                                    <span>
+                                        點擊圖片可更新
+                                    </span>
+
+                                </div>
+
+
+                                <div class="register-field">
+
+                                    <label for="recaptcha">
+                                        驗證碼
+                                        <span class="required-mark">*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="recaptcha"
+                                        id="recaptcha"
+                                        class="register-input"
+                                        placeholder="請輸入圖片中的驗證碼"
+                                        autocomplete="off">
+
+                                </div>
+
+                            </div>
+
+
+                            <input
+                                type="hidden"
+                                name="captcha"
+                                id="captcha"
+                                value="">
+
+                        </section>
+
+
+                        <input
+                            type="hidden"
+                            name="formctl"
+                            id="formctl"
+                            value="reg">
+
+
+                        <!-- Submit -->
+                        <div class="register-submit-area">
+
+                            <button
+                                type="submit"
+                                class="register-submit-btn">
+                                建立會員帳號
+
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+
+                            <p>
+                                已經有會員帳號？
+
+                                <a href="login.php">
+                                    返回登入
+                                </a>
+                            </p>
+
                         </div>
-                        <input type="hidden" name="formctl" id="formctl" value="reg">
-                        <div class="input-group mb-3">
-                            <button type="submit" class="btn btn-success btn-lg">送出</button>
-                        </div>
+
                     </form>
-                </div>
+
+                </main>
+
             </div>
+
         </div>
     </section>
 
-    <hr>
 
 
 
@@ -187,6 +607,32 @@ require_once('php_lib.php');
         });
 
         $('#reg').validate({
+            errorElement: 'div',
+            errorClass: 'register-error',
+
+            errorPlacement: function(error, element) {
+
+                const inputWrapper = element.closest('.register-input-wrapper');
+
+                if (inputWrapper.length) {
+                    // 有 icon 的 input：
+                    // 錯誤訊息放在整個 wrapper 外面
+                    error.insertAfter(inputWrapper);
+                } else {
+                    // 一般 input / select
+                    error.insertAfter(element);
+                }
+
+            },
+
+            highlight: function(element) {
+                $(element).addClass('register-invalid');
+            },
+
+            unhighlight: function(element) {
+                $(element).removeClass('register-invalid');
+            },
+
             rules: {
                 email: {
                     required: true,
@@ -229,18 +675,18 @@ require_once('php_lib.php');
             },
             messages: {
                 email: {
-                    required: 'email信箱不得為空白',
-                    email: 'email信箱格式有誤',
-                    remote: 'email信箱已經註冊'
+                    required: '請輸入電子信箱',
+                    email: '請輸入正確的電子信箱格式',
+                    remote: '此電子信箱已註冊'
                 },
                 pw1: {
-                    required: '密碼不得為空白',
-                    maxlength: '密碼最大長度為20位(4-20位英文字母與數字的組合)',
-                    minlength: '密碼最小長度為4位(4-20位英文字母與數字的組合)'
+                    required: '請輸入密碼',
+                    maxlength: '密碼最多 20 個字元',
+                    minlength: '密碼至少需要 4 個字元'
                 },
                 pw2: {
-                    required: '確認密碼不得為空白',
-                    equalTo: '兩次輸入的密碼必須一致！'
+                    required: '請再次輸入密碼',
+                    equalTo: '兩次輸入的密碼不一致'
                 },
                 cname: {
                     required: '使用者名稱不得為空白',
@@ -253,8 +699,8 @@ require_once('php_lib.php');
                     required: '生日不得為空白',
                 },
                 mobile: {
-                    required: '手機號碼不得為空白',
-                    checkphone: '手機號碼格式有誤'
+                    required: '請輸入手機號碼',
+                    checkphone: '請輸入正確的手機號碼格式'
                 },
                 address: {
                     required: '地址不得為空白',
@@ -303,15 +749,17 @@ require_once('php_lib.php');
 
         function complereHandler(event) {
             let data = JSON.parse(event.target.responseText);
+
             if (data.success == 'true') {
+
                 $('#uploadname').val(data.fileName);
+
                 $('#showimg').attr({
-                    'src': 'uploads/' + data.fileName,
-                    'style': 'display:block'
-                });
-                $('button.btn.btn-danger').attr({
-                    'style': 'display:none;'
-                });
+                    'src': 'uploads/' + data.fileName
+                }).show();
+
+                $('#uploadForm').hide();
+
             } else {
                 alert(data.error);
             }
@@ -351,7 +799,7 @@ require_once('php_lib.php');
                 success: function(data) {
                     if (data.c == true) {
                         $('#myTown').html(data.m);
-                        $('myZip').val("");
+                        $('#myZip').val("");
                     } else {
                         alert(data.m);
                     }
