@@ -3777,7 +3777,7 @@ input[type="number"] {
 
     gap: 1.5rem;
 
-    align-items: end;
+    align-items: start;
 }
 
 
