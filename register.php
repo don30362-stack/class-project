@@ -2,21 +2,21 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once('Connections/conn_db.php');
-require_once('php_lib.php');
+require_once(__DIR__ . '/config/conn_db.php');
+require_once(__DIR__ . '/includes/php_lib.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="zh">
 
 <head>
-    <?php require_once('headfile.php'); ?>
+    <?php require_once(__DIR__ . '/includes/headfile.php'); ?>
 
 </head>
 
 <body>
     <section id="header">
-        <?php require_once('navbar.php'); ?>
+        <?php require_once(__DIR__ . '/components/navbar.php'); ?>
     </section>
 
     <?php
@@ -598,12 +598,12 @@ require_once('php_lib.php');
 
 
     <section id="footer" class="py-4 py-md-5 text-white">
-        <?php require_once('footer.php'); ?>
+        <?php require_once(__DIR__ . '/components/footer.php'); ?>
     </section>
 
-    <?php require_once('jsfile.php'); ?>
-    <script src="commlib.js"></script>
-    <script src="jquery.validate.js"></script>
+    <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
+    <script src="assets/js/commlib.js"></script>
+    <script src="assets/js/jquery.validate.js"></script>
 
 
     <script>
@@ -652,7 +652,7 @@ require_once('php_lib.php');
                 email: {
                     required: true,
                     email: true,
-                    remote: 'checkemail.php'
+                    remote: 'api/checkemail.php'
                 },
                 pw1: {
                     required: true,
@@ -748,7 +748,7 @@ require_once('php_lib.php');
                 ajax.addEventListener("load", complereHandler, false);
                 ajax.addEventListener("error", errorHandler, false);
                 ajax.addEventListener("abort", abortHandler, false);
-                ajax.open("POST", "file_upload_parser.php");
+                ajax.open("POST", "api/file_upload_parser.php");
                 ajax.send(formdata);
                 return false
             } else {
@@ -815,7 +815,7 @@ require_once('php_lib.php');
             }
 
             $.ajax({
-                url: 'Town_ajax.php',
+                url: 'api/Town_ajax.php',
                 type: 'post',
                 dataType: 'json',
                 data: {
@@ -843,7 +843,7 @@ require_once('php_lib.php');
             }
 
             $.ajax({
-                url: 'Zip_ajax.php',
+                url: 'api/Zip_ajax.php',
                 type: 'get',
                 dataType: 'json',
                 data: {

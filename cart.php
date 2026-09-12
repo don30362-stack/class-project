@@ -2,15 +2,15 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once('Connections/conn_db.php');
-require_once('php_lib.php');
+require_once(__DIR__ . '/config/conn_db.php');
+require_once(__DIR__ . '/includes/php_lib.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="zh">
 
 <head>
-    <?php require_once('headfile.php'); ?>
+    <?php require_once(__DIR__ . '/includes/headfile.php'); ?>
     <style>
         table input:invalid {
             border: solid red 3px;
@@ -20,32 +20,32 @@ require_once('php_lib.php');
 
 <body>
     <section id="header">
-        <?php require_once('navbar.php'); ?>
+        <?php require_once(__DIR__ . '/components/navbar.php'); ?>
     </section>
 
     <section id="breadcrumb">
-        <?php require_once('breadcrumb.php'); ?>
+        <?php require_once(__DIR__ . '/components/breadcrumb.php'); ?>
     </section>
 
     <section id="content" class="cart-page py-4 py-md-5">
         <div class="container">
-            <?php require_once('cart_content.php'); ?>
+            <?php require_once(__DIR__ . '/components/cart_content.php'); ?>
         </div>
     </section>
 
     <section id="why-choose-us" class="py-4 py-md-5">
-        <?php require_once('why_us.php'); ?>
+        <?php require_once(__DIR__ . '/components/why_us.php'); ?>
     </section>
 
     <section id="pre-footer-cta" class="py-5 position-relative d-flex align-items-center">
-        <?php require_once('footer_cta.php'); ?>
+        <?php require_once(__DIR__ . '/components/footer_cta.php'); ?>
     </section>
 
     <section id="footer" class="py-4 py-md-5 text-white">
-        <?php require_once('footer.php'); ?>
+        <?php require_once(__DIR__ . '/components/footer.php'); ?>
     </section>
 
-    <?php require_once('jsfile.php'); ?>
+    <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
 
 </body>
 
@@ -62,7 +62,7 @@ require_once('php_lib.php');
         }
 
         $.ajax({
-            url: 'change_qty.php',
+            url: 'actions/change_qty.php',
             type: 'post',
             dataType: 'json',
             data: {

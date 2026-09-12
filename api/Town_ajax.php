@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin:*');
 header('Content-Type:application/json;charset=utf-8');
 
-require_once('Connections/conn_db.php');
+require_once dirname(__DIR__) . '/config/conn_db.php';
 
 $Town = "SELECT * FROM town WHERE AutoNo = :value0";
 $TownParams = array(':value0' => (int)$_POST["CNo"]);

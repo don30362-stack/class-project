@@ -2,54 +2,54 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once('Connections/conn_db.php');
-require_once('php_lib.php');
+require_once(__DIR__ . '/config/conn_db.php');
+require_once(__DIR__ . '/includes/php_lib.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="zh">
 
 <head>
-    <?php require_once('headfile.php'); ?>
-    <link rel="stylesheet" href="fancybox-2.1.7/source/jquery.fancybox.css">
+    <?php require_once(__DIR__ . '/includes/headfile.php'); ?>
+    <link rel="stylesheet" href="assets/vendor/fancybox-2.1.7/source/jquery.fancybox.css">
 </head>
 
 <body>
     <section id="header">
-        <?php require_once('navbar.php'); ?>
+        <?php require_once(__DIR__ . '/components/navbar.php'); ?>
     </section>
 
     <section id="breadcrumb">
-        <?php require_once('breadcrumb.php'); ?>
+        <?php require_once(__DIR__ . '/components/breadcrumb.php'); ?>
     </section>
 
     <section id="categoryTitle">
-        <?php require_once('categoryTitle.php'); ?>
+        <?php require_once(__DIR__ . '/components/categoryTitle.php'); ?>
     </section>
 
     <section id="content" class="mt-5">
         <div class="container my-5">
-            <?php require_once('productDetailContent.php'); ?>
+            <?php require_once(__DIR__ . '/components/productDetailContent.php'); ?>
         </div>
     </section>
 
     <hr>
 
     <section id="why-choose-us" class="py-4 py-md-5">
-        <?php require_once('why_us.php'); ?>
+        <?php require_once(__DIR__ . '/components/why_us.php'); ?>
     </section>
 
     <section id="pre-footer-cta" class="py-4 py-md-5 position-relative d-flex align-items-center">
-        <?php require_once('footer_cta.php'); ?>
+        <?php require_once(__DIR__ . '/components/footer_cta.php'); ?>
     </section>
 
     <section id="footer" class="py-4 py-md-5 text-white">
-        <?php require_once('footer.php'); ?>
+        <?php require_once(__DIR__ . '/components/footer.php'); ?>
     </section>
 
-    <?php require_once('jsfile.php'); ?>
+    <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
     
-    <script src="fancybox-2.1.7/source/jquery.fancybox.js"></script>
+    <script src="assets/vendor/fancybox-2.1.7/source/jquery.fancybox.js"></script>
     <script>
         $(function() {
             // 1. 初始化隱藏的畫廊（綁定 rel="group"）

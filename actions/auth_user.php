@@ -4,7 +4,7 @@ header('Content-Type:application/json;charset=utf-8');
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once("Connections/conn_db.php");
+require_once dirname(__DIR__) . '/config/conn_db.php';
 
 if (isset($_POST['inputAccount']) && isset($_POST['inputPassword'])) {
     $inputAccount = $_POST['inputAccount'];

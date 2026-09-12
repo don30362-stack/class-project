@@ -1,5 +1,5 @@
 <?php
-include_once('Connections/conn_db.php');
+require_once dirname(__DIR__) . '/config/conn_db.php';
 if (isset($_GET['email'])) {
     $email = $_GET['email'];
     $query = "SELECT emailid FROM member WHERE email=:value0";

@@ -1,4 +1,4 @@
-/* 相容入口：元件檔案順序須與 headfile.php 相同。維護說明見 docs/styles.md。 */
+/* 相容入口：元件檔案順序須與 includes/headfile.php 相同。維護說明見 docs/styles.md。 */
 @import url("css/navbar.css");
 @import url("css/carousel.css");
 @import url("css/breadcrumb.css");

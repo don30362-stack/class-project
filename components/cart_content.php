@@ -77,7 +77,7 @@ $shipping = 100;
                                     class="cart-remove-btn"
                                     onclick="btn_confirmLink(
                                         '確定從購物車移除此商品?',
-                                        'shopcart_del.php?mode=1&cartid=<?= $cart_data['cartid']; ?>'
+                                        'actions/shopcart_del.php?mode=1&cartid=<?= $cart_data['cartid']; ?>'
                                     )"
                                     aria-label="移除商品">
                                     <i class="fa-solid fa-xmark"></i>
@@ -130,7 +130,7 @@ $shipping = 100;
                     class="cart-clear-btn"
                     onclick="btn_confirmLink(
                         '確定清空購物車?',
-                        'shopcart_del.php?mode=2'
+                        'actions/shopcart_del.php?mode=2'
                     )">
                     清空購物車
                 </button>

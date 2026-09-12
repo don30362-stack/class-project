@@ -1,4 +1,4 @@
-<?php require_once("Connections/conn_db.php"); ?>
+<?php require_once dirname(__DIR__) . '/config/conn_db.php'; ?>
 <?php
 if (isset($_GET['mode']) && $_GET['mode'] != '') {
     $mode = $_GET['mode'];
@@ -18,7 +18,7 @@ if (isset($_GET['mode']) && $_GET['mode'] != '') {
         $result->execute($SQLstringParams);
     }
 }
-$deleteGoto = "cart.php";
+$deleteGoto = "../cart.php";
 header(sprintf("location:%s", $deleteGoto));
 
 ?>

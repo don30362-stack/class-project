@@ -13,7 +13,7 @@ unset($_SESSION['emailid']);
 unset($_SESSION['email']);
 unset($_SESSION['cname']);
 
-$sPath = "index.php";
+$sPath = "../index.php";
 header(sprintf("Location: %s", $sPath));
 
 ?>

@@ -57,7 +57,7 @@ if ($image[0] > 10000 || $image[1] > 10000 || $image[0] * $image[1] > 25000000) 
     uploadFailure('圖片尺寸不得超過 10000 像素，總像素不得超過 2500 萬');
 }
 
-$uploadDirectory = __DIR__ . '/uploads';
+$uploadDirectory = dirname(__DIR__) . '/uploads';
 if (!is_dir($uploadDirectory) || !is_writable($uploadDirectory)) {
     uploadFailure('上傳目錄無法寫入', 500);
 }

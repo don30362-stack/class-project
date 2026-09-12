@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/php_lib.php'; ?>
+<?php require_once dirname(__DIR__) . '/includes/php_lib.php'; ?>
 <nav class="navbar navbar-expand-xl">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
@@ -88,7 +88,7 @@
                             <a
                                 class="dropdown-item"
                                 href="#"
-                                onclick="btn_confirmLink('請確定是否要登出', 'logout.php')">
+                                onclick="btn_confirmLink('請確定是否要登出', 'actions/logout.php')">
                                 <i class="fa-solid fa-right-from-bracket me-2"></i>
                                 登出
                             </a>

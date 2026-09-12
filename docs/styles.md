@@ -2,9 +2,9 @@
 
 ## 載入方式
 
-`headfile.php` 先載入 Bootstrap、Font Awesome，再依原始順序直接載入 `css/` 下的 17 個樣式檔，讓瀏覽器可以平行下載。所有頁面共用相同順序，避免拆檔改變 CSS 級聯結果。
+`includes/headfile.php` 先載入 Bootstrap、Font Awesome，再依原始順序直接載入 `css/` 下的 17 個樣式檔，讓瀏覽器可以平行下載。所有頁面共用相同順序，避免拆檔改變 CSS 級聯結果。
 
-`website_p01.css` 保留為舊連結相容入口，透過 `@import` 載入相同檔案。新頁面請共用 `headfile.php`，不要同時載入兩種入口。若新增或調整載入順序，兩個入口必須同步更新。
+`website_p01.css` 保留為舊連結相容入口，透過 `@import` 載入相同檔案。新頁面請共用 `includes/headfile.php`，不要同時載入兩種入口。若新增或調整載入順序，兩個入口必須同步更新。
 
 ## 檔案對照
 

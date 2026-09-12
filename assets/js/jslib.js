@@ -12,7 +12,7 @@ function addcart(p_id) {
     }
 
     $.ajax({
-        url: 'addcart.php',
+        url: 'actions/addcart.php',
         type: 'get',
         dataType: 'json',
         data: {

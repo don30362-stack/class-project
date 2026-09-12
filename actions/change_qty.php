@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin:*');
 header('Content-Type:application/json;charset=utf-8');
 
-require_once(__DIR__ . "/Connections/conn_db.php");
+require_once dirname(__DIR__) . '/config/conn_db.php';
 
 if (isset($_POST['cartid']) && isset($_POST['qty'])) {
     $cartid = $_POST['cartid'];

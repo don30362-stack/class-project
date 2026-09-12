@@ -1,7 +1,7 @@
 images
 product_img
-bs53&jqCDN.html
-fancybox-2.1.7
-expstore.sql
+/docs/legacy/bs53-jquery-cdn.html
+/assets/vendor/fancybox-2.1.7
+/database/*.sql
 /uploads/**/*.jpg
 /uploads/**/*.png
