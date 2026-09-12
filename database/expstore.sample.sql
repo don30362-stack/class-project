@@ -187,7 +187,7 @@ INSERT INTO `hot` (`h_id`, `p_id`, `h_sort`) VALUES
 CREATE TABLE `member` (
   `emailid` int(11) NOT NULL COMMENT 'email流水號',
   `email` varchar(100) NOT NULL COMMENT 'email帳號',
-  `pw1` varchar(50) NOT NULL COMMENT '密碼',
+  `pw1` varchar(255) NOT NULL COMMENT '密碼',
   `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否啟動',
   `cname` varchar(30) NOT NULL COMMENT '中文姓名',
   `tssn` varchar(20) NOT NULL COMMENT '身份證字號',

@@ -56,7 +56,7 @@ if (isset($_SESSION['login'])) {
             e.preventDefault();
 
             const inputAccount = $("#inputAccount").val();
-            const inputPassword = MD5($("#inputPassword").val());
+            const inputPassword = $("#inputPassword").val();
 
             $("#loading").css("display", "flex");
 

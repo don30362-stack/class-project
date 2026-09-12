@@ -21,8 +21,40 @@ require_once(__DIR__ . '/includes/php_lib.php');
 
     <?php
     if (isset($_POST['formctl']) && $_POST['formctl'] == 'reg') {
+        $password = isset($_POST['pw1']) && is_string($_POST['pw1']) ? $_POST['pw1'] : null;
+        $passwordConfirmation = isset($_POST['pw2']) && is_string($_POST['pw2']) ? $_POST['pw2'] : null;
+        $passwordLength = $password === null
+            ? 0
+            : preg_match_all('/./us', $password, $passwordCharacters);
+
+        if ($password === null || $passwordConfirmation === null) {
+            echo "<script>alert('請輸入密碼與確認密碼。');location.href='register.php';</script>";
+            return;
+        }
+
+        if ($password !== $passwordConfirmation) {
+            echo "<script>alert('兩次輸入的密碼不一致。');location.href='register.php';</script>";
+            return;
+        }
+
+        if ($passwordLength === false || $passwordLength < 4 || $passwordLength > 20) {
+            echo "<script>alert('密碼長度必須為 4～20 個字元。');location.href='register.php';</script>";
+            return;
+        }
+
+        try {
+            $pw1 = password_hash($password, PASSWORD_DEFAULT);
+        } catch (Throwable $exception) {
+            $pw1 = false;
+        }
+
+        if (!is_string($pw1)) {
+            error_log('Member registration failed: password_hash_failed');
+            echo "<script>alert('註冊失敗，請稍後再試。');location.href='register.php';</script>";
+            return;
+        }
+
         $email = $_POST['email'];
-        $pw1 = md5($_POST['pw1']);
         $cname = $_POST['cname'];
         $tssn = $_POST['tssn'];
         $birthday = $_POST['birthday'];

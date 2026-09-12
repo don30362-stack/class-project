@@ -13,4 +13,6 @@
 
 `.env`、完整資料庫備份與會員上傳內容只留在本機，不會納入 Git。可公開的範例資料庫為 `database/expstore.sample.sql`。
 
+正式環境必須透過 HTTPS 提交註冊與登入資料。前端 MD5 無法取代 HTTPS，也不應被視為傳輸層保護。
+
 完整環境需求、環境變數及資料內容界線請參考 [本機啟動方式](docs/setup.md)。專案目錄說明位於 [目錄結構](docs/structure.md)，前端套件版本位於 [前端依賴](docs/dependencies.md)。
