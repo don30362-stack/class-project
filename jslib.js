@@ -35,6 +35,8 @@ function addcart(p_id) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    // 與 navbar-expand-xl 及 CSS 的桌面版斷點保持一致。
+    const navbarDesktopBreakpoint = 1200;
 
     // 1. 手機版商品專區大按鈕點擊
     const productDropdownButton = document.querySelector('.product-dropdown-toggle');
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (productDropdownButton && productDropdownMenu) {
         productDropdownButton.addEventListener('click', function (e) {
-            if (window.innerWidth < 992) {
+            if (window.innerWidth < navbarDesktopBreakpoint) {
                 e.preventDefault();
                 e.stopPropagation();
                 productDropdownMenu.classList.toggle('show');
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ⭐ 2. 手機版第二層選單全新邏輯：修復點擊與穿透問題
     document.querySelectorAll('.submenu-toggle-btn').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
-            if (window.innerWidth < 992) {
+            if (window.innerWidth < navbarDesktopBreakpoint) {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -78,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function resetMobileDropdowns() {
-        if (window.innerWidth >= 992) {
+        if (window.innerWidth >= navbarDesktopBreakpoint) {
 
             // 關閉商品專區第一層
             productDropdownMenu?.classList.remove('show');
