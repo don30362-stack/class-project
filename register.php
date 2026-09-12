@@ -1,7 +1,6 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/includes/session.php';
+ob_start();
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
 ?>
@@ -72,12 +71,18 @@ require_once(__DIR__ . '/includes/php_lib.php');
             $insertsqlParams = array(':value0' => $emailid, ':value1' => $cname, ':value2' => $mobile, ':value3' => $myZip, ':value4' => $address);
             $statement = $link->prepare($insertsql);
             $Result = $statement->execute($insertsqlParams);
-            $_SESSION['login'] = true;
-            $_SESSION['emailid'] = $emailid;
-            $_SESSION['email'] = $email;
-            $_SESSION['cname'] = $cname;
-            $_SESSION['imgname'] = $imgname;
-            echo "<script>alert('謝謝您!會員資料已完成註冊');location.href='index.php';</script>";
+            if (session_regenerate_id(true)) {
+                $_SESSION['login'] = true;
+                $_SESSION['emailid'] = $emailid;
+                $_SESSION['email'] = $email;
+                $_SESSION['cname'] = $cname;
+                $_SESSION['imgname'] = $imgname;
+                echo "<script>alert('謝謝您!會員資料已完成註冊');location.href='index.php';</script>";
+            } else {
+                error_log(sprintf('Member registration auto-login failed for member ID %d: session_regeneration_failed', $emailid));
+                $_SESSION = array();
+                echo "<script>alert('會員資料已完成註冊，請重新登入。');location.href='login.php';</script>";
+            }
         } else {
             echo "<script>alert('註冊失敗，請重新註冊，並連絡管理員。');location.href='register.php';</script>";
         }

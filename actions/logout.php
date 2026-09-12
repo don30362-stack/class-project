@@ -1,19 +1,22 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+require_once dirname(__DIR__) . '/includes/session.php';
+
+$_SESSION = array();
+
+if (ini_get('session.use_cookies')) {
+    $cookieParams = session_get_cookie_params();
+    setcookie(session_name(), '', array(
+        'expires' => time() - 42000,
+        'path' => $cookieParams['path'],
+        'domain' => $cookieParams['domain'],
+        'secure' => $cookieParams['secure'],
+        'httponly' => $cookieParams['httponly'],
+        'samesite' => $cookieParams['samesite'],
+    ));
 }
 
-$_SESSION['login'] = null;
-$_SESSION['emailid'] = null;
-$_SESSION['email'] = null;
-$_SESSION['cname'] = null;
-
-unset($_SESSION['login']);
-unset($_SESSION['emailid']);
-unset($_SESSION['email']);
-unset($_SESSION['cname']);
+session_destroy();
 
 $sPath = "../index.php";
 header(sprintf("Location: %s", $sPath));
-
-?>
+exit;
