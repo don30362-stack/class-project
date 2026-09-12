@@ -1,0 +1,10 @@
+# Apache 2.4: uploaded files must always be served as static content.
+Options -ExecCGI -Indexes
+SetHandler default-handler
+RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .phar .cgi .pl
+<FilesMatch "(?i)\.(?!jpe?g$|png$|gif$|svg$)[^.]+$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
