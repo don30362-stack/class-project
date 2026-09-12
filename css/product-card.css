@@ -1,0 +1,73 @@
+/*productCard*/
+
+.productCard .card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.productCard .card:hover {
+    border-color: #B89047 !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-4px);
+}
+
+/* 3. 圖片容器與動畫 */
+.productCard .ratio-1x1 {
+    overflow: hidden;
+    background-color: #f9f9f9 !important;
+}
+
+.productCard .card-img-top {
+    transition: transform 0.6s ease;
+    object-fit: cover;
+}
+
+.productCard .card:hover .card-img-top {
+    transform: scale(1.04);
+}
+
+.productCard .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 1.5rem 1rem !important;
+    justify-content: space-between;
+}
+
+/* 5. 產品名稱升級 */
+.productCard .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #111111;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .productCard .card-title {
+        font-size: 16px;
+    }
+}
+
+.productCard .card-price {
+    margin-top: auto;
+    font-weight: 700;
+    color: #B89047;
+    letter-spacing: 0.5px;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    .productCard .card-price {
+        font-size: 17px;
+    }
+}
+
+

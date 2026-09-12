@@ -1,0 +1,85 @@
+/* footer */
+/* ==========================================
+   2026 品牌官網級：極簡奢華深黑頁尾 (Footer)
+   ========================================== */
+
+#footer {
+    background-color: #0b0b0b !important;
+    /* 🌟 核心：改成極致深黑，才能襯托金色的奢華與純白的乾淨 */
+    border-top: 1px solid #1a1a1a;
+    /* 頂部加上一條若隱若現的極細暗線，增加層次 */
+    padding-top: 3rem !important;
+    /* 加大上下留白 */
+    padding-bottom: 1.75rem !important;
+}
+
+/* 2. 導覽連結優化：拉開字距，預設優雅深灰 */
+#footer .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    /* 拉開字距 */
+    color: #888888 !important;
+    /* 預設維持優雅的暗灰 */
+    transition: all 0.3s ease !important;
+}
+
+/* 🌟 核心修改：滑鼠移入時，連結不要變白，而是變成「品牌金色」，與全站金色呼應 */
+#footer .nav-link:hover {
+    color: #B89047 !important;
+    /* 變成點綴金色 */
+}
+
+/* 3. 社群圖示優化 */
+#footer .text-white-50 {
+    color: #888888 !important;
+    /* 預設暗灰 */
+    transition: all 0.3s ease;
+}
+
+#footer .text-white-50:hover {
+    color: #B89047 !important;
+    /* 懸停時社群圖示也同步變金色，非常有細節感 */
+    transform: translateY(-2px);
+    /* 微微上浮 */
+}
+
+/* 4. 🌟 全新加入：最下方的版權宣告線條與文字樣式 */
+.footer-bottom {
+    border-top: 1px solid #1a1a1a;
+    /* 與上方內容區隔的細線 */
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+}
+
+.copyright-text {
+    font-size: 11px;
+    /* 國際精品標準：版權字要極小、極精緻 */
+    color: #555555;
+    /* 低調的暗灰色 */
+    letter-spacing: 1px;
+}
+
+.footer-bottom-link {
+    font-size: 11px;
+    color: #555555 !important;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-link:hover {
+    color: #B89047 !important;
+    /* 懸停變金色 */
+}
+
+.footer-logo {
+    width: 105px;
+    height: auto;
+}
+
+
+
+
+
+

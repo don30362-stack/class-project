@@ -1,0 +1,216 @@
+/* carousel */
+
+/* ==========================================================================
+   2026 品牌官網級：極簡奢華風輪播圖 (手機文案下移、金屬濾鏡箭頭、膠囊指示燈)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   📱 【預設樣式：手機版行動端（螢幕小於 768px）】
+   -------------------------------------------------------------------------- */
+
+/* 1. 輪播主容器：手機版外殼高度自適應，底色改為純白 */
+#carouselExampleCaptions .carousel-item {
+    height: auto;
+    min-height: auto;
+    background-color: #ffffff;
+}
+
+/* 2. 商品圖片：高度自適應流動，限制最高佔螢幕 45% 避免過長 */
+#carouselExampleCaptions .carousel-item img {
+    height: auto;
+    max-height: 45vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* 3. 文案區塊：拔除絕對定位，讓文字乖乖待在圖片下方的白底區，加大底部留白給分頁線 */
+#carouselExampleCaptions .carousel-caption {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    max-width: 100%;
+    padding: 1.5rem 1rem 3.5rem;
+    /* 底部預留 3.5rem 確保指示燈不重疊 */
+    text-align: center;
+    /* 手機版文字置中 */
+    text-shadow: none;
+    /* 移除強烈黑影 */
+}
+
+/* 手機版標題：優雅純黑 */
+#carouselExampleCaptions .carousel-caption h5 {
+    color: #111111;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+}
+
+/* 手機版描述：內斂深灰 */
+#carouselExampleCaptions .carousel-caption p {
+    color: #666666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 4. 分頁指示燈（小線條）：鎖定在手機白底文字的最下方 */
+#carouselExampleCaptions .carousel-indicators {
+    bottom: 1.2rem;
+    margin-bottom: 0;
+    z-index: 15;
+}
+
+/* 手機版指示燈熱區擴大（只影響感應範圍，外觀不變粗糙） */
+#carouselExampleCaptions .carousel-indicators button,
+#carouselExampleCaptions .carousel-indicators [data-bs-target] {
+    width: 6px;
+    /* 視覺上依然是精緻的 6px 小圓點 */
+    height: 6px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    opacity: 1;
+    margin: 0 8px;
+    /* 稍微拉開點點之間的左右距離，避免誤觸 */
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* 🌟 防禦性微調：四個方向統包透明邊框，徹底覆蓋 Bootstrap 預設的左右干擾，並鎖定 30px 高度熱區 */
+    border: 12px solid transparent;
+    border-left: 0;
+    /* 釋放左右空間，讓 margin 正常發揮 */
+    border-right: 0;
+    background-clip: padding-box;
+    /* 確保背景色只填滿核心球體，不溢出到透明邊框 */
+
+    position: relative;
+    z-index: 20;
+    /* 確保層級高於後方的圖片，不會被超連結搶走點擊 */
+}
+
+/* 確保當前選中的金色膠囊也套用相同的感應擴大 */
+#carouselExampleCaptions .carousel-indicators .active {
+    background-color: #B89047;
+    width: 20px;
+    border-radius: 4px;
+    /* 🌟 同步防禦性微調 */
+    border: 12px solid transparent;
+    border-left: 0;
+    border-right: 0;
+    background-clip: padding-box;
+}
+
+/* 5. 左右控制按鈕（箭頭）：手機版直接常態顯示，且點擊感應範圍只留在圖片區 */
+#carouselExampleCaptions .carousel-control-prev,
+#carouselExampleCaptions .carousel-control-next {
+    width: 12%;
+    height: 45vh;
+    /* 核心高度：與圖片同高，避免干擾下方文字閱讀 */
+    top: 0;
+    opacity: 0.5;
+    /* 手機版免滑鼠移入，直接半透明顯示 */
+}
+
+#carouselExampleCaptions .carousel-control-prev:hover,
+#carouselExampleCaptions .carousel-control-next:hover {
+    opacity: 0.9;
+}
+
+/* 修正後的箭頭圖示：透過正確的 CSS 濾鏡，將預設白箭頭過濾為品牌霧面金色 */
+#carouselExampleCaptions .carousel-control-prev-icon,
+#carouselExampleCaptions .carousel-control-next-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    filter: invert(65%) sepia(19%) saturate(1142%) hue-rotate(5deg) brightness(91%) contrast(85%);
+}
+
+
+/* --------------------------------------------------------------------------
+   🖥️ 【補回：響應式斷點 - 桌機 / 平板端（螢幕寬度大於等於 768px）】
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+
+    /* 輪播主容器：恢復大氣的 75% 視窗高度，維持奢華黑底 */
+    #carouselExampleCaptions .carousel-item {
+        height: 75vh;
+        background-color: #000000;
+    }
+
+    #carouselExampleCaptions .carousel-item img {
+        height: 100%;
+        max-height: none;
+        object-fit: cover;
+    }
+
+    /* 文案區塊：恢復高級的「左下角雜誌風」懸浮排版，加上輕微陰影確保深色圖片上的清晰度 */
+    #carouselExampleCaptions .carousel-caption {
+        position: absolute;
+        text-align: left;
+        left: 8%;
+        bottom: 8%;
+        padding: 0;
+        max-width: 550px;
+        text-shadow: 1px 1px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 桌機版標題：拉大尺寸與精緻字距 */
+    #carouselExampleCaptions .carousel-caption h5 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+        margin-bottom: 0.8rem;
+    }
+
+    /* 桌機版描述：微灰白，與標題拉出視覺層次 */
+    #carouselExampleCaptions .carousel-caption p {
+        color: #eaeaea;
+        font-size: 1rem;
+    }
+
+    /* 指示燈：桌機版回歸到圖片內部的靠底中央 */
+    #carouselExampleCaptions .carousel-indicators {
+        bottom: 5%;
+    }
+
+    /* 桌機版指示燈預設：回歸黑底配純白點，清除手機版的擴大透明邊框 */
+    #carouselExampleCaptions .carousel-indicators button,
+    #carouselExampleCaptions .carousel-indicators [data-bs-target] {
+        background-color: #ffffff;
+        width: 8px;
+        height: 8px;
+        border: none;
+        /* 清除手機版的防禦透明框 */
+        margin: 0 6px;
+    }
+
+    /* 桌機版當前選中指示燈：放大版金色膠囊 */
+    #carouselExampleCaptions .carousel-indicators .active {
+        background-color: #B89047;
+        width: 24px;
+    }
+
+    /* 左右控制按鈕（箭頭）：桌機版恢復為 100% 全高感應，且平時隱藏，滑鼠移入才優雅浮現 */
+    #carouselExampleCaptions .carousel-control-prev,
+    #carouselExampleCaptions .carousel-control-next {
+        height: 100%;
+        opacity: 0;
+    }
+
+    /* 滑鼠懸停在整張輪播圖上時，箭頭才浮現 */
+    #carouselExampleCaptions:hover .carousel-control-prev,
+    #carouselExampleCaptions:hover .carousel-control-next {
+        opacity: 0.6;
+    }
+
+    #carouselExampleCaptions .carousel-control-prev-icon,
+    #carouselExampleCaptions .carousel-control-next-icon {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+}
+
+
+
+
+
+
+

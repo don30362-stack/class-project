@@ -1,0 +1,122 @@
+/* productDetail*/
+.thumb-link {
+    display: block;
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.thumb-link:hover,
+.thumb-link.active {
+    opacity: 1;
+    border-color: #C19A6B;
+    box-shadow: 0 0 0 1px #C19A6B;
+}
+
+.thumb-img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.custom-cart-btn-gold {
+    background-color: #C19A6B;
+    /* 霧金底 */
+    color: #ffffff;
+    /* 白字 */
+    border: 1px solid #C19A6B;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.custom-cart-btn-gold:hover {
+    background-color: #aa8254;
+    /* 懸停時稍微變深 */
+    border-color: #aa8254;
+    color: #ffffff;
+}
+
+/* .product-detail-content img {
+    max-width: 100% !important;
+    height: auto !important;
+} */
+
+.product-main-title {
+    border-left: 4px solid #c9a227;
+}
+
+.product-detail-section {
+    margin-bottom: 40px;
+}
+
+.product-detail-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d4af37;
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+}
+
+.product-detail-description p {
+    margin-bottom: 16px;
+}
+
+.product-detail-image {
+    text-align: center;
+}
+
+.product-detail-image img {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-feature-list {
+    padding-left: 22px;
+    margin-bottom: 0;
+}
+
+.product-feature-list li {
+    margin-bottom: 10px;
+}
+
+.product-spec-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-spec-table th,
+.product-spec-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.product-spec-table th {
+    width: 30%;
+    background-color: #f5f5f5;
+    font-weight: 600;
+    text-align: center;
+}
+
+.product-spec-table td {
+    background-color: #fff;
+}
+
+
+
+

@@ -1,0 +1,575 @@
+/*cart*/
+/* ==========================================================================
+   Cart Page
+   黑 / 白 / 金 極簡購物車
+   ========================================================================== */
+
+.cart-page {
+    background-color: #ffffff;
+}
+
+
+/* ----------
+   標題
+   ---------- */
+
+.cart-header {
+    margin-bottom: 3.5rem;
+}
+
+.cart-eyebrow {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #B89047;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+}
+
+.cart-title {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+
+/* ==========================================================================
+   商品列表
+   ========================================================================== */
+
+.cart-list {
+    border-top: 1px solid #dedede;
+}
+
+.cart-item {
+    display: grid;
+
+    grid-template-columns: 150px 1fr;
+
+    gap: 1.75rem;
+
+    padding: 1.75rem 0;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+/* ----------
+   商品圖片
+   ---------- */
+
+.cart-item-image {
+    display: block;
+
+    overflow: hidden;
+
+    aspect-ratio: 1 / 1;
+
+    background-color: #f7f7f7;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+}
+
+.cart-item-image:hover img {
+    transform: scale(1.04);
+}
+
+
+/* ----------
+   商品內容
+   ---------- */
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    min-width: 0;
+}
+
+
+.cart-item-main {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+/* 商品編號 */
+.cart-product-code {
+    display: block;
+
+    margin-bottom: 0.45rem;
+
+    color: #999999;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+}
+
+
+/* 商品名稱 */
+.cart-product-name {
+    display: inline-block;
+
+    margin-bottom: 0.6rem;
+
+    color: #222222;
+
+    text-decoration: none;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    transition: color 0.25s ease;
+}
+
+.cart-product-name:hover {
+    color: #B89047;
+}
+
+
+/* 單價 */
+.cart-product-price {
+    color: #777777;
+
+    font-size: 0.9rem;
+}
+
+
+/* ----------
+   刪除商品
+   ---------- */
+
+.cart-remove-btn {
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+
+    border: 0;
+
+    background-color: transparent;
+
+    color: #999999;
+
+    font-size: 0.9rem;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.cart-remove-btn:hover {
+    color: #111111;
+    background-color: #f5f5f5;
+}
+
+
+/* ----------
+   下半部
+   ---------- */
+
+.cart-item-bottom {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 1rem;
+
+    margin-top: 1.5rem;
+}
+
+
+/* 數量 */
+.cart-quantity label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    color: #777777;
+
+    font-size: 0.75rem;
+}
+
+.cart-quantity input {
+    width: 75px;
+    height: 38px;
+
+    padding: 0 0.5rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    text-align: center;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition: border-color 0.25s ease;
+}
+
+.cart-quantity input:invalid {
+    border-color: #dc3545;
+    background-color: #fff8f8;
+    box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.15);
+}
+
+.cart-quantity input:focus:valid {
+    border-color: #B89047;
+}
+
+.cart-quantity input:focus:invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.12);
+}
+
+.quantity-error {
+    display: none;
+    margin-top: 0.35rem;
+    color: #dc3545;
+    font-size: 0.7rem;
+}
+
+.cart-quantity input:invalid+.quantity-error {
+    display: block;
+}
+
+
+/* 小計 */
+.cart-subtotal {
+    text-align: right;
+}
+
+.cart-subtotal span {
+    display: block;
+
+    margin-bottom: 0.25rem;
+
+    color: #888888;
+
+    font-size: 0.72rem;
+}
+
+.cart-subtotal strong {
+    color: #B89047;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    letter-spacing: 0.03em;
+}
+
+
+/* ----------
+   清空購物車
+   ---------- */
+
+.cart-list-footer {
+    padding-top: 1.25rem;
+}
+
+.cart-clear-btn {
+    padding: 0;
+
+    border: 0;
+    border-bottom: 1px solid #777777;
+
+    background-color: transparent;
+
+    color: #777777;
+
+    font-size: 0.8rem;
+
+    transition:
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.cart-clear-btn:hover {
+    color: #111111;
+    border-color: #111111;
+}
+
+
+/* ==========================================================================
+   訂單摘要
+   ========================================================================== */
+
+.cart-summary {
+    padding: 2rem;
+
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+.cart-summary-title {
+    margin-bottom: 2rem;
+
+    color: #ffffff;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+
+.cart-summary-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+
+    color: #bdbdbd;
+
+    font-size: 0.88rem;
+}
+
+
+.cart-summary-divider {
+    margin: 1.75rem 0;
+
+    border-top: 1px solid #333333;
+}
+
+
+/* 總計 */
+.cart-summary-total {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: baseline;
+
+    margin-bottom: 2rem;
+}
+
+.cart-summary-total span {
+    color: #ffffff;
+
+    font-size: 0.9rem;
+}
+
+.cart-summary-total strong {
+    color: #C19A6B;
+
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+
+/* ----------
+   結帳按鈕
+   ---------- */
+
+.cart-checkout-btn {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #B89047;
+
+    background-color: #B89047;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+.cart-checkout-btn:hover {
+    background-color: transparent;
+
+    color: #B89047;
+}
+
+
+/* 繼續購物 */
+.cart-continue-link {
+    display: block;
+
+    margin-top: 1.25rem;
+
+    color: #aaaaaa;
+
+    text-align: center;
+    text-decoration: none;
+
+    font-size: 0.8rem;
+
+    transition: color 0.25s ease;
+}
+
+.cart-continue-link:hover {
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   空購物車
+   ========================================================================== */
+
+.empty-cart {
+    max-width: 520px;
+
+    margin: 0 auto;
+
+    padding: 5rem 1rem;
+
+    text-align: center;
+}
+
+.empty-cart-icon {
+    margin-bottom: 1.5rem;
+
+    color: #B89047;
+
+    font-size: 2.2rem;
+}
+
+.empty-cart h2 {
+    margin-bottom: 1rem;
+
+    color: #111111;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+.empty-cart p {
+    margin-bottom: 2rem;
+
+    color: #888888;
+
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+.empty-cart-btn {
+    display: inline-block;
+
+    padding: 0.85rem 2rem;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.85rem;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+.empty-cart-btn:hover {
+    background-color: transparent;
+    color: #111111;
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 767.98px) {
+
+    .cart-header {
+        margin-bottom: 2.25rem;
+    }
+
+    .cart-title {
+        font-size: 1.55rem;
+    }
+
+
+    /* 商品改成較小圖片 + 右側資訊 */
+    .cart-item {
+        grid-template-columns: 105px 1fr;
+
+        gap: 1rem;
+
+        padding: 1.25rem 0;
+    }
+
+    .cart-product-name {
+        font-size: 0.88rem;
+    }
+
+    .cart-product-price {
+        font-size: 0.8rem;
+    }
+
+
+    /* 手機上下區塊收緊 */
+    .cart-item-bottom {
+        align-items: flex-end;
+
+        margin-top: 1rem;
+    }
+
+    .cart-quantity input {
+        width: 62px;
+        height: 34px;
+    }
+
+    .cart-subtotal strong {
+        font-size: 0.9rem;
+    }
+
+
+    /* 摘要在手機版與商品區拉開 */
+    .cart-summary {
+        margin-top: 1rem;
+
+        padding: 1.5rem;
+    }
+}
+
+
+
+
+

@@ -1,0 +1,300 @@
+/* navbar */
+/* ==========================================================================
+   1. 基礎與通用樣式 (Global & Component Base)
+   ========================================================================== */
+.navbar {
+    padding: 0.65rem 0;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.site-logo {
+    width: 100px;
+    height: auto;
+}
+
+/* 導覽列通用的不換行設定 */
+.navbar-nav .nav-item {
+    white-space: nowrap;
+}
+
+/* 商品專區容器：強制文字與按鈕絕對水平並排、不允許折行 */
+.product-dropdown .d-flex {
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+/* 商品專區主超連結：縮減右側多餘內距，為右邊的小箭頭騰出空間 */
+.product-dropdown .product-link {
+    padding-right: 4px;
+}
+
+/* 商品專區大選單 - 展開小按鈕 */
+.product-dropdown-toggle {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    /* 清除預設內距避免推開寬度 */
+    color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    /* 確保箭頭垂直完美置中 */
+}
+
+/* 內層下拉單品項基礎樣式 */
+.product-dropdown .dropdown-item {
+    color: #111111;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+/* 當前所在的大分類網址，優雅地亮起品牌霧金（移除預設藍底） */
+.product-dropdown .dropdown-item.active-nav {
+    color: #C19A6B;
+    background-color: transparent;
+    font-weight: 600;
+}
+
+/* 手機版二層選單 - 展開小箭頭按鈕 */
+.submenu-toggle-btn {
+    border: 0;
+    background: transparent;
+    padding: 0.6rem 1.2rem;
+    color: #777777;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* 手機版小箭頭穿透設定：確保滑鼠按到 i 時，JS 抓取的依然是外層 button 節點 */
+.submenu-toggle-btn i {
+    pointer-events: none;
+}
+
+/* 手機版小箭頭被點開時的動態：順時針旋轉 90 度並轉為品牌金 */
+.submenu-toggle-btn.open {
+    transform: rotate(90deg);
+    color: #C19A6B;
+}
+
+/* 讓購物車連結變成定位基準點 */
+.cart-link {
+    position: relative;
+    display: inline-block;
+}
+
+/* 購物車數量提示優化 */
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #B89047;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 18px;
+    /* 確保數字變多時維持圓形或橢圓 */
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 50%;
+
+    /* 讓數字在圓圈內完美居中 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-menu a:active {
+    background-color: transparent;
+}
+
+
+
+/* ==========================================================================
+   2. 電腦版樣式 (Desktop Styles: >= 1200px)
+   ========================================================================== */
+@media screen and (min-width: 1200px) {
+    .product-dropdown {
+        position: relative;
+    }
+
+    /* 滑鼠懸停時自動彈出第一層大分類選單 */
+    .navbar .product-dropdown:hover>.dropdown-menu {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: 0;
+    }
+
+    /* 支援第二層子選單向右方彈出 (Dropend) */
+    .navbar .dropend {
+        position: relative;
+    }
+
+    /* 滑鼠懸停在大分類時，子選單向右側完全展開 */
+    .navbar .dropend:hover>.dropdown-menu {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        margin-left: 0.125rem;
+    }
+}
+
+
+/* ==========================================================================
+   3. 手機版與平板樣式 (Mobile Styles: <= 1199.98px)
+   ========================================================================== */
+@media (max-width: 1199.98px) {
+
+    .site-logo {
+        width: 92px;
+    }
+
+    /* 調整大按鈕在手機版上的點擊熱區 */
+    .product-dropdown-toggle {
+        padding: 0.5rem;
+    }
+
+    /* 清除 Bootstrap 預設的框線與陰影，改為極簡垂直置中排版 */
+    .navbar .dropdown-menu {
+        border: 0;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    /* 第一層商品選單：改為靜態排版融入手機導覽列 */
+    .product-dropdown>.dropdown-menu {
+        position: static;
+        width: 100%;
+        margin: 0;
+    }
+
+    /* 第一層選單支援 JS 動態點擊控制顯示 */
+    .product-dropdown>.dropdown-menu.show {
+        display: block !important;
+    }
+
+    /* 第二層子選單：預設絕對隱藏，改為靜態推擠排版並帶有精緻的淺灰層次底色 */
+    .product-dropdown .dropdown-menu .submenu {
+        display: none !important;
+        position: static !important;
+        box-shadow: none !important;
+        background-color: #f8f9fa !important;
+        width: 100% !important;
+    }
+
+    /* 當點擊小箭頭觸發 JS 後，強制將第二層子選單滑出顯現 */
+    .product-dropdown .dropdown-menu .submenu.show {
+        display: block !important;
+    }
+
+    .category-nav-row>.dropdown-item {
+        width: auto;
+    }
+
+    .submenu-toggle-btn {
+        padding: 0.6rem 0.5rem;
+        margin-left: 0.15rem;
+    }
+
+    /* 手機版會員區 */
+    .account-nav {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 1rem !important;
+        padding-top: 1rem;
+        border-top: 1px solid #eeeeee;
+    }
+
+    /* 會員 dropdown 佔滿 navbar */
+    .account-dropdown {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 頭像置中 */
+    .account-toggle {
+        width: fit-content;
+        margin: 0 auto;
+        padding: 0.4rem;
+    }
+
+    /* 手機版不要再使用浮動 dropdown */
+    .account-dropdown-menu {
+        position: static !important;
+        transform: none !important;
+
+        width: 100%;
+        min-width: 0;
+
+        margin: 0.5rem 0 0;
+        padding: 0;
+
+        border: 0;
+        box-shadow: none;
+        background-color: transparent;
+
+        text-align: center;
+    }
+
+    /* 手機版選項 */
+    .account-dropdown-menu .dropdown-item {
+        padding: 0.75rem 1rem;
+        color: #555555;
+    }
+
+    /* 分隔線縮短 */
+    .account-dropdown-menu .dropdown-divider {
+        width: 70%;
+        margin: 0.25rem auto;
+    }
+}
+
+/* ==============================
+   4. 會員選單
+   ============================== */
+
+.account-nav {
+    margin-right: 1.5rem;
+}
+
+.account-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 頭像 */
+.account-toggle img {
+    object-fit: cover;
+}
+
+/* 桌機版會員下拉選單 */
+.account-dropdown-menu {
+    min-width: 180px;
+    padding: 0.5rem 0;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 不要讓商品 dropdown 的樣式污染會員 dropdown */
+.account-dropdown-menu .dropdown-item {
+    padding: 0.7rem 1rem;
+    color: #333333;
+    font-size: 0.9rem;
+}
+
+.account-dropdown-menu .dropdown-item:hover {
+    background-color: #f8f8f8;
+    color: #B89047;
+}
+
+
+
+
+
+

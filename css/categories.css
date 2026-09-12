@@ -1,0 +1,74 @@
+/*category-list*/
+/* ==========================================
+   方案 A：極簡奢華風商品分類
+   ========================================== */
+#category-list {
+    background-color: #ffffff;
+}
+
+/* 1. 調整標題排版，拉開字距增加呼吸感 */
+#category-list h2 {
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    /* 精品感核心：拉開字距 */
+    color: #111111;
+    margin-bottom: 2.5rem !important;
+    /* 加大下方留白 */
+}
+
+/* 2. 圖片容器升級（拔除原本的 bg-light 與 border，改由 CSS 控制） */
+#category-list .ratio-1x1 {
+    overflow: hidden;
+    /* 確保圖片放大時不溢出 */
+    border: none !important;
+    /* 徹底消滅廉價的灰色格線 */
+    background-color: #f9f9f9 !important;
+    /* 改用高級的微灰底 */
+    transition: all 0.4s ease;
+}
+
+/* 3. 圖片基本樣式與動畫 */
+#category-list .img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 4. 分類文字樣式微調 */
+#category-list .category-title {
+    font-size: 0.95rem;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+    color: #222222;
+    margin-top: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================
+   🚀 核心高級感：滑鼠懸停（Hover）聯動動畫 
+   ========================================== */
+#category-list a:hover .ratio-1x1 {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    /* 極輕柔的煙霧陰影 */
+}
+
+#category-list a:hover .img-fluid {
+    transform: scale(1.05);
+    /* 圖片緩慢放大 5%，像 Zara 官網 */
+}
+
+#category-list a:hover .category-title {
+    color: #B89047 !important;
+    /* 文字優雅轉變為品牌金色 */
+    transform: translateY(-2px);
+    /* 文字微微往上浮動 */
+}
+
+
+
+
+
+
+

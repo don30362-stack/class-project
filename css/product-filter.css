@@ -1,0 +1,61 @@
+/*productFilter*/
+
+/* 1. 大分類按鈕基礎樣式：平時收合是純黑色 */
+.accordion-button {
+    background-color: transparent !important;
+    color: #111111 !important;
+    /* 收合時是純黑 */
+    font-weight: 600;
+    padding: 1rem 0;
+    box-shadow: none !important;
+}
+
+/* 2. 當大分類被手動點開時，不要變成金色，依然維持純黑加粗 */
+.accordion-button:not(.collapsed) {
+    color: #111111 !important;
+}
+
+/* ⭐ 3. 只有真正符合當前網址頁面的大分類，才給予品牌霧金色 */
+.accordion-button.active-parent {
+    color: #C19A6B !important;
+    /* 只有它是金色 */
+}
+
+/* 4. 子分類列表與當前選中狀態 */
+.accordion-body {
+    padding: 0 0 1rem 0;
+}
+
+.category-list {
+    list-style: none;
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.category-item {
+    padding: 0.4rem 0;
+}
+
+.category-item a {
+    color: #777777 !important;
+    /* 平時子分類是灰色 */
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.category-item a:hover {
+    color: #111111 !important;
+}
+
+/* ⭐ 5. 被選中的子分類樣式：文字變黑、左側加上細金線 */
+.category-item a.active-child {
+    color: #111111 !important;
+    font-weight: bold;
+    border-left: 2px solid #C19A6B;
+    padding-left: 6px;
+}
+
+
+
+

@@ -1,0 +1,548 @@
+/*login*/
+/* ==========================================================================
+   Login Page Layout
+   頁面內容不足一個螢幕時，Footer 仍貼齊底部
+   ========================================================================== */
+
+.login-body {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-body #header {
+    flex-shrink: 0;
+}
+
+.login-body .login-page {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+}
+
+.login-body .login-page>.container-xl {
+    width: 100%;
+}
+
+.login-body #footer {
+    flex-shrink: 0;
+
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   Login Page
+   黑 / 白 / 金 極簡會員登入
+   ========================================================================== */
+
+.login-page {
+    padding: 4.5rem 0 5rem;
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.login-wrapper {
+    display: grid;
+    grid-template-columns: 44% 56%;
+
+    max-width: 1180px;
+    min-height: 580px;
+
+    margin: 0 auto;
+
+    background-color: #ffffff;
+
+    border: 0;
+    box-shadow: none;
+}
+
+
+/* ==========================================================================
+   左側品牌視覺
+   ========================================================================== */
+
+.login-visual {
+    position: relative;
+
+    min-height: 580px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 2.75rem;
+
+    overflow: hidden;
+
+    background-image: url('../product_img/cta_01.png');
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* 黑色漸層遮罩 */
+.login-visual-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(0, 0, 0, 0.03) 25%,
+            rgba(0, 0, 0, 0.72) 100%);
+
+    z-index: 1;
+}
+
+
+/* 品牌文字 */
+.login-brand-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 520px;
+
+    color: #ffffff;
+}
+
+
+.login-brand-eyebrow {
+    display: block;
+
+    margin-bottom: 0.8rem;
+
+    color: #C19A6B;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.3em;
+}
+
+
+.login-brand-content h1 {
+    margin-bottom: 1rem;
+
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.login-brand-content p {
+    margin: 0;
+
+    max-width: 440px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.9rem;
+
+    line-height: 1.9;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   右側登入區
+   ========================================================================== */
+
+.login-form-area {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 3.5rem 5rem;
+
+    background-color: #ffffff;
+}
+
+
+.login-form-container {
+    width: 100%;
+
+    max-width: 400px;
+}
+
+
+/* ==========================================================================
+   Heading
+   ========================================================================== */
+
+.login-heading {
+    margin-bottom: 2.75rem;
+}
+
+
+/* Logo 不要再放超大 */
+
+.login-eyebrow {
+    display: block;
+
+    margin-bottom: 0.55rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.login-heading h2 {
+    margin-bottom: 0.7rem;
+
+    color: #111111;
+
+    font-size: 1.9rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.login-heading p {
+    margin: 0;
+
+    color: #999999;
+
+    font-size: 0.84rem;
+
+    line-height: 1.7;
+}
+
+
+/* ==========================================================================
+   Form
+   ========================================================================== */
+
+.login-field {
+    margin-bottom: 1.6rem;
+}
+
+
+.login-field label {
+    display: block;
+
+    margin-bottom: 0.55rem;
+
+    color: #333333;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* 密碼 Label / 忘記密碼 */
+.login-label-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.login-label-row label {
+    margin-bottom: 0.55rem;
+}
+
+
+.forgot-password {
+    margin-bottom: 0.55rem;
+
+    color: #999999;
+
+    text-decoration: none;
+
+    font-size: 0.72rem;
+
+    transition: color 0.25s ease;
+}
+
+
+.forgot-password:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+
+.login-input-wrapper {
+    position: relative;
+}
+
+
+.login-input-wrapper>i {
+    position: absolute;
+
+    top: 50%;
+    left: 1rem;
+
+    transform: translateY(-50%);
+
+    color: #aaaaaa;
+
+    font-size: 0.85rem;
+
+    pointer-events: none;
+
+    transition: color 0.25s ease;
+}
+
+
+.login-input-wrapper input {
+    width: 100%;
+    height: 50px;
+
+    padding: 0 1rem 0 2.8rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    color: #222222;
+
+    font-size: 0.88rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.login-input-wrapper input::placeholder {
+    color: #bbbbbb;
+}
+
+
+.login-input-wrapper input:focus {
+    border-color: #B89047;
+
+    box-shadow:
+        0 0 0 2px rgba(184, 144, 71, 0.08);
+}
+
+
+.login-input-wrapper:focus-within>i {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Login Button
+   ========================================================================== */
+
+.login-submit-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.7rem;
+
+    width: 100%;
+    height: 50px;
+
+    margin-top: 2rem;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    letter-spacing: 0.15em;
+
+    transition: all 0.3s ease;
+}
+
+
+.login-submit-btn i {
+    font-size: 0.75rem;
+
+    transition: transform 0.3s ease;
+}
+
+
+.login-submit-btn:hover {
+    border-color: #B89047;
+
+    background-color: #B89047;
+
+    color: #ffffff;
+}
+
+
+.login-submit-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* ==========================================================================
+   Loading
+   ========================================================================== */
+
+#loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+#loading i {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Register
+   ========================================================================== */
+
+.login-register {
+    margin-top: 2rem;
+
+    padding-top: 1.6rem;
+
+    border-top: 1px solid #eeeeee;
+
+    text-align: center;
+
+    font-size: 0.78rem;
+}
+
+
+.login-register span {
+    color: #999999;
+}
+
+
+.login-register a {
+    margin-left: 0.4rem;
+
+    color: #111111;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #B89047;
+
+    transition: color 0.25s ease;
+}
+
+
+.login-register a:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Tablet / Mobile
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+
+    .login-page {
+        padding: 4rem 0 5rem;
+    }
+
+    .login-wrapper {
+        display: block;
+
+        max-width: 520px;
+        min-height: auto;
+
+        border: 0;
+        box-shadow: none;
+    }
+
+    .login-visual {
+        display: none;
+    }
+
+    .login-form-area {
+        min-height: auto;
+
+        padding: 2rem 1.5rem;
+    }
+
+    .login-form-container {
+        max-width: 430px;
+    }
+
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 575.98px) {
+
+    .login-form-area {
+        min-height: auto;
+
+        padding: 3.5rem 1.25rem 4.5rem;
+    }
+
+
+    .login-heading {
+        margin-bottom: 2.25rem;
+    }
+
+
+    .login-heading h2 {
+        font-size: 1.55rem;
+    }
+
+
+    .login-heading p {
+        font-size: 0.78rem;
+    }
+
+
+    .login-input-wrapper input {
+        height: 48px;
+
+        font-size: 0.82rem;
+    }
+
+
+    .login-submit-btn {
+        height: 48px;
+    }
+
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+/* pre-footer-cta */
+/* ==========================================
+   2026 品牌官網級：頁尾前導購區塊 (Pre-footer CTA)
+   ========================================== */
+
+#pre-footer-cta {
+    background-image: url('../product_img/cta_01.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    /* 手機版流暢滾動，若想走高級感也可以在桌機試試 fixed 視差效果 */
+    min-height: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🌟 核心升級：加上一層高級的半透明暗黑遮罩（防禦背景圖過亮，並聚焦文字） */
+#pre-footer-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+    /* 擋在圖片上方 */
+}
+
+/* 確保容器內容浮在遮罩之上 */
+#pre-footer-cta .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. 標題排版升級 */
+#pre-footer-cta h2 {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    /* 稍微加大字級 */
+    font-weight: 700 !important;
+    letter-spacing: 3px !important;
+    /* 拉開字距，消滅作業感 */
+    color: #ffffff !important;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+/* 3. 徹底改造按鈕：從「灰白」升級為「極簡黑底金邊」或「金底奢華風」 */
+.custom-premium-btn {
+    background-color: #B89047 !important;
+    /* 平時直接使用品牌金色，在黑底圖上極度耀眼 */
+    color: #ffffff !important;
+    /* 白字 */
+    font-weight: 600;
+    letter-spacing: 2px;
+    /* 按鈕文字也要拉開字距 */
+    padding: 12px 40px !important;
+    /* 加寬按鈕，彰顯大氣 */
+    border: 1px solid #B89047 !important;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    box-shadow: 0 4px 15px rgba(184, 144, 71, 0.2);
+    /* 輕微的金色光暈 */
+}
+
+/* 按鈕懸停特效：反轉成黑金精品風 */
+.custom-premium-btn:hover {
+    background-color: transparent !important;
+    /* 變成透明底 */
+    color: #B89047 !important;
+    /* 字變金色 */
+    border-color: #B89047 !important;
+    /* 留下精緻的金邊框 */
+    transform: translateY(-3px);
+    /* 微幅上浮 */
+    box-shadow: 0 8px 25px rgba(184, 144, 71, 0.35);
+    /* 光暈放大 */
+}
+
+/* 4. 響應式高度調整（桌機端放大） */
+@media (min-width: 768px) {
+    #pre-footer-cta {
+        min-height: 480px;
+        /* 增加大螢幕的視覺衝擊力 */
+    }
+}
+
+
+
+
+
+

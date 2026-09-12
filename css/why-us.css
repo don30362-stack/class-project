@@ -1,0 +1,79 @@
+/*why_us*/
+/* ==========================================
+   2026 品牌官網級：品牌優勢區塊 (Why Us) 優化
+   ========================================== */
+
+/* 1. 區塊大標題優化：拉開呼吸字距 */
+#why-choose-us h2 {
+    font-size: 1.8rem;
+    font-weight: 700 !important;
+    letter-spacing: 3px;
+    /* 精品感核心 */
+    color: #111111;
+}
+
+/* 2. 每個優勢卡片的基礎樣式 */
+.why-us-item {
+    background-color: #ffffff;
+    padding: 2.5rem 1.5rem;
+    /* 加大內部留白，營造空間感 */
+    border: 1px solid #f1f1f1;
+    /* 極細的時尚淡灰邊框 */
+    border-radius: 0px;
+    /* 堅持黑白金的硬朗硬邊極簡風 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 3. 圖示升級：改為優雅的品牌金色，並縮小尺寸更顯精緻 */
+.why-us-icon i {
+    color: #B89047 !important;
+    /* 點綴品牌金色 */
+    font-size: 2.2rem !important;
+    /* 從超大 3x 縮小至 2.2rem，更具內斂美感 */
+    transition: transform 0.4s ease;
+}
+
+/* 4. 標題與內文層次化 */
+.why-us-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111111;
+    /* 純黑主標題 */
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+}
+
+.why-us-desc {
+    font-size: 0.85rem;
+    color: #888888;
+    /* 淺灰輔助文字 */
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   🚀 核心高級感：滑鼠懸停（Hover）動態
+   ========================================== */
+.why-us-item:hover {
+    border-color: #B89047 !important;
+    /* 懸停時邊框輕微亮起金色 */
+    box-shadow: 0 15px 35px rgba(184, 144, 71, 0.06);
+    /* 極其輕微的金色煙霧陰影 */
+    transform: translateY(-5px);
+    /* 卡片平滑上浮 */
+}
+
+.why-us-item:hover .why-us-icon i {
+    transform: scale(1.1);
+    /* 圖示微幅放大 */
+}
+
+
+
+
+

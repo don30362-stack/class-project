@@ -1,0 +1,930 @@
+/*register*/
+
+/* ==========================================================================
+   Register Page
+   ========================================================================== */
+
+.register-page {
+    padding: 4.5rem 0 5rem;
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.register-wrapper {
+    display: grid;
+    grid-template-columns: 34% 66%;
+
+    max-width: 1180px;
+
+    margin: 0 auto;
+
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+
+/* ==========================================================================
+   左側品牌介紹
+   ========================================================================== */
+
+.register-intro {
+    position: relative;
+
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+.register-intro-content {
+    position: sticky;
+
+    top: 2rem;
+
+    padding: 4rem 3rem;
+}
+
+
+.register-intro-eyebrow {
+    display: block;
+
+    margin-bottom: 1rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.register-intro h1 {
+    margin-bottom: 1.5rem;
+
+    color: #ffffff;
+
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+
+    line-height: 1.35;
+    letter-spacing: 0.08em;
+}
+
+
+.register-intro>div>p {
+    margin: 0;
+
+    color: #aaaaaa;
+
+    font-size: 0.85rem;
+
+    line-height: 1.9;
+}
+
+
+/* ==========================================================================
+   左側會員優勢
+   ========================================================================== */
+
+.register-benefits {
+    margin-top: 3.5rem;
+
+    border-top: 1px solid #333333;
+}
+
+
+.register-benefit {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.25rem 0;
+
+    border-bottom: 1px solid #333333;
+}
+
+
+.register-benefit span {
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.1em;
+}
+
+
+.register-benefit p {
+    margin: 0;
+
+    color: #cccccc;
+
+    font-size: 0.78rem;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   表單主區
+   ========================================================================== */
+
+.register-form-area {
+    padding: 4rem 4.5rem;
+
+    background-color: #ffffff;
+}
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.register-heading {
+    margin-bottom: 3.5rem;
+}
+
+
+.register-eyebrow {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #B89047;
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    letter-spacing: 0.28em;
+}
+
+
+.register-heading h2 {
+    margin-bottom: 0.8rem;
+
+    color: #111111;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.register-heading p {
+    margin: 0;
+
+    color: #999999;
+
+    font-size: 0.8rem;
+
+    line-height: 1.7;
+}
+
+
+.required-mark {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Section
+   ========================================================================== */
+
+.register-section {
+    margin-bottom: 3.5rem;
+}
+
+
+.register-section-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 1.75rem;
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid #e8e8e8;
+}
+
+
+/* 黑色步驟方塊 */
+.register-section-heading>span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+
+.register-section-heading small {
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    color: #B89047;
+
+    font-size: 0.6rem;
+    font-weight: 600;
+
+    letter-spacing: 0.2em;
+}
+
+
+.register-section-heading h3 {
+    margin: 0;
+
+    color: #222222;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* ==========================================================================
+   Form Grid
+   ========================================================================== */
+
+.register-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.4rem 1.5rem;
+}
+
+
+.register-field-full {
+    grid-column: 1 / -1;
+}
+
+
+/* ==========================================================================
+   Labels
+   ========================================================================== */
+
+.register-field label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ==========================================================================
+   Inputs
+   ========================================================================== */
+
+.register-input-wrapper {
+    position: relative;
+}
+
+
+.register-input-wrapper>i {
+    position: absolute;
+
+    top: 50%;
+    left: 1rem;
+
+    transform: translateY(-50%);
+
+    color: #aaaaaa;
+
+    font-size: 0.82rem;
+
+    pointer-events: none;
+
+    transition: color 0.25s ease;
+}
+
+
+.register-input-wrapper .register-input {
+    padding-left: 2.8rem;
+}
+
+
+.register-input {
+    display: block;
+
+    width: 100%;
+    height: 48px;
+
+    padding: 0 1rem;
+
+    border: 1px solid #dddddd;
+    border-radius: 0;
+
+    background-color: #ffffff;
+
+    color: #222222;
+
+    font-size: 0.85rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.register-input::placeholder {
+    color: #b8b8b8;
+}
+
+
+.register-input:focus {
+    border-color: #B89047;
+
+    box-shadow:
+        0 0 0 2px rgba(184, 144, 71, 0.08);
+}
+
+
+.register-input-wrapper:focus-within>i {
+    color: #B89047;
+}
+
+
+/* Select */
+.register-select {
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================
+   Register Validation
+   ========================================== */
+
+/* 錯誤欄位 */
+.register-form .register-invalid {
+    border-color: #b96b62;
+    background-color: #fffafa;
+}
+
+
+/* 錯誤欄位取得焦點時仍維持錯誤狀態 */
+.register-form .register-invalid:focus {
+    border-color: #b96b62;
+
+    box-shadow:
+        0 0 0 2px rgba(185, 107, 98, 0.08);
+}
+
+
+/* 錯誤訊息 */
+.register-error {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.4rem;
+
+    margin-top: 0.45rem;
+
+    color: #a85f57;
+
+    font-size: 0.7rem;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+
+/* 沒有錯誤文字時完全隱藏 */
+.register-error:empty {
+    display: none;
+}
+
+
+/* 錯誤提示 icon */
+.register-error:not(:empty)::before {
+    content: "\f06a";
+
+    flex-shrink: 0;
+
+    margin-top: 0.08rem;
+
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+
+    color: #b96b62;
+
+    font-size: 0.68rem;
+}
+
+
+
+
+/* ==========================================================================
+   ZIP
+   ========================================================================== */
+
+.register-zipcode {
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 1rem;
+
+    border-left: 2px solid #B89047;
+
+    background-color: #f8f8f8;
+
+    color: #777777;
+
+    font-size: 0.8rem;
+}
+
+
+/* ==========================================================================
+   Avatar Upload
+   ========================================================================== */
+
+.register-upload {
+    display: grid;
+
+    grid-template-columns: 1fr 120px;
+
+    gap: 2rem;
+
+    align-items: center;
+}
+
+
+.register-upload-control>label {
+    display: block;
+
+    margin-bottom: 0.6rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+.register-file-input {
+    display: block;
+
+    width: 100%;
+
+    padding: 0.65rem;
+
+    border: 1px solid #dddddd;
+
+    background-color: #ffffff;
+
+    color: #777777;
+
+    font-size: 0.78rem;
+}
+
+
+.register-upload-control p {
+    margin: 0.55rem 0 1rem;
+
+    color: #aaaaaa;
+
+    font-size: 0.68rem;
+}
+
+
+.register-upload-btn {
+    padding: 0.7rem 1.25rem;
+
+    border: 1px solid #111111;
+
+    background-color: transparent;
+
+    color: #111111;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+
+    transition: all 0.25s ease;
+}
+
+
+.register-upload-btn:hover {
+    background-color: #111111;
+
+    color: #ffffff;
+}
+
+
+/* 預覽 */
+.register-upload-preview {
+    position: relative;
+
+    width: 110px;
+    height: 110px;
+
+    overflow: hidden;
+
+    background-color: #f5f5f5;
+
+    border: 1px solid #e3e3e3;
+}
+
+
+.register-preview-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #cccccc;
+
+    font-size: 2rem;
+}
+
+
+.register-preview-image {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* Progress */
+.register-upload-progress {
+    height: 5px;
+
+    margin-top: 1.25rem;
+
+    border-radius: 0;
+
+    background-color: #eeeeee;
+}
+
+
+.register-upload-progress .progress-bar {
+    background-color: #B89047;
+}
+
+
+/* ==========================================================================
+   Captcha
+   ========================================================================== */
+
+.register-captcha {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+
+    gap: 1.5rem;
+
+    align-items: start;
+}
+
+
+.register-captcha-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: #333333;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* 驗證碼本體 */
+.register-captcha-canvas-wrap {
+    display: flex;
+    align-items: center;
+
+    height: 50px;
+
+    border: 1px solid #dddddd;
+
+    background-color: #f8f7f4;
+
+    overflow: hidden;
+}
+
+
+.register-captcha-canvas-wrap canvas {
+    display: block;
+
+    width: 150px;
+    height: 50px;
+
+    flex-shrink: 0;
+}
+
+
+/* 重新整理 */
+.captcha-refresh-btn {
+    width: 40px;
+    height: 100%;
+
+    flex-shrink: 0;
+
+    border: 0;
+    border-left: 1px solid #e5e5e5;
+
+    background-color: transparent;
+
+    color: #999999;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+
+.captcha-refresh-btn:hover {
+    color: #B89047;
+
+    background-color: #ffffff;
+}
+
+
+.register-captcha-box small {
+    display: block;
+
+    margin-top: 0.45rem;
+
+    color: #aaaaaa;
+
+    font-size: 0.65rem;
+
+    line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   Submit
+   ========================================================================== */
+
+.register-submit-area {
+    padding-top: 2rem;
+
+    border-top: 1px solid #e8e8e8;
+}
+
+
+.register-submit-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.8rem;
+
+    width: 100%;
+    height: 52px;
+
+    border: 1px solid #111111;
+
+    background-color: #111111;
+
+    color: #ffffff;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+
+    transition: all 0.3s ease;
+}
+
+
+.register-submit-btn:hover {
+    border-color: #B89047;
+
+    background-color: #B89047;
+}
+
+
+.register-submit-btn i {
+    font-size: 0.72rem;
+
+    transition: transform 0.3s ease;
+}
+
+
+.register-submit-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+.register-submit-area p {
+    margin: 1.5rem 0 0;
+
+    color: #999999;
+
+    text-align: center;
+
+    font-size: 0.75rem;
+}
+
+
+.register-submit-area a {
+    margin-left: 0.3rem;
+
+    color: #111111;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #B89047;
+}
+
+
+.register-submit-area a:hover {
+    color: #B89047;
+}
+
+
+/* ==========================================================================
+   Tablet
+   ========================================================================== */
+
+@media (max-width: 1199.98px) {
+
+    .register-page {
+        padding: 3rem 0 4rem;
+    }
+
+
+    .register-wrapper {
+        display: block;
+
+        max-width: 760px;
+
+        border: 0;
+    }
+
+
+    /* Navbar 收合時，左側黑色區也改成簡短 Header */
+    .register-intro {
+        background-color: #111111;
+    }
+
+
+    .register-intro-content {
+        position: static;
+
+        padding: 2.5rem;
+    }
+
+
+    .register-intro h1 {
+        font-size: 2rem;
+    }
+
+
+    .register-benefits {
+        display: none;
+    }
+
+
+    .register-form-area {
+        padding: 3rem 2.5rem;
+    }
+
+}
+
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+
+@media (max-width: 575.98px) {
+
+    .register-page {
+        padding: 0;
+    }
+
+
+    .register-wrapper {
+        max-width: none;
+    }
+
+
+    .register-intro-content {
+        padding: 2rem 1.25rem;
+    }
+
+
+    .register-intro h1 {
+        margin-bottom: 0.8rem;
+
+        font-size: 1.65rem;
+    }
+
+
+    .register-intro>div>p {
+        font-size: 0.78rem;
+    }
+
+
+    .register-form-area {
+        padding: 2.5rem 1.25rem 4rem;
+    }
+
+
+    .register-heading {
+        margin-bottom: 2.75rem;
+    }
+
+
+    .register-heading h2 {
+        font-size: 1.6rem;
+    }
+
+
+    /* 所有欄位單欄 */
+    .register-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+
+    .register-field-full {
+        grid-column: auto;
+    }
+
+
+    .register-section {
+        margin-bottom: 3rem;
+    }
+
+
+    .register-upload {
+        grid-template-columns: 1fr;
+
+        gap: 1.5rem;
+    }
+
+
+    .register-upload-preview {
+        width: 90px;
+        height: 90px;
+    }
+
+
+    .register-captcha {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .register-captcha-canvas-wrap {
+        width: 190px;
+    }
+
+
+    .register-submit-btn {
+        height: 50px;
+    }
+
+
+
+}
