@@ -1,7 +1,6 @@
-images
-product_img
+/assets/images/
 /docs/legacy/bs53-jquery-cdn.html
-/assets/vendor/fancybox-2.1.7
-/database/*.sql
-/uploads/**/*.jpg
-/uploads/**/*.png
+/database/expstore.sql
+/uploads/*
+!/uploads/.htaccess
+!/uploads/avatar.svg

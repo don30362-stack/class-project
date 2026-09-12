@@ -11,7 +11,7 @@ require_once(__DIR__ . '/includes/php_lib.php');
 
 <head>
     <?php require_once(__DIR__ . '/includes/headfile.php'); ?>
-    <link rel="stylesheet" href="assets/vendor/fancybox-2.1.7/source/jquery.fancybox.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css">
 </head>
 
 <body>
@@ -49,46 +49,28 @@ require_once(__DIR__ . '/includes/php_lib.php');
 
     <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
     
-    <script src="assets/vendor/fancybox-2.1.7/source/jquery.fancybox.js"></script>
     <script>
-        $(function() {
-            // 1. 初始化隱藏的畫廊（綁定 rel="group"）
-            $(".fb-gallery").fancybox({
-                // 這裡可以放您的舊版 fancybox 設定參數
-            });
+        function changeMainImg(event, imgSrc, imageIndex) {
+            event.preventDefault();
 
-            // 2. 點擊主圖時，模擬點擊隱藏畫廊中對應的圖片
-            $("#mainImgLink").click(function(e) {
-                e.preventDefault();
-
-                // 尋找目前處於 active 狀態的縮圖是在第幾個項目 (index)
-                var activeIndex = $(".thumb-link.active").closest('.w-100').index();
-
-                // 觸發隱藏畫廊中相同順序的圖片點擊
-                if (activeIndex !== -1) {
-                    $(".fb-gallery").eq(activeIndex).click();
-                }
-            });
-        });
-
-        // 3. 切換主圖大畫面的 Function
-        function changeMainImg(event, imgSrc) {
-            event.preventDefault(); // 阻止 <a> 標籤預設跳轉
-
-            // 變更主圖的 src
             const mainImg = document.getElementById('showGoods');
+            const mainImgLink = document.getElementById('mainImgLink');
+
             if (mainImg) {
                 mainImg.src = imgSrc;
             }
 
-            // 更新縮圖的選取高亮狀態
+            if (mainImgLink) {
+                mainImgLink.href = imgSrc;
+                mainImgLink.dataset.galleryIndex = imageIndex;
+            }
+
             document.querySelectorAll('.thumb-link').forEach(link => {
                 link.classList.remove('active');
             });
             event.currentTarget.classList.add('active');
         }
 
-        // 4. 數量加減控制
         function changeQty(amount) {
             const qtyInput = document.getElementById('qty');
             let currentQty = parseInt(qtyInput.value) || 1;
@@ -97,6 +79,33 @@ require_once(__DIR__ . '/includes/php_lib.php');
                 currentQty = 1;
             }
             qtyInput.value = currentQty;
+        }
+    </script>
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.js';
+
+        const productGallery = document.getElementById('product-gallery');
+        const mainImgLink = document.getElementById('mainImgLink');
+
+        if (productGallery && mainImgLink) {
+            const productLightbox = new PhotoSwipeLightbox({
+                gallery: productGallery,
+                children: 'a',
+                pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.esm.js')
+            });
+
+            productLightbox.init();
+
+            mainImgLink.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const imageIndex = Number(mainImgLink.dataset.galleryIndex || 0);
+
+                productLightbox.loadAndOpen(imageIndex, {
+                    gallery: productGallery
+                });
+            });
         }
     </script>
 

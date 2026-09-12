@@ -11,17 +11,23 @@
         $img_rs->execute($SQLstringParams);
         $images = [];
         while ($row = $img_rs->fetch()) {
+            $imageSize = @getimagesize(dirname(__DIR__) . '/product_img/' . basename($row['img_file']));
+            $row['img_width'] = $imageSize[0] ?? 1600;
+            $row['img_height'] = $imageSize[1] ?? 1200;
             $images[] = $row;
         }
         $firstImg = !empty($images) ? $images[0] : null;
         ?>
 
         <div class="d-flex flex-row-reverse align-items-start gap-3">
-            <div style="flex: 1;" class="shadow-sm rounded overflow-hidden bg-light">
+            <div class="product-main-media shadow-sm rounded overflow-hidden">
                 <?php if ($firstImg): ?>
-                    <!-- 注意：這裡改為指向隱藏畫廊的獨立 class -->
-                    <a id="mainImgLink" href="#" title="<?php echo $firstImg['p_name'] ?>" class="d-block">
-                        <img id="showGoods" name="showGoods" src="product_img/<?php echo $firstImg['img_file']; ?>" class="img-fluid w-100" style="object-fit: contain; max-height: 500px;" alt="<?php echo $firstImg['p_name'] ?>" title="<?php echo $firstImg['p_name'] ?>">
+                    <a id="mainImgLink"
+                        href="product_img/<?php echo $firstImg['img_file']; ?>"
+                        data-gallery-index="0"
+                        title="<?php echo $firstImg['p_name'] ?>"
+                        class="d-block">
+                        <img id="showGoods" name="showGoods" src="product_img/<?php echo $firstImg['img_file']; ?>" class="product-main-image" alt="<?php echo $firstImg['p_name'] ?>" title="<?php echo $firstImg['p_name'] ?>">
                     </a>
                 <?php endif; ?>
             </div>
@@ -32,11 +38,10 @@
                     foreach ($images as $index => $img) {
                 ?>
                         <div class="w-100">
-                            <!-- 移除 fancybox 類別，href 設為空，避免觸發燈箱 -->
-                            <a href=""
+                            <a href="product_img/<?php echo $img['img_file']; ?>"
                                 title="<?php echo $img['p_name'] ?>"
                                 class="thumb-link <?php echo $index === 0 ? 'active' : ''; ?>"
-                                onclick="changeMainImg(event, 'product_img/<?php echo $img['img_file']; ?>')">
+                                onclick="changeMainImg(event, 'product_img/<?php echo $img['img_file']; ?>', <?php echo $index; ?>)">
                                 <img src="product_img/<?php echo $img['img_file']; ?>" class="img-fluid rounded border thumb-img" alt="<?php echo $img['p_name'] ?>" title="<?php echo $img['p_name'] ?>">
                             </a>
                         </div>
@@ -47,12 +52,15 @@
 
         </div>
     </div>
-    <div style="display: none;">
+    <div id="product-gallery" style="display: none;">
         <?php
         if (!empty($images)) {
             foreach ($images as $img) {
         ?>
-                <a href="product_img/<?php echo $img['img_file']; ?>" class="fb-gallery" rel="group" title="<?php echo $img['p_name']; ?>"></a>
+                <a href="product_img/<?php echo $img['img_file']; ?>"
+                    data-pswp-width="<?php echo $img['img_width']; ?>"
+                    data-pswp-height="<?php echo $img['img_height']; ?>"
+                    data-pswp-caption="<?php echo htmlspecialchars($img['p_name'], ENT_QUOTES, 'UTF-8'); ?>"></a>
         <?php
             }
         }

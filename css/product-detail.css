@@ -1,4 +1,16 @@
 /* productDetail*/
+.product-main-media {
+    flex: 1;
+    min-width: 0;
+    background-color: #ffffff;
+}
+
+.product-main-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .thumb-link {
     display: block;
     opacity: 0.6;
