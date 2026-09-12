@@ -10,10 +10,14 @@ if (isset($_POST['inputAccount']) && isset($_POST['inputPassword'])) {
     $inputAccount = $_POST['inputAccount'];
     $inputPassword = $_POST['inputPassword'];
 
-    $query = sprintf("SELECT * FROM member WHERE email = '%s' AND pw1 = '%s'", $inputAccount, $inputPassword);
-    $result = $link->query($query);
+    $query = "SELECT * FROM member WHERE email = :email AND pw1 = :password";
+    $result = $link->prepare($query);
+    $querySucceeded = $result && $result->execute(array(
+        ':email' => $inputAccount,
+        ':password' => $inputPassword
+    ));
 
-    if ($result) {
+    if ($querySucceeded) {
         if ($result->rowCount() == 1) {
             $data = $result->fetch();
             if ($data['active']) {

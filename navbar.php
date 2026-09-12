@@ -10,8 +10,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <?php
-        $SQLstring = "SELECT * FROM cart WHERE orderid IS NULL AND ip='" . $_SERVER['REMOTE_ADDR'] . "'";
-        $cart_rs = $link->query($SQLstring);
+        $SQLstring = "SELECT * FROM cart WHERE orderid IS NULL AND ip=:value0";
+        $SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
+        $cart_rs = $link->prepare($SQLstring);
+        $cart_rs->execute($SQLstringParams);
         ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center fw-bold text-center fs-5">
@@ -150,8 +152,10 @@ function multiList02()
                     </div>
 
                     <?php
-                    $navChildSQL = sprintf("SELECT * FROM pyclass WHERE level=2 AND uplink=%d ORDER BY sort", $pyclass01_rows['classid']);
-                    $pyclass02 = $link->query($navChildSQL);
+                    $navChildSQL = "SELECT * FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
+                    $navChildSQLParams = array(':value0' => (int)$pyclass01_rows['classid']);
+                    $pyclass02 = $link->prepare($navChildSQL);
+                    $pyclass02->execute($navChildSQLParams);
                     ?>
                     <ul class="dropdown-menu submenu">
                         <?php while ($pyclass02_rows = $pyclass02->fetch()) { ?>

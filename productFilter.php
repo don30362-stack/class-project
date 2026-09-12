@@ -1,14 +1,18 @@
 <?php
 if (isset($_GET['p_id'])) {
-    $ladderSQL = sprintf("SELECT uplink FROM pyclass,product WHERE pyclass.classid=product.classid AND p_id=%d", $_GET['p_id']);
-    $classid_rs = $link->query($ladderSQL);
+    $ladderSQL = "SELECT uplink FROM pyclass,product WHERE pyclass.classid=product.classid AND p_id=:value0";
+    $ladderSQLParams = array(':value0' => (int)$_GET['p_id']);
+    $classid_rs = $link->prepare($ladderSQL);
+    $classid_rs->execute($ladderSQLParams);
     $data = $classid_rs->fetch();
     $ladder = $data ? $data['uplink'] : 1;
 } elseif (isset($_GET['level']) && $_GET['level'] == 1) {
     $ladder = $_GET['classid'];
 } elseif (isset($_GET['classid'])) {
-    $ladderSQL = "SELECT uplink FROM pyclass where level=2 AND classid=" . $_GET['classid'];
-    $classid_rs = $link->query($ladderSQL);
+    $ladderSQL = "SELECT uplink FROM pyclass where level=2 AND classid=:value0";
+    $ladderSQLParams = array(':value0' => $_GET['classid']);
+    $classid_rs = $link->prepare($ladderSQL);
+    $classid_rs->execute($ladderSQLParams);
     $data = $classid_rs->fetch();
     $ladder = $data ? $data['uplink'] : 1;
 } else {
@@ -44,8 +48,10 @@ $pyclass01 = $link->query($SQLstring);
                     <ul class="category-list">
 
                         <?php
-                        $subSQL = sprintf("SELECT * FROM pyclass WHERE level=2 AND uplink=%d ORDER BY sort", $pyclass01_rows['classid']);
-                        $pyclass02 = $link->query($subSQL);
+                        $subSQL = "SELECT * FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
+                        $subSQLParams = array(':value0' => (int)$pyclass01_rows['classid']);
+                        $pyclass02 = $link->prepare($subSQL);
+                        $pyclass02->execute($subSQLParams);
 
                         while ($pyclass02_rows = $pyclass02->fetch()) {
                             $isCurrentChild = (isset($_GET['classid']) && $_GET['classid'] == $pyclass02_rows['classid']);

@@ -4,8 +4,10 @@ header('Content-Type:application/json;charset=utf-8');
 
 require_once('Connections/conn_db.php');
 
-$Zip = sprintf("SELECT town.Name, town.Post, city.Name AS Cityname FROM town, city WHERE town.AutoNo = city.AutoNo AND town.townNo = %d", $_GET["AutoNo"]);
-$Zip_rs = $link->query($Zip);
+$Zip = "SELECT town.Name, town.Post, city.Name AS Cityname FROM town, city WHERE town.AutoNo = city.AutoNo AND town.townNo = :value0";
+$ZipParams = array(':value0' => (int)$_GET["AutoNo"]);
+$Zip_rs = $link->prepare($Zip);
+$Zip_rs->execute($ZipParams);
 $Zip_num = $Zip_rs->rowCount();
 $htmlstring = "<option value=''>選擇鄉鎮市</option>";
 if ($Zip_num > 0) {

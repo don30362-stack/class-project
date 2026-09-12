@@ -4,8 +4,10 @@ header('Content-Type:application/json;charset=utf-8');
 
 require_once('Connections/conn_db.php');
 
-$Town = sprintf("SELECT * FROM town WHERE AutoNo = %d", $_POST["CNo"]);
-$Town_rs = $link->query($Town);
+$Town = "SELECT * FROM town WHERE AutoNo = :value0";
+$TownParams = array(':value0' => (int)$_POST["CNo"]);
+$Town_rs = $link->prepare($Town);
+$Town_rs->execute($TownParams);
 $Town_num = $Town_rs->rowCount();
 $htmlstring = "<option value=''>選擇鄉鎮市</option>";
 if ($Town_num > 0) {

@@ -1,8 +1,10 @@
 <div class="row gx-5">
     <div class="col-md-6 mb-4 mb-md-0">
         <?php
-        $SQLstring = sprintf("SELECT * FROM product,product_img WHERE product.p_id=product_img.p_id AND product_img.p_id=%d ORDER BY sort", $_GET['p_id']);
-        $img_rs = $link->query($SQLstring);
+        $SQLstring = "SELECT * FROM product,product_img WHERE product.p_id=product_img.p_id AND product_img.p_id=:value0 ORDER BY sort";
+        $SQLstringParams = array(':value0' => (int)$_GET['p_id']);
+        $img_rs = $link->prepare($SQLstring);
+        $img_rs->execute($SQLstringParams);
         $images = [];
         while ($row = $img_rs->fetch()) {
             $images[] = $row;

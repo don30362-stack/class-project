@@ -8,11 +8,14 @@ if(isset($_GET['p_id']) && isset($_GET['qty'])){
     $qty = $_GET['qty'];
     $u_ip = $_SERVER['REMOTE_ADDR'];
     //查詢是否有相同的產品編號
-    $query = "SELECT * FROM cart WHERE p_id=" . $p_id . " AND ip='" . $_SERVER['REMOTE_ADDR'] ."' AND orderid IS NULL";
-    $result = $link->query($query);
-    if($result){
+    $query = "SELECT * FROM cart WHERE p_id=:value0 AND ip=:value1 AND orderid IS NULL";
+    $queryParams = array(':value0' => $p_id, ':value1' => $_SERVER['REMOTE_ADDR']);
+    $result = $link->prepare($query);
+    $querySucceeded = $result->execute($queryParams);
+    if($querySucceeded){
         if($result->rowCount()==0){
-            $query = "INSERT INTO cart (p_id, qty, ip) VALUES (" . $p_id . "," . $qty . ",'" . $u_ip . "');";
+            $query = "INSERT INTO cart (p_id, qty, ip) VALUES (:value0,:value1,:value2)";
+            $queryParams = array(':value0' => $p_id, ':value1' => $qty, ':value2' => $u_ip);
         }else{
             $cart_data = $result->fetch();
             if($cart_data['qty'] + $qty >49){
@@ -20,9 +23,11 @@ if(isset($_GET['p_id']) && isset($_GET['qty'])){
             }else{
                 $qty = $qty + $cart_data['qty'];
             }
-            $query = "UPDATE cart SET qty = '" . $qty . "'WHERE cart.cartid =" . $cart_data['cartid'];
+            $query = "UPDATE cart SET qty = :value0 WHERE cart.cartid =:value1";
+            $queryParams = array(':value0' => $qty, ':value1' => $cart_data['cartid']);
         }
-        $result = $link->query($query);
+        $statement = $link->prepare($query);
+        $result = $statement->execute($queryParams);
         $retcode = array("c" => "1", "m" => "謝謝您！產品已加入購物車中。");
     }else{
         $retcode = array("c" => "0", "m" => "抱歉！資料無法寫入後台資料庫，請聯絡管理人員");

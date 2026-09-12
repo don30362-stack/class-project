@@ -34,14 +34,16 @@ require_once('php_lib.php');
 
             <?php
             $SQLstring = "SELECT * FROM cart,product,product_img
-                      WHERE ip='" . $_SERVER['REMOTE_ADDR'] . "'
+                      WHERE ip=:value0
                       AND orderid IS NULL
                       AND cart.p_id = product_img.p_id
                       AND cart.p_id = product.p_id
                       AND product_img.sort = 1
                       ORDER BY cartid DESC";
+            $SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
 
-            $cart_rs = $link->query($SQLstring);
+            $cart_rs = $link->prepare($SQLstring);
+            $cart_rs->execute($SQLstringParams);
 
             $ptotal = 0;
             $shipping = 100;

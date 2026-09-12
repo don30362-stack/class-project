@@ -3,8 +3,10 @@ $level1Open = "";
 $level2Open = "";
 $level3Open = "";
 if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
-    $SQLstring = sprintf("SELECT * FROM product,pyclass, (SELECT classid as upclassid, level as uplevel, cname as upcname FROM pyclass WHERE level=1) as uplevel WHERE product.classid=pyclass.classid AND pyclass.uplink=uplevel.upclassid AND product.p_id=%d", $_GET['p_id']);
-    $classid_rs = $link->query($SQLstring);
+    $SQLstring = "SELECT * FROM product,pyclass, (SELECT classid as upclassid, level as uplevel, cname as upcname FROM pyclass WHERE level=1) as uplevel WHERE product.classid=pyclass.classid AND pyclass.uplink=uplevel.upclassid AND product.p_id=:value0";
+    $SQLstringParams = array(':value0' => (int)$_GET['p_id']);
+    $classid_rs = $link->prepare($SQLstring);
+    $classid_rs->execute($SQLstringParams);
     $data = $classid_rs->fetch();
     $level1Cname = $data['upcname'];
     $level1Upclassid = $data['upclassid'];
@@ -20,21 +22,27 @@ if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
 } elseif (isset($_GET['search_name'])) {
     $level1Open = '<li class="breadcrumb-item active" aria-current="page">關鍵字查詢：' . $_GET['search_name'] . '</li>';
 } elseif (isset($_GET['level']) && isset($_GET['classid'])) {
-    $SQLstring = sprintf("SELECT * FROM pyclass WHERE level=%d AND classid=%d", $_GET['level'], $_GET['classid']);
-    $classid_rs = $link->query($SQLstring);
+    $SQLstring = "SELECT * FROM pyclass WHERE level=:value0 AND classid=:value1";
+    $SQLstringParams = array(':value0' => (int)$_GET['level'], ':value1' => (int)$_GET['classid']);
+    $classid_rs = $link->prepare($SQLstring);
+    $classid_rs->execute($SQLstringParams);
     $data = $classid_rs->fetch();
     $level1Cname = $data['cname'];
     $level1Open = '<li class="breadcrumb-item active" aria-current="page">' . $level1Cname . '</li>';
 } elseif (isset($_GET['classid'])) {
-    $SQLstring = sprintf("SELECT * FROM pyclass WHERE level=2 AND classid=%d", $_GET['classid']);
-    $classid_rs = $link->query($SQLstring);
+    $SQLstring = "SELECT * FROM pyclass WHERE level=2 AND classid=:value0";
+    $SQLstringParams = array(':value0' => (int)$_GET['classid']);
+    $classid_rs = $link->prepare($SQLstring);
+    $classid_rs->execute($SQLstringParams);
     $data = $classid_rs->fetch();
     $level2Cname = $data['cname'];
     $level2Uplink = $data['uplink'];
     $level2Open = '<li class="breadcrumb-item active" aria-current="page">' . $level2Cname . '</li>';
 
-    $SQLstring = sprintf("SELECT * FROM pyclass WHERE level=1 AND classid=%d", $level2Uplink);
-    $classid_rs = $link->query($SQLstring);
+    $SQLstring = "SELECT * FROM pyclass WHERE level=1 AND classid=:value0";
+    $SQLstringParams = array(':value0' => (int)$level2Uplink);
+    $classid_rs = $link->prepare($SQLstring);
+    $classid_rs->execute($SQLstringParams);
     $data = $classid_rs->fetch();
     $level1Cname = $data['cname'];
     $level1 = $data['level'];

@@ -2,13 +2,15 @@
 header('Access-Control-Allow-Origin:*');
 header('Content-Type:application/json;charset=utf-8');
 
-require_once("con_db.php");
+require_once(__DIR__ . "/Connections/conn_db.php");
 
 if (isset($_POST['cartid']) && isset($_POST['qty'])) {
     $cartid = $_POST['cartid'];
     $qty = $_POST['qty'];
-    $query = sprintf("UPDATE cart SET qty='%d' WHERE cart.cartid=%d",$qty, $cartid);
-    $result = $pdo->query($query);
+    $query = "UPDATE cart SET qty=:value0 WHERE cart.cartid=:value1";
+    $queryParams = array(':value0' => (int)$qty, ':value1' => (int)$cartid);
+    $statement = $link->prepare($query);
+    $result = $statement->execute($queryParams);
     if($result){
         $retcode = array("c" => "1", "m" => "謝謝您！產品數量已更新。");
     }else{

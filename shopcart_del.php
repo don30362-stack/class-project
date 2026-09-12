@@ -2,15 +2,21 @@
 <?php
 if (isset($_GET['mode']) && $_GET['mode'] != '') {
     $mode = $_GET['mode'];
+    $SQLstring = null;
     switch($mode){
         case 1:
-            $SQLstring = sprintf("DELETE FROM cart WHERE cartid = %d AND orderid IS NULL", $_GET['cartid']);
+            $SQLstring = "DELETE FROM cart WHERE cartid = :value0 AND orderid IS NULL";
+            $SQLstringParams = array(':value0' => (int)$_GET['cartid']);
             break;
         case 2:
-            $SQLstring = sprintf("DELETE FROM cart WHERE ip = '%s' AND orderid IS NULL", $_SERVER['REMOTE_ADDR']);
+            $SQLstring = "DELETE FROM cart WHERE ip = :value0 AND orderid IS NULL";
+            $SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
             break;
     }
-    $result = $link->query($SQLstring);
+    if ($SQLstring !== null) {
+        $result = $link->prepare($SQLstring);
+        $result->execute($SQLstringParams);
+    }
 }
 $deleteGoto = "cart.php";
 header(sprintf("location:%s", $deleteGoto));

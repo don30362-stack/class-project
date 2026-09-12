@@ -2,26 +2,36 @@
 $maxRows_rs = 12;
 $pageNum_rs = 0;
 if (isset($_GET['pageNum_rs'])) {
-    $pageNum_rs = $_GET['pageNum_rs'];
+    $pageNum_rs = max(0, min((int)$_GET['pageNum_rs'], intdiv(PHP_INT_MAX, $maxRows_rs)));
 }
 $startRow_rs = $pageNum_rs * $maxRows_rs;
+$queryParams = array();
 if (isset($_GET['search_name'])) {
     //使用關鍵字查詢
-    $queryFirst = sprintf('SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND product.p_name LIKE "%s" ORDER BY product.p_id DESC', "%" . $_GET['search_name'] . "%");
+    $queryFirst = 'SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND product.p_name LIKE :search_name ORDER BY product.p_id DESC';
+    $queryParams = array(':search_name' => "%" . $_GET['search_name'] . "%");
 } elseif (isset($_GET['level']) && $_GET['level'] == 1) {
     //使用第一層類別查詢
-    $queryFirst = sprintf('SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND pyclass.uplink="%d" ORDER BY product.p_id DESC', $_GET['classid']);
+    $queryFirst = 'SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND pyclass.uplink=:classid ORDER BY product.p_id DESC';
+    $queryParams = array(':classid' => (int)$_GET['classid']);
 } elseif (isset($_GET['classid'])) {
     //使用第二層類別查詢
-    $queryFirst = sprintf('SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid= "%d" ORDER BY product.p_id DESC', $_GET['classid']);
+    $queryFirst = 'SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid= :classid ORDER BY product.p_id DESC';
+    $queryParams = array(':classid' => (int)$_GET['classid']);
 } else {
     //列出全部產品
-    $queryFirst = sprintf('SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id  ORDER BY product.p_id DESC', $maxRows_rs);
+    $queryFirst = 'SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id  ORDER BY product.p_id DESC';
 }
 
 
-$query = sprintf('%s LIMIT %d,%d', $queryFirst, $startRow_rs, $maxRows_rs);
-$pList01 = $link->query($query);
+$query = $queryFirst . ' LIMIT :offset, :limit';
+$pList01 = $link->prepare($query);
+foreach ($queryParams as $parameter => $value) {
+    $pList01->bindValue($parameter, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+}
+$pList01->bindValue(':offset', $startRow_rs, PDO::PARAM_INT);
+$pList01->bindValue(':limit', $maxRows_rs, PDO::PARAM_INT);
+$pList01->execute();
 $i = 1;
 ?>
 <?php if ($pList01->rowCount() != 0) { ?>
@@ -49,7 +59,8 @@ $i = 1;
         if (isset($_GET['totalRows_rs'])) {
             $totalRows_rs = $_GET['totalRows_rs'];
         } else {
-            $all_rs = $link->query($queryFirst);
+            $all_rs = $link->prepare($queryFirst);
+            $all_rs->execute($queryParams);
             $totalRows_rs = $all_rs->rowCount();
         }
         $totalPages_rs = ceil($totalRows_rs / $maxRows_rs) - 1;
