@@ -3,3 +3,5 @@ product_img
 bs53&jqCDN.html
 fancybox-2.1.7
 expstore.sql
+/uploads/**/*.jpg
+/uploads/**/*.png
