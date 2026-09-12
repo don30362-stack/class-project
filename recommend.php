@@ -1,6 +1,10 @@
 <?php
 global $link;
-$SQLstring = 'SELECT * FROM hot,product,product_img WHERE hot.p_id=product_img.p_id AND hot.p_id=product.p_id AND product_img.sort=1 ORDER BY h_sort';
+$SQLstring = "SELECT p.p_id, p.p_name, p.p_price, pi.img_file
+              FROM hot AS h
+              INNER JOIN product AS p ON p.p_id = h.p_id
+              INNER JOIN product_img AS pi ON pi.p_id = h.p_id AND pi.sort = 1
+              ORDER BY h.h_sort";
 $hot = $link->query($SQLstring);
 ?>
 <div class="container">

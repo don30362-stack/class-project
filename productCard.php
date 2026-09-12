@@ -4,27 +4,33 @@ $pageNum_rs = 0;
 if (isset($_GET['pageNum_rs'])) {
     $pageNum_rs = max(0, min((int)$_GET['pageNum_rs'], intdiv(PHP_INT_MAX, $maxRows_rs)));
 }
-$startRow_rs = $pageNum_rs * $maxRows_rs;
 $queryParams = array();
+$queryFrom = ' FROM product AS p
+               INNER JOIN product_img AS pi ON pi.p_id = p.p_id AND pi.sort = 1';
+$queryWhere = ' WHERE p.p_open = 1';
 if (isset($_GET['search_name'])) {
-    //使用關鍵字查詢
-    $queryFirst = 'SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND product.p_name LIKE :search_name ORDER BY product.p_id DESC';
+    $queryFrom .= ' INNER JOIN pyclass AS c ON c.classid = p.classid';
+    $queryWhere .= ' AND p.p_name LIKE :search_name';
     $queryParams = array(':search_name' => "%" . $_GET['search_name'] . "%");
 } elseif (isset($_GET['level']) && $_GET['level'] == 1) {
-    //使用第一層類別查詢
-    $queryFirst = 'SELECT * FROM product,product_img,pyclass WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid=pyclass.classid AND pyclass.uplink=:classid ORDER BY product.p_id DESC';
+    $queryFrom .= ' INNER JOIN pyclass AS c ON c.classid = p.classid';
+    $queryWhere .= ' AND c.uplink = :classid';
     $queryParams = array(':classid' => (int)$_GET['classid']);
 } elseif (isset($_GET['classid'])) {
-    //使用第二層類別查詢
-    $queryFirst = 'SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id AND product.classid= :classid ORDER BY product.p_id DESC';
+    $queryWhere .= ' AND p.classid = :classid';
     $queryParams = array(':classid' => (int)$_GET['classid']);
-} else {
-    //列出全部產品
-    $queryFirst = 'SELECT * FROM product,product_img WHERE p_open=1 AND product_img.sort=1 AND product.p_id=product_img.p_id  ORDER BY product.p_id DESC';
 }
 
+// 列表與總筆數共用相同的關聯、篩選條件；總筆數由資料庫計算。
+$countStatement = $link->prepare('SELECT COUNT(*)' . $queryFrom . $queryWhere);
+$countStatement->execute($queryParams);
+$totalRows_rs = (int)$countStatement->fetchColumn();
+$totalPages_rs = max(0, (int)ceil($totalRows_rs / $maxRows_rs) - 1);
+$pageNum_rs = min($pageNum_rs, $totalPages_rs);
+$startRow_rs = $pageNum_rs * $maxRows_rs;
 
-$query = $queryFirst . ' LIMIT :offset, :limit';
+$query = 'SELECT p.p_id, p.p_name, p.p_price, pi.img_file' . $queryFrom . $queryWhere
+       . ' ORDER BY p.p_id DESC LIMIT :offset, :limit';
 $pList01 = $link->prepare($query);
 foreach ($queryParams as $parameter => $value) {
     $pList01->bindValue($parameter, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
@@ -32,11 +38,12 @@ foreach ($queryParams as $parameter => $value) {
 $pList01->bindValue(':offset', $startRow_rs, PDO::PARAM_INT);
 $pList01->bindValue(':limit', $maxRows_rs, PDO::PARAM_INT);
 $pList01->execute();
+$productRows = $pList01->fetchAll(PDO::FETCH_ASSOC);
 $i = 1;
 ?>
-<?php if ($pList01->rowCount() != 0) { ?>
+<?php if (!empty($productRows)) { ?>
     <div class="row text-center gy-4 gx-3">
-        <?php while ($pList01_Rows = $pList01->fetch()) { ?>
+        <?php foreach ($productRows as $pList01_Rows) { ?>
             <div class="col-6 col-md-3">
                 <div class="card h-100 rounded-0">
                     <a href="productDetail.php?p_id=<?php echo $pList01_Rows['p_id']; ?>">
@@ -56,14 +63,6 @@ $i = 1;
 
     <div class="row mt-2">
         <?php
-        if (isset($_GET['totalRows_rs'])) {
-            $totalRows_rs = $_GET['totalRows_rs'];
-        } else {
-            $all_rs = $link->prepare($queryFirst);
-            $all_rs->execute($queryParams);
-            $totalRows_rs = $all_rs->rowCount();
-        }
-        $totalPages_rs = ceil($totalRows_rs / $maxRows_rs) - 1;
         $prev_rs = '&laquo;';
         $next_rs = '&raquo;';
         $seprator = '|';

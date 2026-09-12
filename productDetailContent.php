@@ -1,7 +1,11 @@
 <div class="row gx-5">
     <div class="col-md-6 mb-4 mb-md-0">
         <?php
-        $SQLstring = "SELECT * FROM product,product_img WHERE product.p_id=product_img.p_id AND product_img.p_id=:value0 ORDER BY sort";
+        $SQLstring = "SELECT p.p_id, p.p_name, p.p_intro, p.p_price, p.p_content, pi.img_file
+                      FROM product AS p
+                      INNER JOIN product_img AS pi ON pi.p_id = p.p_id
+                      WHERE p.p_id = :value0
+                      ORDER BY pi.sort";
         $SQLstringParams = array(':value0' => (int)$_GET['p_id']);
         $img_rs = $link->prepare($SQLstring);
         $img_rs->execute($SQLstringParams);
@@ -56,8 +60,7 @@
     </div>
 
     <?php
-    $img_rs->execute();
-    $imgList = $img_rs->fetch();
+    $imgList = $firstImg;
     ?>
     <div class="col-md-6">
         <div class="ps-md-4 d-flex flex-column h-100 justify-content-between">

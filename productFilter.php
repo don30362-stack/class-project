@@ -1,6 +1,9 @@
 <?php
 if (isset($_GET['p_id'])) {
-    $ladderSQL = "SELECT uplink FROM pyclass,product WHERE pyclass.classid=product.classid AND p_id=:value0";
+    $ladderSQL = "SELECT c.uplink
+                  FROM pyclass AS c
+                  INNER JOIN product AS p ON p.classid = c.classid
+                  WHERE p.p_id = :value0";
     $ladderSQLParams = array(':value0' => (int)$_GET['p_id']);
     $classid_rs = $link->prepare($ladderSQL);
     $classid_rs->execute($ladderSQLParams);
@@ -19,7 +22,7 @@ if (isset($_GET['p_id'])) {
     $ladder = 1;
 }
 
-$SQLstring = 'SELECT * FROM pyclass WHERE level=1 ORDER BY sort';
+$SQLstring = 'SELECT classid, cname, fonticon FROM pyclass WHERE level=1 ORDER BY sort';
 $pyclass01 = $link->query($SQLstring);
 ?>
 
@@ -48,7 +51,7 @@ $pyclass01 = $link->query($SQLstring);
                     <ul class="category-list">
 
                         <?php
-                        $subSQL = "SELECT * FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
+                        $subSQL = "SELECT classid, cname FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
                         $subSQLParams = array(':value0' => (int)$pyclass01_rows['classid']);
                         $pyclass02 = $link->prepare($subSQL);
                         $pyclass02->execute($subSQLParams);

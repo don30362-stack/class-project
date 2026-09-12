@@ -3,7 +3,12 @@ $level1Open = "";
 $level2Open = "";
 $level3Open = "";
 if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
-    $SQLstring = "SELECT * FROM product,pyclass, (SELECT classid as upclassid, level as uplevel, cname as upcname FROM pyclass WHERE level=1) as uplevel WHERE product.classid=pyclass.classid AND pyclass.uplink=uplevel.upclassid AND product.p_id=:value0";
+    $SQLstring = "SELECT p.p_name, c.cname, c.classid,
+                        parent.classid AS upclassid, parent.level AS uplevel, parent.cname AS upcname
+                  FROM product AS p
+                  INNER JOIN pyclass AS c ON c.classid = p.classid
+                  INNER JOIN pyclass AS parent ON parent.classid = c.uplink AND parent.level = 1
+                  WHERE p.p_id = :value0";
     $SQLstringParams = array(':value0' => (int)$_GET['p_id']);
     $classid_rs = $link->prepare($SQLstring);
     $classid_rs->execute($SQLstringParams);
@@ -22,7 +27,7 @@ if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
 } elseif (isset($_GET['search_name'])) {
     $level1Open = '<li class="breadcrumb-item active" aria-current="page">關鍵字查詢：' . $_GET['search_name'] . '</li>';
 } elseif (isset($_GET['level']) && isset($_GET['classid'])) {
-    $SQLstring = "SELECT * FROM pyclass WHERE level=:value0 AND classid=:value1";
+    $SQLstring = "SELECT cname FROM pyclass WHERE level=:value0 AND classid=:value1";
     $SQLstringParams = array(':value0' => (int)$_GET['level'], ':value1' => (int)$_GET['classid']);
     $classid_rs = $link->prepare($SQLstring);
     $classid_rs->execute($SQLstringParams);
@@ -30,7 +35,7 @@ if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
     $level1Cname = $data['cname'];
     $level1Open = '<li class="breadcrumb-item active" aria-current="page">' . $level1Cname . '</li>';
 } elseif (isset($_GET['classid'])) {
-    $SQLstring = "SELECT * FROM pyclass WHERE level=2 AND classid=:value0";
+    $SQLstring = "SELECT cname, uplink FROM pyclass WHERE level=2 AND classid=:value0";
     $SQLstringParams = array(':value0' => (int)$_GET['classid']);
     $classid_rs = $link->prepare($SQLstring);
     $classid_rs->execute($SQLstringParams);
@@ -39,7 +44,7 @@ if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
     $level2Uplink = $data['uplink'];
     $level2Open = '<li class="breadcrumb-item active" aria-current="page">' . $level2Cname . '</li>';
 
-    $SQLstring = "SELECT * FROM pyclass WHERE level=1 AND classid=:value0";
+    $SQLstring = "SELECT cname, level FROM pyclass WHERE level=1 AND classid=:value0";
     $SQLstringParams = array(':value0' => (int)$level2Uplink);
     $classid_rs = $link->prepare($SQLstring);
     $classid_rs->execute($SQLstringParams);

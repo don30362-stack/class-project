@@ -33,24 +33,24 @@ require_once('php_lib.php');
 
 
             <?php
-            $SQLstring = "SELECT * FROM cart,product,product_img
-                      WHERE ip=:value0
-                      AND orderid IS NULL
-                      AND cart.p_id = product_img.p_id
-                      AND cart.p_id = product.p_id
-                      AND product_img.sort = 1
-                      ORDER BY cartid DESC";
+            $SQLstring = "SELECT c.cartid, c.qty, p.p_id, p.p_name, p.p_price, pi.img_file
+              FROM cart AS c
+              INNER JOIN product AS p ON p.p_id = c.p_id
+              INNER JOIN product_img AS pi ON pi.p_id = c.p_id AND pi.sort = 1
+              WHERE c.ip = :value0 AND c.orderid IS NULL
+              ORDER BY c.cartid DESC";
             $SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
 
             $cart_rs = $link->prepare($SQLstring);
             $cart_rs->execute($SQLstringParams);
+            $cartRows = $cart_rs->fetchAll(PDO::FETCH_ASSOC);
 
             $ptotal = 0;
             $shipping = 100;
             ?>
 
 
-            <?php if ($cart_rs->rowCount() != 0) { ?>
+            <?php if (!empty($cartRows)) { ?>
 
                 <div class="row g-4 g-xl-5">
 
@@ -253,7 +253,7 @@ require_once('php_lib.php');
 
                             <div class="checkout-product-list">
 
-                                <?php while ($cart_data = $cart_rs->fetch()) { ?>
+                                <?php foreach ($cartRows as $cart_data) { ?>
 
                                     <?php
                                     $subtotal =
