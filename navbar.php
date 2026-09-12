@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/php_lib.php'; ?>
 <nav class="navbar navbar-expand-xl">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
@@ -107,8 +108,7 @@ function multiList02()
     $current_classid = isset($_GET['classid']) ? intval($_GET['classid']) : 0;
     $current_level = isset($_GET['level']) ? intval($_GET['level']) : 0;
 
-    $navParentSQL = 'SELECT * FROM pyclass WHERE level=1 ORDER BY sort';
-    $pyclass01 = $link->query($navParentSQL);
+    $categoryTree = getCategoryTree($link);
 ?>
     <li class="nav-item dropdown product-dropdown ">
 
@@ -130,7 +130,7 @@ function multiList02()
         </div>
 
         <ul class="dropdown-menu">
-            <?php while ($pyclass01_rows = $pyclass01->fetch()) {
+            <?php foreach ($categoryTree['parents'] as $pyclass01_rows) {
                 $isNavActive = ($current_level == 1 && $current_classid == $pyclass01_rows['classid']);
             ?>
                 <!-- 💡 加上 d-flex 讓文字連結和手機版小按鈕可以並排 -->
@@ -151,14 +151,8 @@ function multiList02()
 
                     </div>
 
-                    <?php
-                    $navChildSQL = "SELECT * FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
-                    $navChildSQLParams = array(':value0' => (int)$pyclass01_rows['classid']);
-                    $pyclass02 = $link->prepare($navChildSQL);
-                    $pyclass02->execute($navChildSQLParams);
-                    ?>
                     <ul class="dropdown-menu submenu">
-                        <?php while ($pyclass02_rows = $pyclass02->fetch()) { ?>
+                        <?php foreach ($categoryTree['children'][(int)$pyclass01_rows['classid']] ?? array() as $pyclass02_rows) { ?>
                             <li>
                                 <a href="productList.php?classid=<?php echo $pyclass02_rows['classid']; ?>" class="dropdown-item">
 

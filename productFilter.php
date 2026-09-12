@@ -22,13 +22,12 @@ if (isset($_GET['p_id'])) {
     $ladder = 1;
 }
 
-$SQLstring = 'SELECT classid, cname, fonticon FROM pyclass WHERE level=1 ORDER BY sort';
-$pyclass01 = $link->query($SQLstring);
+$categoryTree = getCategoryTree($link);
 ?>
 
 <div class="accordion" id="accordionExample">
     <?php
-    while ($pyclass01_rows = $pyclass01->fetch()) {
+    foreach ($categoryTree['parents'] as $pyclass01_rows) {
         $i = $pyclass01_rows['classid'];
         $isCurrentParent = ($i == $ladder);
     ?>
@@ -51,12 +50,7 @@ $pyclass01 = $link->query($SQLstring);
                     <ul class="category-list">
 
                         <?php
-                        $subSQL = "SELECT classid, cname FROM pyclass WHERE level=2 AND uplink=:value0 ORDER BY sort";
-                        $subSQLParams = array(':value0' => (int)$pyclass01_rows['classid']);
-                        $pyclass02 = $link->prepare($subSQL);
-                        $pyclass02->execute($subSQLParams);
-
-                        while ($pyclass02_rows = $pyclass02->fetch()) {
+                        foreach ($categoryTree['children'][(int)$pyclass01_rows['classid']] ?? array() as $pyclass02_rows) {
                             $isCurrentChild = (isset($_GET['classid']) && $_GET['classid'] == $pyclass02_rows['classid']);
                         ?>
                             <li class="category-item">

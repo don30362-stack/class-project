@@ -4,6 +4,38 @@ function activeShow($num, $chkPoint)
 	return (($num == $chkPoint) ? 'active' : '');
 }
 
+function getCategoryTree($link)
+{
+	static $categoryTree = null;
+
+	if ($categoryTree !== null) {
+		return $categoryTree;
+	}
+
+	$categoryTree = array(
+		'parents' => array(),
+		'children' => array(),
+	);
+	$categoryStatement = $link->query(
+		'SELECT classid, cname, fonticon, level, uplink
+		 FROM pyclass
+		 WHERE level IN (1, 2)
+		 ORDER BY level, sort, classid'
+	);
+
+	foreach ($categoryStatement->fetchAll(PDO::FETCH_ASSOC) as $category) {
+		if ((int)$category['level'] === 1) {
+			$categoryTree['parents'][] = $category;
+			continue;
+		}
+
+		$parentId = (int)$category['uplink'];
+		$categoryTree['children'][$parentId][] = $category;
+	}
+
+	return $categoryTree;
+}
+
 function buildNavigation($pageNum_Recordset1, $totalPages_Recordset1, $prev_Recordset1, $next_Recordset1, $separator = " | ", $max_links = 10, $show_page = true, $selmode = 1, $sname = "")
 {
 	$gmaxRows = "maxRows_" . $sname;
@@ -31,8 +63,7 @@ function buildNavigation($pageNum_Recordset1, $totalPages_Recordset1, $prev_Reco
 			#	Searching for $_GET vars
 			#	------------------------
 			$_get_vars = '';
-			if (!empty($_GET) || !empty($HTTP_GET_VARS)) {
-				$_GET = empty($_GET) ? $HTTP_GET_VARS : $_GET;
+			if (!empty($_GET)) {
 				foreach ($_GET as $_get_name => $_get_value) {
 					if ($_get_name != "pageNum_" . $sname) {
 						$_get_vars .= "&$_get_name=$_get_value";
