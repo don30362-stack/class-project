@@ -1,6 +1,32 @@
-/assets/images/
-/docs/legacy/bs53-jquery-cdn.html
-/database/expstore.sql
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Private database exports (keep the public sample database)
+/database/*.sql
+!/database/expstore.sample.sql
+/database/*.dump
+/database/*.bak
+
+# User uploads (keep deployment protection and the default avatar)
 /uploads/*
 !/uploads/.htaccess
 !/uploads/avatar.svg
+
+# Local and generated dependencies/runtime files
+/vendor/
+/node_modules/
+/coverage/
+*.log
+.phpunit.result.cache
+
+# Editor and operating-system files
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
+# Unused local legacy assets
+/assets/images/
+/docs/legacy/bs53-jquery-cdn.html
