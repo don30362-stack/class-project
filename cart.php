@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/session.php';
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
+require_once(__DIR__ . '/includes/cart.php');
 ?>
 
 <!DOCTYPE html>

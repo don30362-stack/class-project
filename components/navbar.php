@@ -1,4 +1,7 @@
-<?php require_once dirname(__DIR__) . '/includes/php_lib.php'; ?>
+<?php
+require_once dirname(__DIR__) . '/includes/php_lib.php';
+require_once dirname(__DIR__) . '/includes/cart.php';
+?>
 <nav class="navbar navbar-expand-xl">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
@@ -11,10 +14,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <?php
-        $SQLstring = "SELECT * FROM cart WHERE orderid IS NULL AND ip=:value0";
-        $SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
+        $ownerSql = cartOwnerSql(cartCurrentOwner(false), 'c');
+        $SQLstring = "SELECT COUNT(*) FROM cart AS c WHERE c.orderid IS NULL AND " . $ownerSql['condition'];
+        $SQLstringParams = $ownerSql['params'];
         $cart_rs = $link->prepare($SQLstring);
         $cart_rs->execute($SQLstringParams);
+        $cartItemCount = (int)$cart_rs->fetchColumn();
         ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center fw-bold text-center fs-5">
@@ -49,7 +54,7 @@
                     <a class="nav-link cart-link mt-2 mt-xl-0" href="cart.php">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="badge">
-                            <?php echo ($cart_rs) ? $cart_rs->rowCount() : ''; ?>
+                            <?php echo $cartItemCount; ?>
                         </span>
                     </a>
                 </li>

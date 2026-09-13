@@ -3,6 +3,7 @@ require_once __DIR__ . '/includes/session.php';
 ob_start();
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
+require_once(__DIR__ . '/includes/cart.php');
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +72,9 @@ require_once(__DIR__ . '/includes/php_lib.php');
             $insertsqlParams = array(':value0' => $emailid, ':value1' => $cname, ':value2' => $mobile, ':value3' => $myZip, ':value4' => $address);
             $statement = $link->prepare($insertsql);
             $Result = $statement->execute($insertsqlParams);
-            if (session_regenerate_id(true)) {
+            if (!mergeAnonymousCartIntoMember($link, (int)$emailid)) {
+                echo "<script>alert('會員資料已完成註冊，購物車合併失敗，請重新登入。');location.href='login.php';</script>";
+            } elseif (session_regenerate_id(true)) {
                 $_SESSION['login'] = true;
                 $_SESSION['emailid'] = $emailid;
                 $_SESSION['email'] = $email;

@@ -4,6 +4,7 @@ header('Content-Type:application/json;charset=utf-8');
 require_once dirname(__DIR__) . '/includes/session.php';
 require_once dirname(__DIR__) . '/config/conn_db.php';
 require_once dirname(__DIR__) . '/includes/member_password.php';
+require_once dirname(__DIR__) . '/includes/cart.php';
 
 if (
     isset($_POST['inputAccount'], $_POST['inputPassword'])
@@ -35,6 +36,8 @@ if (
 
                 if (!$passwordResult['verified']) {
                     $retcode = array("c" => "2", "m" => "帳號或密碼錯誤！需要重新輸入。");
+                } elseif (!mergeAnonymousCartIntoMember($link, (int)$data['emailid'])) {
+                    $retcode = array("c" => "0", "m" => "抱歉！會員驗證失敗，請聯絡管理人員。");
                 } elseif (!session_regenerate_id(true)) {
                     error_log(sprintf('Member login failed for member ID %d: session_regeneration_failed', (int)$data['emailid']));
                     $retcode = array("c" => "0", "m" => "抱歉！會員驗證失敗，請聯絡管理人員。");

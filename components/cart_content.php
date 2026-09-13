@@ -1,11 +1,12 @@
 <?php
+$ownerSql = cartOwnerSql(cartCurrentOwner(false), 'c');
 $SQLstring = "SELECT c.cartid, c.qty, p.p_id, p.p_name, p.p_price, pi.img_file
               FROM cart AS c
               INNER JOIN product AS p ON p.p_id = c.p_id
               INNER JOIN product_img AS pi ON pi.p_id = c.p_id AND pi.sort = 1
-              WHERE c.ip = :value0 AND c.orderid IS NULL
+              WHERE c.orderid IS NULL AND " . $ownerSql['condition'] . "
               ORDER BY c.cartid DESC";
-$SQLstringParams = array(':value0' => $_SERVER['REMOTE_ADDR']);
+$SQLstringParams = $ownerSql['params'];
 
 $cart_rs = $link->prepare($SQLstring);
 $cart_rs->execute($SQLstringParams);

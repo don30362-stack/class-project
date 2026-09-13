@@ -101,11 +101,12 @@ INSERT INTO `carousel` (`caro_id`, `caro_title`, `caro_content`, `caro_online`, 
 CREATE TABLE `cart` (
   `cartid` int(10) NOT NULL COMMENT '購物車編號',
   `emailid` int(10) DEFAULT NULL COMMENT '會員編號',
+  `anonymous_token_hash` char(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL COMMENT '匿名購物車 token 的 SHA-256',
   `p_id` int(10) NOT NULL COMMENT '產品編號',
   `qty` int(3) NOT NULL COMMENT '產品數量',
   `orderid` varchar(30) DEFAULT NULL COMMENT '訂單編號',
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '訂單處理狀態',
-  `ip` varchar(200) NOT NULL COMMENT '訂購者的IP',
+  `ip` varchar(200) DEFAULT NULL COMMENT '舊版購物車 IP，不再作為 owner',
   `create_date` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '加入購物車時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -815,7 +816,9 @@ ALTER TABLE `carousel`
 -- 資料表索引 `cart`
 --
 ALTER TABLE `cart`
-  ADD PRIMARY KEY (`cartid`);
+  ADD PRIMARY KEY (`cartid`),
+  ADD KEY `idx_cart_member_open` (`emailid`,`orderid`,`p_id`),
+  ADD KEY `idx_cart_anonymous_open` (`anonymous_token_hash`,`orderid`,`p_id`);
 
 --
 -- 資料表索引 `city`
