@@ -2,6 +2,9 @@
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 
+require_once dirname(__DIR__) . '/includes/session.php';
+require_once dirname(__DIR__) . '/includes/csrf.php';
+
 function uploadFailure($message, $status = 400)
 {
     http_response_code($status);
@@ -12,6 +15,10 @@ function uploadFailure($message, $status = 400)
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     header('Allow: POST');
     uploadFailure('請使用 POST 上傳檔案', 405);
+}
+
+if (!csrf_validate($_POST['csrf_token'] ?? null)) {
+    uploadFailure('請求驗證失敗，請重新整理頁面後再試。', 403);
 }
 
 $file = $_FILES['file1'] ?? null;

@@ -66,7 +66,8 @@ require_once(__DIR__ . '/includes/cart.php');
             dataType: 'json',
             data: {
                 cartid: cartid,
-                qty: qty
+                qty: qty,
+                csrf_token: document.querySelector('meta[name="csrf-token"]')?.content || ''
             },
             success: function(data) {
 

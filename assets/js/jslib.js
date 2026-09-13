@@ -13,11 +13,12 @@ function addcart(p_id) {
 
     $.ajax({
         url: 'actions/addcart.php',
-        type: 'get',
+        type: 'post',
         dataType: 'json',
         data: {
             p_id: p_id,
-            qty: qty
+            qty: qty,
+            csrf_token: document.querySelector('meta[name="csrf-token"]')?.content || ''
         },
         success: function (data) {
             if (data.c == true) {

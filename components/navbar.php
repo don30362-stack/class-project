@@ -90,13 +90,13 @@ require_once dirname(__DIR__) . '/includes/cart.php';
 
                             <div class="dropdown-divider"></div>
 
-                            <a
-                                class="dropdown-item"
-                                href="#"
-                                onclick="btn_confirmLink('請確定是否要登出', 'actions/logout.php')">
-                                <i class="fa-solid fa-right-from-bracket me-2"></i>
-                                登出
-                            </a>
+                            <form method="POST" action="actions/logout.php" onsubmit="return confirm('請確定是否要登出');">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                    登出
+                                </button>
+                            </form>
                         </div>
 
                     </li>

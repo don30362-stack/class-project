@@ -4,6 +4,7 @@ ob_start();
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
 require_once(__DIR__ . '/includes/cart.php');
+require_once(__DIR__ . '/includes/csrf.php');
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +22,18 @@ require_once(__DIR__ . '/includes/cart.php');
 
     <?php
     if (isset($_POST['formctl']) && $_POST['formctl'] == 'reg') {
+        if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+            http_response_code(405);
+            header('Allow: POST');
+            return;
+        }
+
+        if (!csrf_validate($_POST['csrf_token'] ?? null)) {
+            http_response_code(403);
+            echo "<script>alert('請求驗證失敗，請重新整理頁面後再試。');location.href='register.php';</script>";
+            return;
+        }
+
         $password = isset($_POST['pw1']) && is_string($_POST['pw1']) ? $_POST['pw1'] : null;
         $passwordConfirmation = isset($_POST['pw2']) && is_string($_POST['pw2']) ? $_POST['pw2'] : null;
         $passwordLength = $password === null
@@ -80,6 +93,7 @@ require_once(__DIR__ . '/includes/cart.php');
                 $_SESSION['email'] = $email;
                 $_SESSION['cname'] = $cname;
                 $_SESSION['imgname'] = $imgname;
+                csrf_rotate();
                 echo "<script>alert('謝謝您!會員資料已完成註冊');location.href='index.php';</script>";
             } else {
                 error_log(sprintf('Member registration auto-login failed for member ID %d: session_regeneration_failed', $emailid));
@@ -602,6 +616,8 @@ require_once(__DIR__ . '/includes/cart.php');
                             id="formctl"
                             value="reg">
 
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+
 
                         <!-- Submit -->
                         <div class="register-submit-area">
@@ -783,6 +799,7 @@ require_once(__DIR__ . '/includes/cart.php');
                 let file1 = getId("fileToUpload").files[0];
                 let formdata = new FormData();
                 formdata.append("file1", file1);
+                formdata.append("csrf_token", document.querySelector('meta[name="csrf-token"]')?.content || '');
                 let ajax = new XMLHttpRequest();
                 ajax.upload.addEventListener("progress", progressHandler, false);
                 ajax.addEventListener("load", complereHandler, false);

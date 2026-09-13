@@ -73,16 +73,14 @@ $shipping = 100;
 
 
                                 <!-- 刪除 -->
-                                <button
-                                    type="button"
-                                    class="cart-remove-btn"
-                                    onclick="btn_confirmLink(
-                                        '確定從購物車移除此商品?',
-                                        'actions/shopcart_del.php?mode=1&cartid=<?= $cart_data['cartid']; ?>'
-                                    )"
-                                    aria-label="移除商品">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
+                                <form method="POST" action="actions/shopcart_del.php" onsubmit="return confirm('確定從購物車移除此商品?');">
+                                    <input type="hidden" name="mode" value="1">
+                                    <input type="hidden" name="cartid" value="<?= $cart_data['cartid']; ?>">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                    <button type="submit" class="cart-remove-btn" aria-label="移除商品">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </form>
 
                             </div>
 
@@ -126,15 +124,11 @@ $shipping = 100;
 
             <!-- 清空購物車 -->
             <div class="cart-list-footer">
-                <button
-                    type="button"
-                    class="cart-clear-btn"
-                    onclick="btn_confirmLink(
-                        '確定清空購物車?',
-                        'actions/shopcart_del.php?mode=2'
-                    )">
-                    清空購物車
-                </button>
+                <form method="POST" action="actions/shopcart_del.php" onsubmit="return confirm('確定清空購物車?');">
+                    <input type="hidden" name="mode" value="2">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                    <button type="submit" class="cart-clear-btn">清空購物車</button>
+                </form>
             </div>
 
         </div>

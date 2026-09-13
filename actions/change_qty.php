@@ -3,8 +3,22 @@ header('Access-Control-Allow-Origin:*');
 header('Content-Type:application/json;charset=utf-8');
 
 require_once dirname(__DIR__) . '/includes/session.php';
+require_once dirname(__DIR__) . '/includes/csrf.php';
 require_once dirname(__DIR__) . '/config/conn_db.php';
 require_once dirname(__DIR__) . '/includes/cart.php';
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    header('Allow: POST');
+    http_response_code(405);
+    echo json_encode(array('c' => '0', 'm' => '請使用 POST 送出請求。'), JSON_UNESCAPED_UNICODE);
+    return;
+}
+
+if (!csrf_validate($_POST['csrf_token'] ?? null)) {
+    http_response_code(403);
+    echo json_encode(array('c' => '0', 'm' => '請求驗證失敗，請重新整理頁面後再試。'), JSON_UNESCAPED_UNICODE);
+    return;
+}
 
 $cartId = cartParsePositiveInteger($_POST['cartid'] ?? null);
 $quantity = cartParseQuantity($_POST['qty'] ?? null);

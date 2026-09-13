@@ -55,6 +55,7 @@ if (isset($_SESSION['login'])) {
 
             const inputAccount = $("#inputAccount").val();
             const inputPassword = $("#inputPassword").val();
+            const csrfToken = $("#loginCsrfToken").val();
 
             $("#loading").css("display", "flex");
 
@@ -64,7 +65,8 @@ if (isset($_SESSION['login'])) {
                 dataType: 'json',
                 data: {
                     inputAccount: inputAccount,
-                    inputPassword: inputPassword
+                    inputPassword: inputPassword,
+                    csrf_token: csrfToken
                 },
 
                 success: function(data) {
