@@ -40,6 +40,8 @@ CREATE TABLE `addbook` (
   `cname` varchar(30) NOT NULL COMMENT '收件者姓名',
   `mobile` varchar(20) NOT NULL COMMENT '收件者電話',
   `myZip` varchar(10) DEFAULT NULL COMMENT '郵遞區號',
+  `city_id` int(10) DEFAULT NULL COMMENT '城市編號',
+  `town_id` bigint(20) DEFAULT NULL COMMENT '鄉鎮市區編號',
   `address` varchar(200) NOT NULL COMMENT '收件地址',
   `create_date` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '建立日期'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -787,14 +789,51 @@ INSERT INTO `town` (`townNo`, `Name`, `Post`, `State`, `AutoNo`) VALUES
 
 CREATE TABLE `uorder` (
   `orderid` varchar(30) NOT NULL COMMENT '訂單編號',
-  `emailid` int(10) NOT NULL COMMENT '會員編號',
-  `addressid` int(10) NOT NULL COMMENT '收件人編號',
-  `howpay` tinyint(4) NOT NULL DEFAULT 1 COMMENT '如何付款',
+  `emailid` int(11) NOT NULL COMMENT '會員編號',
+  `addressid` int(10) DEFAULT NULL COMMENT '預填來源地址ID，訂單歷史以快照為準',
+  `recipient_name` varchar(30) NOT NULL COMMENT '收件人姓名',
+  `recipient_phone` varchar(20) NOT NULL COMMENT '收件人手機',
+  `postal_code` varchar(10) NOT NULL COMMENT '郵遞區號快照',
+  `city_name` varchar(150) NOT NULL COMMENT '城市名稱快照',
+  `town_name` varchar(150) NOT NULL COMMENT '鄉鎮市區名稱快照',
+  `recipient_address` varchar(200) NOT NULL COMMENT '詳細地址快照',
+  `howpay` tinyint(4) NOT NULL DEFAULT 1 COMMENT '付款方式：1=貨到付款',
   `paystatus` int(5) DEFAULT NULL COMMENT '付款狀態',
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '訂單處理狀態',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '訂單狀態：1=待處理',
   `remark` varchar(200) DEFAULT NULL COMMENT '備註',
+  `items_subtotal` decimal(12,2) NOT NULL COMMENT '商品小計',
+  `shipping_fee` decimal(12,2) NOT NULL COMMENT '運費',
+  `order_total` decimal(12,2) NOT NULL COMMENT '訂單總額',
+  `submission_token_hash` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT 'Checkout submission token SHA-256',
   `create_date` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '訂單時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` bigint unsigned NOT NULL,
+  `orderid` varchar(30) NOT NULL,
+  `p_id` int(10) DEFAULT NULL,
+  `product_name` varchar(200) NOT NULL,
+  `unit_price` decimal(12,2) NOT NULL,
+  `quantity` smallint unsigned NOT NULL,
+  `subtotal` decimal(12,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `order_number_sequences`
+--
+
+CREATE TABLE `order_number_sequences` (
+  `sequence_date` date NOT NULL,
+  `last_value` int unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 已傾印資料表的索引
@@ -804,7 +843,9 @@ CREATE TABLE `uorder` (
 -- 資料表索引 `addbook`
 --
 ALTER TABLE `addbook`
-  ADD PRIMARY KEY (`addressid`);
+  ADD PRIMARY KEY (`addressid`),
+  ADD KEY `idx_addbook_member_default` (`emailid`,`setdefault`,`create_date`,`addressid`),
+  ADD KEY `idx_addbook_city_town` (`city_id`,`town_id`);
 
 --
 -- 資料表索引 `carousel`
@@ -873,7 +914,23 @@ ALTER TABLE `town`
 -- 資料表索引 `uorder`
 --
 ALTER TABLE `uorder`
-  ADD PRIMARY KEY (`orderid`);
+  ADD PRIMARY KEY (`orderid`),
+  ADD UNIQUE KEY `uq_uorder_submission_token` (`submission_token_hash`),
+  ADD KEY `idx_uorder_member_created` (`emailid`,`create_date`,`orderid`);
+
+--
+-- 資料表索引 `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_order_items_order` (`orderid`),
+  ADD KEY `idx_order_items_product` (`p_id`);
+
+--
+-- 資料表索引 `order_number_sequences`
+--
+ALTER TABLE `order_number_sequences`
+  ADD PRIMARY KEY (`sequence_date`);
 
 --
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
@@ -944,6 +1001,22 @@ ALTER TABLE `pyclass`
 --
 ALTER TABLE `town`
   MODIFY `townNo` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '鄕鎮市編號', AUTO_INCREMENT=374;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` bigint unsigned NOT NULL AUTO_INCREMENT;
+
+--
+-- 資料表限制式
+--
+ALTER TABLE `uorder`
+  ADD CONSTRAINT `fk_uorder_member` FOREIGN KEY (`emailid`) REFERENCES `member` (`emailid`) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_order` FOREIGN KEY (`orderid`) REFERENCES `uorder` (`orderid`) ON UPDATE RESTRICT ON DELETE RESTRICT,
+  ADD CONSTRAINT `fk_order_items_product` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON UPDATE RESTRICT ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -53,5 +53,5 @@ function validateRegistration(PDO $link, array $post): array
         if (!isRegistrationAvatarFilename($upload) || registrationUploadFilename() !== $upload) return array(false, '上傳圖片驗證失敗，請重新上傳。');
         $imgname = $upload;
     }
-    return array(true, array('email'=>$email,'cname'=>$cname,'tssn'=>strtoupper($tssn),'birthday'=>$birthday,'mobile'=>$mobile,'zip'=>$zip,'address'=>$address,'imgname'=>$imgname));
+    return array(true, array('email'=>$email,'cname'=>$cname,'tssn'=>strtoupper($tssn),'birthday'=>$birthday,'mobile'=>$mobile,'zip'=>$zip,'city_id'=>(int)$city,'town_id'=>(int)$town,'address'=>$address,'imgname'=>$imgname));
 }

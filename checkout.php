@@ -1,8 +1,31 @@
 <?php
 require_once __DIR__ . '/includes/session.php';
+require_once(__DIR__ . '/includes/cart.php');
+if (!cartIsAuthenticated()) {
+    header('Location: login.php?sPath=checkout');
+    exit;
+}
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
-require_once(__DIR__ . '/includes/cart.php');
+require_once(__DIR__ . '/includes/order.php');
+
+$checkoutEmailId = cartParsePositiveInteger($_SESSION['emailid'] ?? null);
+if ($checkoutEmailId === null) {
+    header('Location: login.php?sPath=checkout');
+    exit;
+}
+
+$checkoutAddress = orderGetMemberAddress($link, $checkoutEmailId);
+$submissionToken = orderCreateSubmissionToken();
+$cityRows = $link->query('SELECT AutoNo, Name FROM city WHERE State = 0 ORDER BY cityOrder, AutoNo')->fetchAll(PDO::FETCH_ASSOC);
+$selectedCityId = $checkoutAddress['city_id'] ?? null;
+$selectedTownId = $checkoutAddress['town_id'] ?? null;
+$townRows = array();
+if ($selectedCityId !== null) {
+    $townStatement = $link->prepare('SELECT townNo, Name FROM town WHERE AutoNo = :city_id AND State = 0 ORDER BY townNo');
+    $townStatement->execute(array(':city_id' => $selectedCityId));
+    $townRows = $townStatement->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,17 +55,18 @@ require_once(__DIR__ . '/includes/cart.php');
 
 
             <?php
-            $ownerSql = cartOwnerSql(cartCurrentOwner(false), 'c');
-            $SQLstring = "SELECT c.cartid, c.qty, p.p_id, p.p_name, p.p_price, pi.img_file
+            $SQLstring = "SELECT c.cartid, c.qty, p.p_id, p.p_name, p.p_price,
+                     (SELECT pi.img_file FROM product_img AS pi
+                      WHERE pi.p_id = p.p_id ORDER BY pi.sort, pi.img_id LIMIT 1) AS img_file
               FROM cart AS c
               INNER JOIN product AS p ON p.p_id = c.p_id
-              INNER JOIN product_img AS pi ON pi.p_id = c.p_id AND pi.sort = 1
-              WHERE c.orderid IS NULL AND " . $ownerSql['condition'] . "
+              WHERE c.emailid = :emailid
+                AND c.anonymous_token_hash IS NULL
+                AND c.orderid IS NULL
               ORDER BY c.cartid DESC";
-            $SQLstringParams = $ownerSql['params'];
 
             $cart_rs = $link->prepare($SQLstring);
-            $cart_rs->execute($SQLstringParams);
+            $cart_rs->execute(array(':emailid' => $checkoutEmailId));
             $cartRows = $cart_rs->fetchAll(PDO::FETCH_ASSOC);
 
             $ptotal = 0;
@@ -52,6 +76,9 @@ require_once(__DIR__ . '/includes/cart.php');
 
             <?php if (!empty($cartRows)) { ?>
 
+                <form id="checkout-form" method="POST" action="actions/create_order.php">
+                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
+                <input type="hidden" name="submission_token" value="<?= e($submissionToken) ?>">
                 <div class="row g-4 g-xl-5">
 
                     <!-- =====================================================
@@ -83,11 +110,45 @@ require_once(__DIR__ . '/includes/cart.php');
 
                             <div class="checkout-section-body">
 
-                                <div class="checkout-preview-message">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                    <div>
-                                        <strong>結帳介面預覽</strong>
-                                        <p>收件資訊與正式送出功能將於下一階段串接，目前不會建立訂單。</p>
+                                <div class="checkout-recipient-grid">
+                                    <div class="checkout-field checkout-field-full">
+                                        <label for="recipient_name">收件人</label>
+                                        <input type="text" id="recipient_name" name="recipient_name" maxlength="30" required
+                                            value="<?= e($checkoutAddress['cname'] ?? '') ?>">
+                                    </div>
+                                    <div class="checkout-field checkout-field-full">
+                                        <label for="recipient_phone">手機</label>
+                                        <input type="tel" id="recipient_phone" name="recipient_phone" maxlength="10"
+                                            pattern="09[0-9]{8}" inputmode="numeric" required
+                                            value="<?= e($checkoutAddress['mobile'] ?? '') ?>">
+                                    </div>
+                                    <div class="checkout-field">
+                                        <label for="city_id">縣市</label>
+                                        <select id="city_id" name="city_id" required>
+                                            <option value="">請選擇縣市</option>
+                                            <?php foreach ($cityRows as $cityRow) { ?>
+                                                <option value="<?= (int)$cityRow['AutoNo'] ?>" <?= (string)$selectedCityId === (string)$cityRow['AutoNo'] ? 'selected' : '' ?>><?= e($cityRow['Name']) ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="checkout-field">
+                                        <label for="town_id">行政區</label>
+                                        <select id="town_id" name="town_id" required>
+                                            <option value="">請選擇行政區</option>
+                                            <?php foreach ($townRows as $townRow) { ?>
+                                                <option value="<?= (int)$townRow['townNo'] ?>" <?= (string)$selectedTownId === (string)$townRow['townNo'] ? 'selected' : '' ?>><?= e($townRow['Name']) ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="checkout-field checkout-field-full">
+                                        <label for="postal_code">郵遞區號</label>
+                                        <input type="text" id="postal_code" name="postal_code" maxlength="10" inputmode="numeric" required
+                                            value="<?= e($checkoutAddress['myZip'] ?? '') ?>">
+                                    </div>
+                                    <div class="checkout-field checkout-field-full">
+                                        <label for="recipient_address">詳細地址</label>
+                                        <input type="text" id="recipient_address" name="recipient_address" maxlength="200" required
+                                            value="<?= e($checkoutAddress['address'] ?? '') ?>">
                                     </div>
                                 </div>
 
@@ -125,11 +186,11 @@ require_once(__DIR__ . '/includes/cart.php');
                                     <!-- 貨到付款 -->
                                     <label class="payment-option">
 
-                                        <input
-                                            type="radio"
-                                            name="payment"
-                                            value="cod"
-                                            checked>
+                                                <input
+                                                    type="radio"
+                                                    value="cod"
+                                                    checked
+                                                    disabled>
 
                                         <span class="payment-option-content">
 
@@ -138,7 +199,7 @@ require_once(__DIR__ . '/includes/cart.php');
                                             <span class="payment-text">
                                                 <strong>貨到付款</strong>
                                                 <small>
-                                                     商品送達時再行付款；正式下單功能尚未開放
+                                                     商品送達時再行付款
                                                 </small>
                                             </span>
 
@@ -304,17 +365,16 @@ require_once(__DIR__ . '/includes/cart.php');
 
 
                             <button
-                                type="button"
-                                class="checkout-submit-btn"
-                                disabled>
-                                下單功能尚未開放
-                                <i class="fa-solid fa-clock ms-2"></i>
+                                type="submit"
+                                class="checkout-submit-btn">
+                                確認下單
+                                <i class="fa-solid fa-arrow-right ms-2"></i>
                             </button>
 
 
                             <p class="checkout-notice">
-                                本頁目前僅供確認商品與結帳介面，
-                                不會建立或送出訂單。
+                                送出後將以貨到付款建立訂單，
+                                商品價格與總額會由伺服器重新確認。
                             </p>
 
 
@@ -328,6 +388,7 @@ require_once(__DIR__ . '/includes/cart.php');
                     </div>
 
                 </div>
+                </form>
 
 
             <?php } else { ?>
@@ -366,6 +427,57 @@ require_once(__DIR__ . '/includes/cart.php');
     </section>
 
     <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
+
+    <script>
+        const checkoutForm = document.getElementById('checkout-form');
+        const citySelect = document.getElementById('city_id');
+        const townSelect = document.getElementById('town_id');
+        const postalInput = document.getElementById('postal_code');
+
+        if (citySelect && townSelect && postalInput) {
+            citySelect.addEventListener('change', function() {
+                townSelect.innerHTML = '<option value="">請選擇行政區</option>';
+                postalInput.value = '';
+                if (!this.value) return;
+
+                $.ajax({
+                    url: 'api/Town_ajax.php',
+                    type: 'post',
+                    dataType: 'json',
+                    data: { CNo: this.value },
+                    success: function(data) {
+                        if (data.c == true) townSelect.innerHTML = data.m;
+                    }
+                });
+            });
+
+            townSelect.addEventListener('change', function() {
+                postalInput.value = '';
+                if (!this.value) return;
+
+                $.ajax({
+                    url: 'api/Zip_ajax.php',
+                    type: 'get',
+                    dataType: 'json',
+                    data: { AutoNo: this.value },
+                    success: function(data) {
+                        if (data.c == true) postalInput.value = data.Post;
+                    }
+                });
+            });
+        }
+
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function() {
+                const submitButton = checkoutForm.querySelector('.checkout-submit-btn');
+                if (submitButton) submitButton.disabled = true;
+            });
+            window.addEventListener('pageshow', function() {
+                const submitButton = checkoutForm.querySelector('.checkout-submit-btn');
+                if (submitButton) submitButton.disabled = false;
+            });
+        }
+    </script>
 
 </body>
 
