@@ -6,7 +6,7 @@
                       INNER JOIN product_img AS pi ON pi.p_id = p.p_id
                       WHERE p.p_id = :value0
                       ORDER BY pi.sort";
-        $SQLstringParams = array(':value0' => (int)$_GET['p_id']);
+        $SQLstringParams = array(':value0' => $productId);
         $img_rs = $link->prepare($SQLstring);
         $img_rs->execute($SQLstringParams);
         $images = [];
@@ -23,11 +23,11 @@
             <div class="product-main-media shadow-sm rounded overflow-hidden">
                 <?php if ($firstImg): ?>
                     <a id="mainImgLink"
-                        href="product_img/<?php echo $firstImg['img_file']; ?>"
+                        href="product_img/<?= e(safeImageFilename($firstImg['img_file'])) ?>"
                         data-gallery-index="0"
-                        title="<?php echo $firstImg['p_name'] ?>"
+                        title="<?= e($firstImg['p_name']) ?>"
                         class="d-block">
-                        <img id="showGoods" name="showGoods" src="product_img/<?php echo $firstImg['img_file']; ?>" class="product-main-image" alt="<?php echo $firstImg['p_name'] ?>" title="<?php echo $firstImg['p_name'] ?>">
+                        <img id="showGoods" name="showGoods" src="product_img/<?= e(safeImageFilename($firstImg['img_file'])) ?>" class="product-main-image" alt="<?= e($firstImg['p_name']) ?>" title="<?= e($firstImg['p_name']) ?>">
                     </a>
                 <?php endif; ?>
             </div>
@@ -38,11 +38,12 @@
                     foreach ($images as $index => $img) {
                 ?>
                         <div class="w-100">
-                            <a href="product_img/<?php echo $img['img_file']; ?>"
-                                title="<?php echo $img['p_name'] ?>"
+                            <?php $safeImage = safeImageFilename($img['img_file']); ?>
+                            <a href="product_img/<?= e($safeImage) ?>"
+                                title="<?= e($img['p_name']) ?>"
                                 class="thumb-link <?php echo $index === 0 ? 'active' : ''; ?>"
-                                onclick="changeMainImg(event, 'product_img/<?php echo $img['img_file']; ?>', <?php echo $index; ?>)">
-                                <img src="product_img/<?php echo $img['img_file']; ?>" class="img-fluid rounded border thumb-img" alt="<?php echo $img['p_name'] ?>" title="<?php echo $img['p_name'] ?>">
+                                onclick="changeMainImg(event, <?= e(jsValue('product_img/' . $safeImage)) ?>, <?= (int)$index ?>)">
+                                <img src="product_img/<?= e($safeImage) ?>" class="img-fluid rounded border thumb-img" alt="<?= e($img['p_name']) ?>" title="<?= e($img['p_name']) ?>">
                             </a>
                         </div>
                 <?php
@@ -57,10 +58,10 @@
         if (!empty($images)) {
             foreach ($images as $img) {
         ?>
-                <a href="product_img/<?php echo $img['img_file']; ?>"
+                <a href="product_img/<?= e(safeImageFilename($img['img_file'])) ?>"
                     data-pswp-width="<?php echo $img['img_width']; ?>"
                     data-pswp-height="<?php echo $img['img_height']; ?>"
-                    data-pswp-caption="<?php echo htmlspecialchars($img['p_name'], ENT_QUOTES, 'UTF-8'); ?>"></a>
+                    data-pswp-caption="<?= e($img['p_name']) ?>"></a>
         <?php
             }
         }
@@ -73,8 +74,8 @@
     <div class="col-md-6">
         <div class="ps-md-4 d-flex flex-column h-100 justify-content-between">
             <div>
-                <h1 class="h2 fw-bold text-dark mb-2"><?php echo $imgList['p_name'] ?></h1>
-                <p class="text-secondary fs-6 lh-lg mb-4" style="text-align: justify;"><?php echo $imgList['p_intro'] ?></p>
+                <h1 class="h2 fw-bold text-dark mb-2"><?= e($imgList['p_name']) ?></h1>
+                <p class="text-secondary fs-6 lh-lg mb-4" style="text-align: justify;"><?= e($imgList['p_intro']) ?></p>
                 <hr class="text-muted opacity-25 my-4">
                 <div>
                     <span class="fs-4 fw-normal text-muted me-2">售價</span>
@@ -110,6 +111,7 @@
             商品詳情
         </h3>
         <div class="product-detail-content lh-lg mt-4 text-muted">
+            <?php // Intentional trusted HTML from curated product data. Sanitize on write if general admin editing is added. ?>
             <?php echo $imgList['p_content']; ?>
         </div>
     </div>

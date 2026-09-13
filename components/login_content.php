@@ -51,7 +51,7 @@
                 id="form1"
                 class="login-form">
 
-                <input type="hidden" name="csrf_token" id="loginCsrfToken" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="csrf_token" id="loginCsrfToken" value="<?= e(csrf_token()) ?>">
 
                 <!-- Email -->
                 <div class="login-field">

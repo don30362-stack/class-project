@@ -45,8 +45,8 @@ $shipping = 100;
                             href="productDetail.php?p_id=<?= $cart_data['p_id']; ?>"
                             class="cart-item-image">
                             <img
-                                src="product_img/<?= $cart_data['img_file']; ?>"
-                                alt="<?= $cart_data['p_name']; ?>">
+                                src="product_img/<?= e(safeImageFilename($cart_data['img_file'])); ?>"
+                                alt="<?= e($cart_data['p_name']); ?>">
                         </a>
 
 
@@ -63,7 +63,7 @@ $shipping = 100;
                                     <a
                                         href="productDetail.php?p_id=<?= $cart_data['p_id']; ?>"
                                         class="cart-product-name">
-                                        <?= $cart_data['p_name']; ?>
+                                        <?= e($cart_data['p_name']); ?>
                                     </a>
 
                                     <div class="cart-product-price">
@@ -76,7 +76,7 @@ $shipping = 100;
                                 <form method="POST" action="actions/shopcart_del.php" onsubmit="return confirm('確定從購物車移除此商品?');">
                                     <input type="hidden" name="mode" value="1">
                                     <input type="hidden" name="cartid" value="<?= $cart_data['cartid']; ?>">
-                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                                     <button type="submit" class="cart-remove-btn" aria-label="移除商品">
                                         <i class="fa-solid fa-xmark"></i>
                                     </button>
@@ -126,7 +126,7 @@ $shipping = 100;
             <div class="cart-list-footer">
                 <form method="POST" action="actions/shopcart_del.php" onsubmit="return confirm('確定清空購物車?');">
                     <input type="hidden" name="mode" value="2">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                     <button type="submit" class="cart-clear-btn">清空購物車</button>
                 </form>
             </div>

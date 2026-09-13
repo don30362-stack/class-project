@@ -17,11 +17,11 @@ $i = 0;
         ?>
             <div class="carousel-item <?php echo activeShow($i, 0); ?>">
                 <a href="productDetail.php?p_id=<?php echo $data['p_id']; ?>">
-                    <img src="./product_img/<?= $data['caro_pic'] ?>" class="d-block w-100" alt="<?= $data['caro_title'] ?>">
+                    <img src="./product_img/<?= e(safeImageFilename($data['caro_pic'])) ?>" class="d-block w-100" alt="<?= e($data['caro_title']) ?>">
                 </a>
                 <div class="carousel-caption">
-                    <h5><?= $data['caro_title'] ?></h5>
-                    <p><?= $data['caro_content'] ?></p>
+                    <h5><?= e($data['caro_title']) ?></h5>
+                    <p><?= e($data['caro_content']) ?></p>
                 </div>
             </div>
         <?php $i++;

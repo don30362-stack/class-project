@@ -38,7 +38,7 @@ elseif ($current_page == 'productList.php' || $current_page == 'productDetail.ph
 
         // --- 以下開始根據參數動態疊加後續節點 ---
 
-        if (isset($_GET['p_id']) && $_GET['p_id'] != "") {
+        if (isset($productId)) {
             // 頁面：商品內頁 (呈現：商品專區 > 大類 > 小類 > 商品名稱)
             $SQLstring = "SELECT p.p_name, c2.cname as cname2, c2.classid as classid2, c1.cname as cname1, c1.classid as classid1, c1.level as level1
                           FROM product p
@@ -47,7 +47,7 @@ elseif ($current_page == 'productList.php' || $current_page == 'productDetail.ph
                           WHERE p.p_id = :p_id";
 
             $stmt = $link->prepare($SQLstring);
-            $stmt->execute([':p_id' => (int)$_GET['p_id']]);
+            $stmt->execute([':p_id' => $productId]);
             $data = $stmt->fetch();
 
             if ($data) {
@@ -55,10 +55,10 @@ elseif ($current_page == 'productList.php' || $current_page == 'productDetail.ph
                 $breadcrumbItems[] = ['name' => $data['cname2'], 'url' => 'productList.php?classid=' . $data['classid2'], 'active' => false];
                 $breadcrumbItems[] = ['name' => $data['p_name'], 'url' => '', 'active' => true];
             }
-        } elseif (isset($_GET['search_name'])) {
+        } elseif (isset($_GET['search_name']) && is_string($_GET['search_name'])) {
             // 頁面：關鍵字搜尋結果
             $breadcrumbItems[] = ['name' => '關鍵字查詢：' . $_GET['search_name'], 'url' => '', 'active' => true];
-        } elseif (isset($_GET['level']) && isset($_GET['classid']) && $_GET['level'] == 1) {
+        } elseif (isset($_GET['level'], $_GET['classid']) && is_string($_GET['level']) && is_string($_GET['classid']) && $_GET['level'] === '1' && ctype_digit($_GET['classid'])) {
             // 頁面：第一個分類 (大類)
             $SQLstring = "SELECT cname FROM pyclass WHERE level = :level AND classid = :classid";
             $stmt = $link->prepare($SQLstring);
@@ -67,7 +67,7 @@ elseif ($current_page == 'productList.php' || $current_page == 'productDetail.ph
             if ($data) {
                 $breadcrumbItems[] = ['name' => $data['cname'], 'url' => '', 'active' => true];
             }
-        } elseif (isset($_GET['classid'])) {
+        } elseif (isset($_GET['classid']) && is_string($_GET['classid']) && ctype_digit($_GET['classid'])) {
             // 頁面：第二個分類 (小類)
             $SQLstring = "SELECT c2.cname as cname2, c1.cname as cname1, c1.classid as classid1, c1.level as level1 
                           FROM pyclass c2
@@ -92,10 +92,10 @@ elseif ($current_page == 'productList.php' || $current_page == 'productDetail.ph
         <?php foreach ($breadcrumbItems as $item) { ?>
             <?php if ($item['active']) { ?>
                 <!-- 如果是最後一頁（當前頁面），不加超連結並加上 active -->
-                <li class="breadcrumb-item active" aria-current="page"><?= htmlspecialchars($item['name']) ?></li>
+                <li class="breadcrumb-item active" aria-current="page"><?= e($item['name']) ?></li>
             <?php } else { ?>
                 <!-- 如果是上層目錄，加上對應的頁面超連結 -->
-                <li class="breadcrumb-item"><a href="<?= $item['url'] ?>"><?= htmlspecialchars($item['name']) ?></a></li>
+                <li class="breadcrumb-item"><a href="<?= e($item['url']) ?>"><?= e($item['name']) ?></a></li>
             <?php } ?>
         <?php } ?>
     </ol>

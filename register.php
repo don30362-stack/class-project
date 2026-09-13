@@ -5,6 +5,7 @@ require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
 require_once(__DIR__ . '/includes/cart.php');
 require_once(__DIR__ . '/includes/csrf.php');
+require_once(__DIR__ . '/includes/register_validation.php');
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +32,13 @@ require_once(__DIR__ . '/includes/csrf.php');
         if (!csrf_validate($_POST['csrf_token'] ?? null)) {
             http_response_code(403);
             echo "<script>alert('請求驗證失敗，請重新整理頁面後再試。');location.href='register.php';</script>";
+            return;
+        }
+
+        [$registrationValid, $registrationResult] = validateRegistration($link, $_POST);
+        if (!$registrationValid) {
+            http_response_code(422);
+            echo '<script>alert(' . jsValue($registrationResult) . ");location.href='register.php';</script>";
             return;
         }
 
@@ -67,41 +75,34 @@ require_once(__DIR__ . '/includes/csrf.php');
             return;
         }
 
-        $email = $_POST['email'];
-        $cname = $_POST['cname'];
-        $tssn = $_POST['tssn'];
-        $birthday = $_POST['birthday'];
-        $mobile = $_POST['mobile'];
-        $myZip = $_POST['myZip'] == '' ? NULL : $_POST['myZip'];
-        $address = $_POST['address'] == '' ? NULL : $_POST['address'];
-        $imgname = $_POST['uploadname'] == '' ? 'avatar.svg' : $_POST['uploadname'];
-        $insertsql = "INSERT INTO member (email,pw1,cname,tssn,birthday,imgname) VALUES (:value0,:value1,:value2,:value3,:value4,:value5)";
-        $insertsqlParams = array(':value0' => $email, ':value1' => $pw1, ':value2' => $cname, ':value3' => $tssn, ':value4' => $birthday, ':value5' => $imgname);
-        $statement = $link->prepare($insertsql);
-        $Result = $statement->execute($insertsqlParams);
-        if ($Result) {
-            $emailid = $link->lastInsertId();
-            $insertsql = "INSERT INTO addbook (emailid,setdefault,cname,mobile,myZip,address) VALUES (:value0, '1', :value1, :value2, :value3, :value4)";
-            $insertsqlParams = array(':value0' => $emailid, ':value1' => $cname, ':value2' => $mobile, ':value3' => $myZip, ':value4' => $address);
-            $statement = $link->prepare($insertsql);
-            $Result = $statement->execute($insertsqlParams);
-            if (!mergeAnonymousCartIntoMember($link, (int)$emailid)) {
-                echo "<script>alert('會員資料已完成註冊，購物車合併失敗，請重新登入。');location.href='login.php';</script>";
-            } elseif (session_regenerate_id(true)) {
-                $_SESSION['login'] = true;
-                $_SESSION['emailid'] = $emailid;
-                $_SESSION['email'] = $email;
-                $_SESSION['cname'] = $cname;
-                $_SESSION['imgname'] = $imgname;
-                csrf_rotate();
-                echo "<script>alert('謝謝您!會員資料已完成註冊');location.href='index.php';</script>";
-            } else {
-                error_log(sprintf('Member registration auto-login failed for member ID %d: session_regeneration_failed', $emailid));
-                $_SESSION = array();
-                echo "<script>alert('會員資料已完成註冊，請重新登入。');location.href='login.php';</script>";
-            }
+        extract($registrationResult, EXTR_SKIP);
+        try {
+            $link->beginTransaction();
+            $statement = $link->prepare('INSERT INTO member (email,pw1,cname,tssn,birthday,imgname) VALUES (:email,:password,:cname,:tssn,:birthday,:imgname)');
+            $statement->execute(array(':email'=>$email, ':password'=>$pw1, ':cname'=>$cname, ':tssn'=>$tssn, ':birthday'=>$birthday, ':imgname'=>$imgname));
+            $emailid = (int)$link->lastInsertId();
+            $statement = $link->prepare("INSERT INTO addbook (emailid,setdefault,cname,mobile,myZip,address) VALUES (:emailid, '1', :cname, :mobile, :zip, :address)");
+            $statement->execute(array(':emailid'=>$emailid, ':cname'=>$cname, ':mobile'=>$mobile, ':zip'=>$zip, ':address'=>$address));
+            if (!mergeAnonymousCartIntoMember($link, $emailid, false)) throw new RuntimeException('cart_merge_failed');
+            $link->commit();
+            unset($_SESSION[CART_ANONYMOUS_TOKEN_SESSION_KEY]);
+            if ($imgname !== 'avatar.svg' && isset($_SESSION[REGISTER_UPLOADS_SESSION_KEY][$imgname])) unset($_SESSION[REGISTER_UPLOADS_SESSION_KEY][$imgname]);
+        } catch (Throwable $exception) {
+            if ($link->inTransaction()) $link->rollBack();
+            error_log('Member registration failed: transaction_failed');
+            http_response_code(500);
+            echo "<script>alert('註冊失敗，請稍後再試。');location.href='register.php';</script>";
+            return;
+        }
+
+        if (session_regenerate_id(true)) {
+            $_SESSION['login'] = true; $_SESSION['emailid'] = $emailid; $_SESSION['email'] = $email;
+            $_SESSION['cname'] = $cname; $_SESSION['imgname'] = $imgname; csrf_rotate();
+            echo "<script>alert('謝謝您!會員資料已完成註冊');location.href='index.php';</script>";
         } else {
-            echo "<script>alert('註冊失敗，請重新註冊，並連絡管理員。');location.href='register.php';</script>";
+            error_log(sprintf('Member registration auto-login failed for member ID %d: session_regeneration_failed', $emailid));
+            $_SESSION = array();
+            echo "<script>alert('會員資料已完成註冊，請重新登入。');location.href='login.php';</script>";
         }
     }
     ?>
@@ -377,7 +378,7 @@ require_once(__DIR__ . '/includes/csrf.php');
                                         while ($city_rows = $city_rs->fetch()) {
                                         ?>
                                             <option value="<?= $city_rows['AutoNo'] ?>">
-                                                <?= $city_rows['Name'] ?>
+                                                <?= e($city_rows['Name']) ?>
                                             </option>
                                         <?php } ?>
 
@@ -616,7 +617,7 @@ require_once(__DIR__ . '/includes/csrf.php');
                             id="formctl"
                             value="reg">
 
-                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?= e(csrf_token()) ?>">
 
 
                         <!-- Submit -->

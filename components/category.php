@@ -11,10 +11,10 @@
         <a href="productList.php?classid=<?php echo $pyclass01_rows['classid']; ?>&level=<?php echo $pyclass01_rows['level']; ?>" class="text-decoration-none text-dark d-block">
           <!-- 💡 重點：拔除了 bg-light border 避免生硬框線 -->
           <div class="ratio ratio-1x1 mb-2">
-            <img src="./product_img/category0<?= $pyclass01_rows['classid']; ?>.png" alt="<?= $pyclass01_rows['cname']; ?>" class="img-fluid object-fit-cover">
+            <img src="./product_img/category0<?= (int)$pyclass01_rows['classid']; ?>.png" alt="<?= e($pyclass01_rows['cname']); ?>" class="img-fluid object-fit-cover">
           </div>
           <!-- 💡 重點：加上 category-title 類別，並拿掉 fw-bold fs-6 -->
-          <div class="category-title"><?= $pyclass01_rows['cname']; ?></div>
+          <div class="category-title"><?= e($pyclass01_rows['cname']); ?></div>
         </a>
       </div>
     <?php } ?>

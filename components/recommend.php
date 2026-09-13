@@ -22,13 +22,13 @@ $hot = $link->query($SQLstring);
 
                     <div class="home-recommend-image ratio ratio-1x1">
                         <img
-                            src="./product_img/<?php echo $data['img_file']; ?>"
-                            alt="<?php echo $data['p_name']; ?>">
+                            src="./product_img/<?= e(safeImageFilename($data['img_file'])) ?>"
+                            alt="<?= e($data['p_name']) ?>">
                     </div>
 
                     <div class="home-recommend-info text-center">
                         <h3 class="home-recommend-name">
-                            <?php echo $data['p_name']; ?>
+                            <?= e($data['p_name']) ?>
                         </h3>
 
                         <p class="home-recommend-price">

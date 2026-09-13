@@ -2,6 +2,19 @@
 require_once __DIR__ . '/includes/session.php';
 require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
+$rawProductId = $_GET['p_id'] ?? null;
+if (!is_string($rawProductId) || preg_match('/\A[1-9][0-9]*\z/D', $rawProductId) !== 1) {
+    http_response_code(400);
+    $productError = '商品編號格式不正確。';
+} else {
+    $productId = (int)$rawProductId;
+    $productCheck = $link->prepare('SELECT 1 FROM product WHERE p_id = :p_id AND p_open = 1 LIMIT 1');
+    $productCheck->execute(array(':p_id' => $productId));
+    if (!$productCheck->fetchColumn()) {
+        http_response_code(404);
+        $productError = '找不到此商品，或商品目前未開放。';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +40,11 @@ require_once(__DIR__ . '/includes/php_lib.php');
 
     <section id="content" class="mt-5">
         <div class="container my-5">
-            <?php require_once(__DIR__ . '/components/productDetailContent.php'); ?>
+            <?php if (isset($productError)): ?>
+                <div class="alert alert-warning" role="alert"><?= e($productError) ?></div>
+            <?php else: ?>
+                <?php require_once(__DIR__ . '/components/productDetailContent.php'); ?>
+            <?php endif; ?>
         </div>
     </section>
 

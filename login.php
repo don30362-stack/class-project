@@ -4,11 +4,9 @@ require_once(__DIR__ . '/config/conn_db.php');
 require_once(__DIR__ . '/includes/php_lib.php');
 ?>
 <?php
-if (isset($_GET['sPath'])) {
-    $sPath = $_GET['sPath'] . ".php";
-} else {
-    $sPath = "index.php";
-}
+$allowedLoginDestinations = array('cart' => 'cart.php', 'checkout' => 'checkout.php');
+$requestedPath = isset($_GET['sPath']) && is_string($_GET['sPath']) ? $_GET['sPath'] : '';
+$sPath = $allowedLoginDestinations[$requestedPath] ?? 'index.php';
 
 if (isset($_SESSION['login'])) {
     header(sprintf("location: %s", $sPath));
@@ -72,7 +70,7 @@ if (isset($_SESSION['login'])) {
                 success: function(data) {
                     if (data.c == true) {
                         alert(data.m);
-                        window.location.href = "<?= $sPath ?>";
+                        window.location.href = <?= jsValue($sPath) ?>;
                     } else {
                         alert(data.m);
                     }

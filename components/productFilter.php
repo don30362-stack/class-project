@@ -1,19 +1,19 @@
 <?php
-if (isset($_GET['p_id'])) {
+if (isset($productId)) {
     $ladderSQL = "SELECT c.uplink
                   FROM pyclass AS c
                   INNER JOIN product AS p ON p.classid = c.classid
                   WHERE p.p_id = :value0";
-    $ladderSQLParams = array(':value0' => (int)$_GET['p_id']);
+    $ladderSQLParams = array(':value0' => $productId);
     $classid_rs = $link->prepare($ladderSQL);
     $classid_rs->execute($ladderSQLParams);
     $data = $classid_rs->fetch();
     $ladder = $data ? $data['uplink'] : 1;
-} elseif (isset($_GET['level']) && $_GET['level'] == 1) {
-    $ladder = $_GET['classid'];
-} elseif (isset($_GET['classid'])) {
+} elseif (isset($_GET['level'], $_GET['classid']) && is_string($_GET['level']) && is_string($_GET['classid']) && $_GET['level'] === '1' && ctype_digit($_GET['classid'])) {
+    $ladder = (int)$_GET['classid'];
+} elseif (isset($_GET['classid']) && is_string($_GET['classid']) && ctype_digit($_GET['classid'])) {
     $ladderSQL = "SELECT uplink FROM pyclass where level=2 AND classid=:value0";
-    $ladderSQLParams = array(':value0' => $_GET['classid']);
+    $ladderSQLParams = array(':value0' => (int)$_GET['classid']);
     $classid_rs = $link->prepare($ladderSQL);
     $classid_rs->execute($ladderSQLParams);
     $data = $classid_rs->fetch();
@@ -39,8 +39,8 @@ $categoryTree = getCategoryTree($link);
                     data-bs-target="#collapseOne<?php echo $i; ?>"
                     aria-expanded="<?php echo $isCurrentParent ? 'true' : 'false'; ?>"
                     aria-controls="collapseOne<?php echo $i; ?>">
-                    <i class="fas <?php echo $pyclass01_rows['fonticon']; ?> fa-lg fa-fw"></i>
-                    <?php echo $pyclass01_rows['cname']; ?>
+                    <i class="fas <?= e($pyclass01_rows['fonticon']) ?> fa-lg fa-fw"></i>
+                    <?= e($pyclass01_rows['cname']) ?>
                 </button>
             </h2>
 
@@ -56,7 +56,7 @@ $categoryTree = getCategoryTree($link);
                             <li class="category-item">
                                 <a href="productList.php?classid=<?php echo $pyclass02_rows['classid']; ?>"
                                     class="<?php echo $isCurrentChild ? 'active-child' : ''; ?>">
-                                    <?php echo $pyclass02_rows['cname']; ?>
+                                    <?= e($pyclass02_rows['cname']) ?>
                                 </a>
                             </li>
                         <?php } ?>

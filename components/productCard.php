@@ -1,22 +1,22 @@
 <?php
 $maxRows_rs = 12;
 $pageNum_rs = 0;
-if (isset($_GET['pageNum_rs'])) {
+if (isset($_GET['pageNum_rs']) && is_string($_GET['pageNum_rs'])) {
     $pageNum_rs = max(0, min((int)$_GET['pageNum_rs'], intdiv(PHP_INT_MAX, $maxRows_rs)));
 }
 $queryParams = array();
 $queryFrom = ' FROM product AS p
                INNER JOIN product_img AS pi ON pi.p_id = p.p_id AND pi.sort = 1';
 $queryWhere = ' WHERE p.p_open = 1';
-if (isset($_GET['search_name'])) {
+if (isset($_GET['search_name']) && is_string($_GET['search_name'])) {
     $queryFrom .= ' INNER JOIN pyclass AS c ON c.classid = p.classid';
     $queryWhere .= ' AND p.p_name LIKE :search_name';
     $queryParams = array(':search_name' => "%" . $_GET['search_name'] . "%");
-} elseif (isset($_GET['level']) && $_GET['level'] == 1) {
+} elseif (isset($_GET['level'], $_GET['classid']) && is_string($_GET['level']) && is_string($_GET['classid']) && $_GET['level'] === '1' && ctype_digit($_GET['classid'])) {
     $queryFrom .= ' INNER JOIN pyclass AS c ON c.classid = p.classid';
     $queryWhere .= ' AND c.uplink = :classid';
     $queryParams = array(':classid' => (int)$_GET['classid']);
-} elseif (isset($_GET['classid'])) {
+} elseif (isset($_GET['classid']) && is_string($_GET['classid']) && ctype_digit($_GET['classid'])) {
     $queryWhere .= ' AND p.classid = :classid';
     $queryParams = array(':classid' => (int)$_GET['classid']);
 }
@@ -48,11 +48,11 @@ $i = 1;
                 <div class="card h-100 rounded-0">
                     <a href="productDetail.php?p_id=<?php echo $pList01_Rows['p_id']; ?>">
                         <div class="ratio ratio-1x1 bg-light">
-                            <img src="./product_img/<?= $pList01_Rows['img_file'] ?>" class="card-img-top" alt="<?= $pList01_Rows['p_name'] ?>" title="<?= $pList01_Rows['p_name'] ?>">
+                            <img src="./product_img/<?= e(safeImageFilename($pList01_Rows['img_file'])) ?>" class="card-img-top" alt="<?= e($pList01_Rows['p_name']) ?>" title="<?= e($pList01_Rows['p_name']) ?>">
                         </div>
                     </a>
                     <div class="card-body p-2 p-md-3">
-                        <h5 class="card-title"><?= $pList01_Rows['p_name'] ?></h5>
+                        <h5 class="card-title"><?= e($pList01_Rows['p_name']) ?></h5>
                         <p class="card-price m-0"><span style="font-size: 80%; font-weight: 500; margin-right: 2px;">NT$</span> <?= number_format($pList01_Rows['p_price']) ?></p>
                     </div>
                 </div>

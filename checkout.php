@@ -268,8 +268,8 @@ require_once(__DIR__ . '/includes/cart.php');
                                         <div class="checkout-product-image">
 
                                             <img
-                                                src="product_img/<?= $cart_data['img_file']; ?>"
-                                                alt="<?= $cart_data['p_name']; ?>">
+                                                src="product_img/<?= e(safeImageFilename($cart_data['img_file'])); ?>"
+                                                alt="<?= e($cart_data['p_name']); ?>">
 
                                         </div>
 
@@ -285,7 +285,7 @@ require_once(__DIR__ . '/includes/cart.php');
                                                     </span>
 
                                                     <h3>
-                                                        <?= $cart_data['p_name']; ?>
+                                                        <?= e($cart_data['p_name']); ?>
                                                     </h3>
 
                                                     <span class="checkout-product-unit-price">

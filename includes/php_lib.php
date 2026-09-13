@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/escape.php';
 function activeShow($num, $chkPoint)
 {
 	return (($num == $chkPoint) ? 'active' : '');
@@ -62,26 +63,28 @@ function buildNavigation($pageNum_Recordset1, $totalPages_Recordset1, $prev_Reco
 			#	------------------------
 			#	Searching for $_GET vars
 			#	------------------------
-			$_get_vars = '';
-			if (!empty($_GET)) {
-				foreach ($_GET as $_get_name => $_get_value) {
-					if ($_get_name != "pageNum_" . $sname) {
-						$_get_vars .= "&$_get_name=$_get_value";
-					}
-				}
+			$allowedQuery = array();
+			foreach (array('search_name', 'classid', 'level') as $name) {
+				if (isset($_GET[$name]) && is_string($_GET[$name])) $allowedQuery[$name] = $_GET[$name];
 			}
+			$self = basename($_SERVER['PHP_SELF'] ?? 'productList.php');
+			if ($self !== 'productList.php') $self = 'productList.php';
+			$urlFor = static function (int $page) use ($allowedQuery, $sname, $self): string {
+				$params = array_merge(array('pageNum_' . $sname => $page), $allowedQuery);
+				return e($self . '?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986));
+			};
 			$successivo = $pageNum_Recordset1 + 1;
 			$precedente = $pageNum_Recordset1 - 1;
 
 			switch ($selmode) {
 				case 1:
-					$firstArray = ($pageNum_Recordset1 > 0) ? "<a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$precedente$_get_vars\">$prev_Recordset1</a>" : "$prev_Recordset1";
+					$firstArray = ($pageNum_Recordset1 > 0) ? '<a href="' . $urlFor($precedente) . '">' . $prev_Recordset1 . '</a>' : "$prev_Recordset1";
 					break;
 				case 2:
-					$firstArray = ($pageNum_Recordset1 > 0) ? "<li><a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$precedente$_get_vars\" aria-label='Previous'><span aria-hidden='true'>$prev_Recordset1</span></a></li>" : "<li class='disabled'><span aria-hidden='true'>$prev_Recordset1</span></li>";
+					$firstArray = ($pageNum_Recordset1 > 0) ? '<li><a href="' . $urlFor($precedente) . '" aria-label="Previous"><span aria-hidden="true">' . $prev_Recordset1 . '</span></a></li>' : "<li class='disabled'><span aria-hidden='true'>$prev_Recordset1</span></li>";
 					break;
 				case 3:
-					$firstArray = ($pageNum_Recordset1 > 0) ? "<li class='page-item'><a class='page-link' href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$precedente$_get_vars\" aria-label='Previous'><span aria-hidden='true'>$prev_Recordset1</span></a></li>" : "<li class='page-item disabled'><span class='page-link' aria-label='Previous' aria-hidden='true'>$prev_Recordset1</span></li>";
+					$firstArray = ($pageNum_Recordset1 > 0) ? '<li class="page-item"><a class="page-link" href="' . $urlFor($precedente) . '" aria-label="Previous"><span aria-hidden="true">' . $prev_Recordset1 . '</span></a></li>' : "<li class='page-item disabled'><span class='page-link' aria-label='Previous' aria-hidden='true'>$prev_Recordset1</span></li>";
 					break;
 			}
 			# ----------------------
@@ -100,15 +103,15 @@ function buildNavigation($pageNum_Recordset1, $totalPages_Recordset1, $prev_Reco
 				if ($theNext != $pageNum_Recordset1) {
 					switch ($selmode) {
 						case 1:
-							$pagesArray .= "<a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$theNext$_get_vars\">";
+							$pagesArray .= '<a href="' . $urlFor($theNext) . '">';
 							$pagesArray .= "$textLink</a>" . ($theNext < $egp - 1 ? $separator : "");
 							break;
 						case 2:
-							$pagesArray .= "<li><a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$theNext$_get_vars\">";
+							$pagesArray .= '<li><a href="' . $urlFor($theNext) . '">';
 							$pagesArray .= "$textLink</a></li>";
 							break;
 						case 3:
-							$pagesArray .= "<li class='page-item'><a class='page-link' href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$theNext$_get_vars\">";
+							$pagesArray .= '<li class="page-item"><a class="page-link" href="' . $urlFor($theNext) . '">';
 							$pagesArray .= "$textLink</a></li>";
 							break;
 					}
@@ -130,13 +133,13 @@ function buildNavigation($pageNum_Recordset1, $totalPages_Recordset1, $prev_Reco
 			$offset_end = $totalPages_Recordset1;
 			switch ($selmode) {
 				case 1:
-					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? "<a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$successivo$_get_vars\">$next_Recordset1</a>" : "$next_Recordset1";
+					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? '<a href="' . $urlFor($successivo) . '">' . $next_Recordset1 . '</a>' : "$next_Recordset1";
 					break;
 				case 2:
-					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? "<li><a href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$successivo$_get_vars\" aria-label='Next'><span aria-hidden='true'>$next_Recordset1</span></a></li>" : "<li class='disabled'><span aria-hidden='true'>$next_Recordset1</span></li>";
+					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? '<li><a href="' . $urlFor($successivo) . '" aria-label="Next"><span aria-hidden="true">' . $next_Recordset1 . '</span></a></li>' : "<li class='disabled'><span aria-hidden='true'>$next_Recordset1</span></li>";
 					break;
 				case 3:
-					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? "<li class='page-item'><a class='page-link' href=\"$_SERVER[PHP_SELF]?pageNum_" . $sname . "=$successivo$_get_vars\" aria-label='Next'><span aria-hidden='true'>$next_Recordset1</span></a></li>" : "<li class='page-item disabled'><span class='page-link' aria-label='Next' aria-hidden='true'>$next_Recordset1</span></li>";
+					$lastArray = ($pageNum_Recordset1 < $totalPages_Recordset1) ? '<li class="page-item"><a class="page-link" href="' . $urlFor($successivo) . '" aria-label="Next"><span aria-hidden="true">' . $next_Recordset1 . '</span></a></li>' : "<li class='page-item disabled'><span class='page-link' aria-label='Next' aria-hidden='true'>$next_Recordset1</span></li>";
 					break;
 			}
 		}

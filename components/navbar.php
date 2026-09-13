@@ -36,7 +36,7 @@ require_once dirname(__DIR__) . '/includes/cart.php';
             </ul>
             <form class="d-flex justify-content-center" role="search" action="productList.php" method="get">
                 <div>
-                    <input name="search_name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 200px;" value="<?php echo (isset($_GET['search_name'])) ? $_GET['search_name'] : ''; ?>" required />
+                    <input name="search_name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 200px;" value="<?= e(isset($_GET['search_name']) && is_string($_GET['search_name']) ? $_GET['search_name'] : '') ?>" required />
                 </div>
                 <button class="btn" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -70,7 +70,7 @@ require_once dirname(__DIR__) . '/includes/cart.php';
                             data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img
-                                src="uploads/<?= ($_SESSION['imgname'] != '') ? $_SESSION['imgname'] : 'avatar.svg' ?>"
+                                src="uploads/<?= e(safeImageFilename($_SESSION['imgname'] ?? null, 'avatar.svg')) ?>"
                                 width="40"
                                 height="40"
                                 class="rounded-circle"
@@ -91,7 +91,7 @@ require_once dirname(__DIR__) . '/includes/cart.php';
                             <div class="dropdown-divider"></div>
 
                             <form method="POST" action="actions/logout.php" onsubmit="return confirm('請確定是否要登出');">
-                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                                <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                                 <button type="submit" class="dropdown-item">
                                     <i class="fa-solid fa-right-from-bracket me-2"></i>
                                     登出
@@ -145,8 +145,8 @@ function multiList02()
                         <!-- ⭐ 移除 dropdown-toggle 類別，回歸純 A 標籤，點擊文字保證 100% 跳轉 -->
                         <a class="dropdown-item <?php echo $isNavActive ? 'active-nav' : ''; ?>"
                             href="productList.php?classid=<?php echo $pyclass01_rows['classid']; ?>&level=<?php echo $pyclass01_rows['level']; ?>">
-                            <i class="fas <?= $pyclass01_rows['fonticon']; ?> fa-lg fa-fw"></i>
-                            <?= $pyclass01_rows['cname']; ?>
+                            <i class="fas <?= e($pyclass01_rows['fonticon']); ?> fa-lg fa-fw"></i>
+                            <?= e($pyclass01_rows['cname']); ?>
                         </a>
 
                         <!-- ⭐ 新增：專門給手機版點擊展開二層選單的小按鈕 (電腦版會自動隱藏) -->
@@ -161,7 +161,7 @@ function multiList02()
                             <li>
                                 <a href="productList.php?classid=<?php echo $pyclass02_rows['classid']; ?>" class="dropdown-item">
 
-                                    <?= $pyclass02_rows['cname']; ?>
+                                    <?= e($pyclass02_rows['cname']); ?>
                                 </a>
                             </li>
                         <?php } ?>

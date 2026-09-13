@@ -117,7 +117,7 @@ function cartProductIsPurchasable(PDO $link, int $productId, bool $forUpdate = f
 /**
  * Merge the current anonymous open cart into a member cart atomically.
  */
-function mergeAnonymousCartIntoMember(PDO $link, int $emailId): bool
+function mergeAnonymousCartIntoMember(PDO $link, int $emailId, bool $manageTransaction = true): bool
 {
     $token = cartGetAnonymousToken(false);
     if ($token === null) {
@@ -127,7 +127,11 @@ function mergeAnonymousCartIntoMember(PDO $link, int $emailId): bool
     $tokenHash = hash('sha256', $token);
 
     try {
-        $link->beginTransaction();
+        if ($manageTransaction) {
+            $link->beginTransaction();
+        } elseif (!$link->inTransaction()) {
+            throw new RuntimeException('Registration cart merge requires an active transaction.');
+        }
 
         $anonymousStatement = $link->prepare(
             'SELECT cartid, p_id, qty
@@ -241,12 +245,14 @@ function mergeAnonymousCartIntoMember(PDO $link, int $emailId): bool
             }
         }
 
-        $link->commit();
-        unset($_SESSION[CART_ANONYMOUS_TOKEN_SESSION_KEY]);
+        if ($manageTransaction) {
+            $link->commit();
+            unset($_SESSION[CART_ANONYMOUS_TOKEN_SESSION_KEY]);
+        }
 
         return true;
     } catch (Throwable $exception) {
-        if ($link->inTransaction()) {
+        if ($manageTransaction && $link->inTransaction()) {
             $link->rollBack();
         }
         error_log(sprintf('Anonymous cart merge failed for member ID %d: transaction_failed', $emailId));
