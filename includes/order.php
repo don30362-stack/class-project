@@ -37,6 +37,54 @@ function orderDisplayMoney($value): string
     return $cents === '00' ? $grouped : $grouped . '.' . $cents;
 }
 
+function orderIsValidOrderId($orderId): bool
+{
+    return is_string($orderId) && preg_match('/\AHF[0-9]{12}\z/D', $orderId) === 1;
+}
+
+function orderGetMemberOrders(PDO $link, int $emailId): array
+{
+    $statement = $link->prepare(
+        'SELECT orderid, howpay, status, order_total, create_date
+         FROM uorder
+         WHERE emailid = :emailid
+         ORDER BY create_date DESC, orderid DESC'
+    );
+    $statement->execute(array(':emailid' => $emailId));
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function orderGetMemberOrder(PDO $link, int $emailId, string $orderId): ?array
+{
+    $statement = $link->prepare(
+        'SELECT orderid, recipient_name, recipient_phone, postal_code,
+                city_name, town_name, recipient_address, howpay, status,
+                items_subtotal, shipping_fee, order_total, create_date
+         FROM uorder
+         WHERE orderid = :orderid AND emailid = :emailid
+         LIMIT 1'
+    );
+    $statement->execute(array(':orderid' => $orderId, ':emailid' => $emailId));
+    $order = $statement->fetch(PDO::FETCH_ASSOC);
+
+    return $order ?: null;
+}
+
+function orderGetMemberOrderItems(PDO $link, int $emailId, string $orderId): array
+{
+    $statement = $link->prepare(
+        'SELECT oi.product_name, oi.unit_price, oi.quantity, oi.subtotal
+         FROM order_items AS oi
+         INNER JOIN uorder AS o ON o.orderid = oi.orderid
+         WHERE oi.orderid = :orderid AND o.emailid = :emailid
+         ORDER BY oi.id'
+    );
+    $statement->execute(array(':orderid' => $orderId, ':emailid' => $emailId));
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function orderCreateSubmissionToken(): string
 {
     $token = bin2hex(random_bytes(32));

@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/includes/session.php';
 require_once __DIR__ . '/includes/cart.php';
 if (!cartIsAuthenticated()) {
@@ -23,7 +22,6 @@ if ($order === null) {
     http_response_code(404);
     exit('找不到訂單。');
 }
-
 $orderItems = orderGetMemberOrderItems($link, $emailId, $orderId);
 ?>
 <!doctype html>
@@ -38,13 +36,12 @@ $orderItems = orderGetMemberOrderItems($link, $emailId, $orderId);
         <?php require_once __DIR__ . '/components/navbar.php'; ?>
     </section>
 
-    <main class="order-complete-page py-5">
+    <main class="order-history-page py-5">
         <div class="container">
-            <header class="order-complete-header text-center">
-                <span class="order-complete-icon"><i class="fa-solid fa-check"></i></span>
-                <span class="order-complete-eyebrow">ORDER CONFIRMED</span>
-                <h1>訂單已成立</h1>
-                <p>感謝您的訂購，請保存以下訂單編號。</p>
+            <header class="order-history-header text-center">
+                <span class="order-complete-eyebrow">ORDER DETAIL</span>
+                <h1>訂單明細</h1>
+                <p><?= e($order['orderid']) ?></p>
             </header>
 
             <div class="order-complete-layout">
@@ -55,8 +52,8 @@ $orderItems = orderGetMemberOrderItems($link, $emailId, $orderId);
                     </div>
                     <dl class="order-info-list">
                         <div><dt>訂單編號</dt><dd><?= e($order['orderid']) ?></dd></div>
-                        <div><dt>訂單日期</dt><dd><?= e($order['create_date']) ?></dd></div>
-                        <div><dt>訂單狀態</dt><dd><span class="order-status"><?= e(orderStatusLabel((int)$order['status'])) ?></span></dd></div>
+                        <div><dt>建立日期</dt><dd><?= e($order['create_date']) ?></dd></div>
+                        <div><dt>狀態</dt><dd><span class="order-status"><?= e(orderStatusLabel((int)$order['status'])) ?></span></dd></div>
                         <div><dt>付款方式</dt><dd><?= e(orderPaymentLabel((int)$order['howpay'])) ?></dd></div>
                     </dl>
                 </section>
@@ -69,7 +66,10 @@ $orderItems = orderGetMemberOrderItems($link, $emailId, $orderId);
                     <dl class="order-info-list">
                         <div><dt>收件人</dt><dd><?= e($order['recipient_name']) ?></dd></div>
                         <div><dt>手機</dt><dd><?= e($order['recipient_phone']) ?></dd></div>
-                        <div><dt>地址</dt><dd><?= e($order['postal_code'] . ' ' . $order['city_name'] . $order['town_name'] . $order['recipient_address']) ?></dd></div>
+                        <div><dt>郵遞區號</dt><dd><?= e($order['postal_code']) ?></dd></div>
+                        <div><dt>縣市</dt><dd><?= e($order['city_name']) ?></dd></div>
+                        <div><dt>鄉鎮</dt><dd><?= e($order['town_name']) ?></dd></div>
+                        <div><dt>地址</dt><dd><?= e($order['recipient_address']) ?></dd></div>
                     </dl>
                 </section>
             </div>
@@ -77,28 +77,28 @@ $orderItems = orderGetMemberOrderItems($link, $emailId, $orderId);
             <section class="order-complete-card order-items-card">
                 <div class="order-complete-card-heading">
                     <span>ITEMS</span>
-                    <h2>訂購商品</h2>
+                    <h2>商品明細</h2>
                 </div>
                 <div class="order-complete-items">
                     <?php foreach ($orderItems as $item) { ?>
                         <article class="order-complete-item">
                             <div>
                                 <h3><?= e($item['product_name']) ?></h3>
-                                <p>NT$ <?= htmlspecialchars(orderDisplayMoney($item['unit_price']), ENT_QUOTES, 'UTF-8') ?> × <?= (int)$item['quantity'] ?></p>
+                                <p>成交單價 NT$ <?= e(orderDisplayMoney($item['unit_price'])) ?> × <?= (int)$item['quantity'] ?></p>
                             </div>
-                            <strong>NT$ <?= htmlspecialchars(orderDisplayMoney($item['subtotal']), ENT_QUOTES, 'UTF-8') ?></strong>
+                            <strong>小計 NT$ <?= e(orderDisplayMoney($item['subtotal'])) ?></strong>
                         </article>
                     <?php } ?>
                 </div>
                 <div class="order-total-list">
-                    <div><span>商品小計</span><strong>NT$ <?= htmlspecialchars(orderDisplayMoney($order['items_subtotal']), ENT_QUOTES, 'UTF-8') ?></strong></div>
-                    <div><span>運費</span><strong>NT$ <?= htmlspecialchars(orderDisplayMoney($order['shipping_fee']), ENT_QUOTES, 'UTF-8') ?></strong></div>
-                    <div class="order-grand-total"><span>訂單總額</span><strong>NT$ <?= htmlspecialchars(orderDisplayMoney($order['order_total']), ENT_QUOTES, 'UTF-8') ?></strong></div>
+                    <div><span>商品小計</span><strong>NT$ <?= e(orderDisplayMoney($order['items_subtotal'])) ?></strong></div>
+                    <div><span>運費</span><strong>NT$ <?= e(orderDisplayMoney($order['shipping_fee'])) ?></strong></div>
+                    <div class="order-grand-total"><span>訂單總額</span><strong>NT$ <?= e(orderDisplayMoney($order['order_total'])) ?></strong></div>
                 </div>
             </section>
 
-            <div class="order-complete-actions text-center">
-                <a href="productList.php">繼續選購</a>
+            <div class="order-complete-actions order-detail-actions text-center">
+                <a href="orderlist.php"><i class="fa-solid fa-arrow-left me-2"></i>返回我的訂單</a>
             </div>
         </div>
     </main>

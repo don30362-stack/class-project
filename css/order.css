@@ -4,6 +4,152 @@
     color: #222222;
 }
 
+.order-history-page {
+    min-height: 70vh;
+    background: #f7f5f0;
+    color: #222222;
+}
+
+.order-history-header {
+    max-width: 680px;
+    margin: 0 auto 3rem;
+}
+
+.order-history-header h1 {
+    margin-bottom: .75rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.order-history-header p {
+    margin: 0;
+    color: #777777;
+}
+
+.order-list {
+    display: grid;
+    gap: 1rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.order-list-card {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.1fr) minmax(360px, 1.8fr) auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.6rem 1.75rem;
+    border: 1px solid #e2ddd3;
+    background: #ffffff;
+}
+
+.order-list-label {
+    display: block;
+    margin-bottom: .35rem;
+    color: #B89047;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+}
+
+.order-list-main h2 {
+    margin-bottom: .4rem;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+}
+
+.order-list-main time {
+    color: #888888;
+    font-size: .78rem;
+}
+
+.order-list-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin: 0;
+}
+
+.order-list-meta div {
+    min-width: 0;
+}
+
+.order-list-meta dt {
+    margin-bottom: .25rem;
+    color: #999999;
+    font-size: .72rem;
+    font-weight: 500;
+}
+
+.order-list-meta dd {
+    margin: 0;
+    color: #333333;
+    font-size: .84rem;
+}
+
+.order-list-total {
+    color: #9a7130 !important;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.order-detail-link,
+.order-empty-state a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: .65rem;
+    padding: .75rem 1.1rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: .78rem;
+    letter-spacing: .05em;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.order-detail-link:hover,
+.order-empty-state a:hover,
+.order-complete-actions a:hover {
+    background: #B89047;
+    color: #ffffff;
+}
+
+.order-empty-state {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    border: 1px solid #e2ddd3;
+    background: #ffffff;
+}
+
+.order-empty-icon {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 1.25rem;
+    place-items: center;
+    border: 1px solid #B89047;
+    border-radius: 50%;
+    color: #B89047;
+}
+
+.order-empty-state h2 {
+    margin-bottom: .75rem;
+    font-size: 1.3rem;
+}
+
+.order-empty-state p {
+    margin-bottom: 1.5rem;
+    color: #777777;
+}
+
+.order-detail-actions a {
+    min-height: 44px;
+}
+
 .order-complete-header {
     max-width: 660px;
     margin: 0 auto 3rem;
@@ -93,6 +239,7 @@
     color: #333333;
     font-size: .86rem;
     line-height: 1.7;
+    overflow-wrap: anywhere;
 }
 
 .order-status {
@@ -172,7 +319,38 @@
     letter-spacing: .08em;
 }
 
+@media (max-width: 991.98px) {
+    .order-list-card {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .order-detail-link {
+        width: 100%;
+    }
+}
+
 @media (max-width: 767.98px) {
+    .order-history-header {
+        margin-bottom: 2rem;
+    }
+
+    .order-list-card {
+        padding: 1.4rem;
+    }
+
+    .order-list-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .order-list-meta > div:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .order-empty-state {
+        padding: 3rem 1.25rem;
+    }
+
     .order-complete-layout {
         grid-template-columns: 1fr;
     }
@@ -183,5 +361,15 @@
 
     .order-info-list > div {
         grid-template-columns: 75px 1fr;
+    }
+
+    .order-complete-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: .65rem;
+    }
+
+    .order-complete-item > strong {
+        align-self: flex-end;
     }
 }

@@ -77,6 +77,10 @@ require_once dirname(__DIR__) . '/includes/cart.php';
                         </button>
 
                         <div class="dropdown-menu dropdown-menu-end account-dropdown-menu">
+                            <a class="dropdown-item" href="orderlist.php">
+                                <i class="fa-solid fa-receipt me-2"></i>
+                                我的訂單
+                            </a>
                             <form method="POST" action="actions/logout.php" onsubmit="return confirm('請確定是否要登出');">
                                 <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                                 <button type="submit" class="dropdown-item">
