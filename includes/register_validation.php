@@ -1,6 +1,6 @@
 <?php
 
-const REGISTER_UPLOADS_SESSION_KEY = 'registration_uploads';
+require_once __DIR__ . '/registration_upload.php';
 
 function requestString(array $source, string $key): ?string
 {
@@ -50,8 +50,7 @@ function validateRegistration(PDO $link, array $post): array
     if (!$location->fetchColumn()) return array(false, '縣市、地區與郵遞區號不相符。');
     $imgname = 'avatar.svg';
     if ($upload !== null && $upload !== '') {
-        $uploads = $_SESSION[REGISTER_UPLOADS_SESSION_KEY] ?? array();
-        if (!is_array($uploads) || !isset($uploads[$upload]) || $uploads[$upload] !== true) return array(false, '上傳圖片驗證失敗，請重新上傳。');
+        if (!isRegistrationAvatarFilename($upload) || registrationUploadFilename() !== $upload) return array(false, '上傳圖片驗證失敗，請重新上傳。');
         $imgname = $upload;
     }
     return array(true, array('email'=>$email,'cname'=>$cname,'tssn'=>strtoupper($tssn),'birthday'=>$birthday,'mobile'=>$mobile,'zip'=>$zip,'address'=>$address,'imgname'=>$imgname));

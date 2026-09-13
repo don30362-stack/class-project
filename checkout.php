@@ -83,35 +83,13 @@ require_once(__DIR__ . '/includes/cart.php');
 
                             <div class="checkout-section-body">
 
-                                <div class="recipient-info">
-
-                                    <div class="recipient-row">
-                                        <span class="recipient-label">收件人</span>
-                                        <strong>李小明</strong>
+                                <div class="checkout-preview-message">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <div>
+                                        <strong>結帳介面預覽</strong>
+                                        <p>收件資訊與正式送出功能將於下一階段串接，目前不會建立訂單。</p>
                                     </div>
-
-                                    <div class="recipient-row">
-                                        <span class="recipient-label">聯絡電話</span>
-                                        <span>0912-345-678</span>
-                                    </div>
-
-                                    <div class="recipient-row">
-                                        <span class="recipient-label">配送地址</span>
-
-                                        <span>
-                                            407 台中市西屯區<br>
-                                            中正路 1 號
-                                        </span>
-                                    </div>
-
                                 </div>
-
-
-                                <button
-                                    type="button"
-                                    class="checkout-outline-btn">
-                                    更改收件資訊
-                                </button>
 
                             </div>
 
@@ -135,7 +113,7 @@ require_once(__DIR__ . '/includes/cart.php');
                                     </div>
                                 </div>
 
-                                <i class="fa-regular fa-credit-card checkout-section-icon"></i>
+                                <i class="fa-solid fa-hand-holding-dollar checkout-section-icon"></i>
 
                             </div>
 
@@ -144,66 +122,14 @@ require_once(__DIR__ . '/includes/cart.php');
 
                                 <div class="payment-options">
 
-                                    <!-- 信用卡 -->
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment"
-                                            value="credit"
-                                            checked>
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-radio"></span>
-
-                                            <span class="payment-text">
-                                                <strong>信用卡</strong>
-                                                <small>
-                                                    VISA / Mastercard / JCB
-                                                </small>
-                                            </span>
-
-                                            <i class="fa-regular fa-credit-card"></i>
-
-                                        </span>
-
-                                    </label>
-
-
-                                    <!-- ATM -->
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment"
-                                            value="atm">
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-radio"></span>
-
-                                            <span class="payment-text">
-                                                <strong>ATM 轉帳</strong>
-                                                <small>
-                                                    完成訂單後取得付款資訊
-                                                </small>
-                                            </span>
-
-                                            <i class="fa-solid fa-building-columns"></i>
-
-                                        </span>
-
-                                    </label>
-
-
                                     <!-- 貨到付款 -->
                                     <label class="payment-option">
 
                                         <input
                                             type="radio"
                                             name="payment"
-                                            value="cod">
+                                            value="cod"
+                                            checked>
 
                                         <span class="payment-option-content">
 
@@ -212,7 +138,7 @@ require_once(__DIR__ . '/includes/cart.php');
                                             <span class="payment-text">
                                                 <strong>貨到付款</strong>
                                                 <small>
-                                                    商品送達時付款
+                                                     商品送達時再行付款；正式下單功能尚未開放
                                                 </small>
                                             </span>
 
@@ -379,15 +305,16 @@ require_once(__DIR__ . '/includes/cart.php');
 
                             <button
                                 type="button"
-                                class="checkout-submit-btn">
-                                確認送出訂單
-                                <i class="fa-solid fa-arrow-right ms-2"></i>
+                                class="checkout-submit-btn"
+                                disabled>
+                                下單功能尚未開放
+                                <i class="fa-solid fa-clock ms-2"></i>
                             </button>
 
 
                             <p class="checkout-notice">
-                                送出訂單即表示您已確認配送資訊、
-                                商品內容與付款方式。
+                                本頁目前僅供確認商品與結帳介面，
+                                不會建立或送出訂單。
                             </p>
 
 

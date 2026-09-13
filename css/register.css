@@ -607,97 +607,6 @@
 
 
 /* ==========================================================================
-   Captcha
-   ========================================================================== */
-
-.register-captcha {
-    display: grid;
-    grid-template-columns: 190px 1fr;
-
-    gap: 1.5rem;
-
-    align-items: start;
-}
-
-
-.register-captcha-label {
-    display: block;
-
-    margin-bottom: 0.5rem;
-
-    color: #333333;
-
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-
-/* 驗證碼本體 */
-.register-captcha-canvas-wrap {
-    display: flex;
-    align-items: center;
-
-    height: 50px;
-
-    border: 1px solid #dddddd;
-
-    background-color: #f8f7f4;
-
-    overflow: hidden;
-}
-
-
-.register-captcha-canvas-wrap canvas {
-    display: block;
-
-    width: 150px;
-    height: 50px;
-
-    flex-shrink: 0;
-}
-
-
-/* 重新整理 */
-.captcha-refresh-btn {
-    width: 40px;
-    height: 100%;
-
-    flex-shrink: 0;
-
-    border: 0;
-    border-left: 1px solid #e5e5e5;
-
-    background-color: transparent;
-
-    color: #999999;
-
-    transition:
-        color 0.25s ease,
-        background-color 0.25s ease;
-}
-
-
-.captcha-refresh-btn:hover {
-    color: #B89047;
-
-    background-color: #ffffff;
-}
-
-
-.register-captcha-box small {
-    display: block;
-
-    margin-top: 0.45rem;
-
-    color: #aaaaaa;
-
-    font-size: 0.65rem;
-
-    line-height: 1.5;
-}
-
-
-/* ==========================================================================
    Submit
    ========================================================================== */
 
@@ -908,16 +817,6 @@
     .register-upload-preview {
         width: 90px;
         height: 90px;
-    }
-
-
-    .register-captcha {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-    }
-
-    .register-captcha-canvas-wrap {
-        width: 190px;
     }
 
 

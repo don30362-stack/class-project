@@ -6,6 +6,7 @@ require_once(__DIR__ . '/includes/php_lib.php');
 require_once(__DIR__ . '/includes/cart.php');
 require_once(__DIR__ . '/includes/csrf.php');
 require_once(__DIR__ . '/includes/register_validation.php');
+$registrationAvatar = registrationUploadFilename();
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +87,7 @@ require_once(__DIR__ . '/includes/register_validation.php');
             if (!mergeAnonymousCartIntoMember($link, $emailid, false)) throw new RuntimeException('cart_merge_failed');
             $link->commit();
             unset($_SESSION[CART_ANONYMOUS_TOKEN_SESSION_KEY]);
-            if ($imgname !== 'avatar.svg' && isset($_SESSION[REGISTER_UPLOADS_SESSION_KEY][$imgname])) unset($_SESSION[REGISTER_UPLOADS_SESSION_KEY][$imgname]);
+            if ($imgname !== 'avatar.svg') releaseRegistrationUpload($imgname);
         } catch (Throwable $exception) {
             if ($link->inTransaction()) $link->rollBack();
             error_log('Member registration failed: transaction_failed');
@@ -127,25 +128,25 @@ require_once(__DIR__ . '/includes/register_validation.php');
                         </h1>
 
                         <p>
-                            完成會員註冊後，可管理個人資料、查看訂單紀錄，
-                            並享有更完整的購物體驗。
+                            建立會員帳號，讓購物車能在登入後接續使用，
+                            並享有更流暢的選購體驗。
                         </p>
 
                         <div class="register-benefits">
 
                             <div class="register-benefit">
                                 <span>01</span>
-                                <p>快速管理會員資料</p>
+                                <p>建立專屬會員帳號</p>
                             </div>
 
                             <div class="register-benefit">
                                 <span>02</span>
-                                <p>查看歷史訂單紀錄</p>
+                                <p>延續匿名購物車內容</p>
                             </div>
 
                             <div class="register-benefit">
                                 <span>03</span>
-                                <p>簡化後續購物流程</p>
+                                <p>保存會員頭像與資料</p>
                             </div>
 
                         </div>
@@ -502,10 +503,10 @@ require_once(__DIR__ . '/includes/register_validation.php');
                                     <img
                                         id="showimg"
                                         name="showimg"
-                                        src=""
+                                        src="<?= $registrationAvatar === null ? '' : 'uploads/' . e($registrationAvatar) ?>"
                                         alt="會員照片預覽"
                                         class="register-preview-image"
-                                        style="display: none;">
+                                        <?= $registrationAvatar === null ? 'style="display: none;"' : '' ?>>
 
                                 </div>
 
@@ -533,80 +534,7 @@ require_once(__DIR__ . '/includes/register_validation.php');
                                 type="hidden"
                                 name="uploadname"
                                 id="uploadname"
-                                value="">
-
-                        </section>
-
-
-                        <!-- ==========================================
-                         05 驗證
-                         ========================================== -->
-                        <section class="register-section">
-
-                            <div class="register-section-heading">
-                                <span>05</span>
-
-                                <div>
-                                    <small>VERIFICATION</small>
-                                    <h3>安全驗證</h3>
-                                </div>
-                            </div>
-
-
-                            <div class="register-captcha">
-
-                                <div class="register-captcha-box">
-
-                                    <span class="register-captcha-label">
-                                        驗證碼圖片
-                                    </span>
-
-                                    <div class="register-captcha-canvas-wrap">
-
-                                        <canvas id="can"></canvas>
-
-                                        <button
-                                            type="button"
-                                            class="captcha-refresh-btn"
-                                            onclick="getCaptcha()"
-                                            aria-label="更新驗證碼">
-                                            <i class="fa-solid fa-rotate-right"></i>
-                                        </button>
-
-                                    </div>
-
-                                    <small>
-                                        看不清楚？點擊右側圖示重新產生
-                                    </small>
-
-                                </div>
-
-
-                                <div class="register-field">
-
-                                    <label for="recaptcha">
-                                        輸入驗證碼
-                                        <span class="required-mark">*</span>
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        name="recaptcha"
-                                        id="recaptcha"
-                                        class="register-input"
-                                        placeholder="請輸入左側驗證碼"
-                                        autocomplete="off">
-
-                                </div>
-
-                            </div>
-
-
-                            <input
-                                type="hidden"
-                                name="captcha"
-                                id="captcha"
-                                value="">
+                                value="<?= e($registrationAvatar ?? '') ?>">
 
                         </section>
 
@@ -659,7 +587,6 @@ require_once(__DIR__ . '/includes/register_validation.php');
     </section>
 
     <?php require_once(__DIR__ . '/includes/jsfile.php'); ?>
-    <script src="assets/js/commlib.js"></script>
     <script src="assets/js/jquery.validate.js"></script>
 
 
@@ -740,10 +667,6 @@ require_once(__DIR__ . '/includes/register_validation.php');
                 myTown: {
                     checkMyTown: true,
                 },
-                recaptcha: {
-                    required: true,
-                    equalTo: '#captcha'
-                },
             },
             messages: {
                 email: {
@@ -779,10 +702,6 @@ require_once(__DIR__ . '/includes/register_validation.php');
                 },
                 myTown: {
                     checkMyTown: '需選擇郵遞區號',
-                },
-                recaptcha: {
-                    required: '驗證碼不得為空白！',
-                    equalTo: '驗證碼需相同！'
                 },
             }
         });
@@ -831,8 +750,6 @@ require_once(__DIR__ . '/includes/register_validation.php');
                     'src': 'uploads/' + data.fileName
                 }).show();
 
-                $('#uploadForm').hide();
-
             } else {
                 alert(data.error);
             }
@@ -845,25 +762,6 @@ require_once(__DIR__ . '/includes/register_validation.php');
         function abortHandler(event) {
             alert("Upload Aborted:上傳作業取消");
         }
-
-        function getCaptcha() {
-            var inputText = document.getElementById("captcha");
-
-            inputText.value =
-                captchaCode(
-                    "can",
-                    150,
-                    50,
-                    "#222222",
-                    "#f8f7f4",
-                    "24px",
-                    5
-                );
-        }
-
-        $(function() {
-            getCaptcha();
-        })
 
         $('#myCity').change(function() {
             var CNo = $('#myCity').val();

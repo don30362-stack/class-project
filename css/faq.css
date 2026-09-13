@@ -1,0 +1,111 @@
+.faq-page {
+    background: #f7f5f0;
+    color: #222222;
+}
+
+.faq-header {
+    max-width: 680px;
+    margin: 0 auto 3.75rem;
+}
+
+.faq-header > span {
+    display: block;
+    margin-bottom: 1rem;
+    color: #B89047;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .22em;
+}
+
+.faq-header h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 4vw, 3.35rem);
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.faq-header p {
+    margin: 0;
+    color: #777777;
+    line-height: 1.8;
+}
+
+.faq-accordion {
+    max-width: 920px;
+    margin: 0 auto;
+    border-top: 1px solid #cfc8bc;
+}
+
+.faq-accordion .accordion-item {
+    border: 0;
+    border-bottom: 1px solid #cfc8bc;
+    border-radius: 0;
+    background: transparent;
+}
+
+.faq-accordion .accordion-button {
+    gap: 1.4rem;
+    padding: 1.6rem .25rem;
+    border: 0;
+    border-radius: 0 !important;
+    background: transparent;
+    box-shadow: none;
+    color: #222222;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+    color: #9a7130;
+}
+
+.faq-accordion .accordion-button > span {
+    color: #B89047;
+    font-size: .68rem;
+    letter-spacing: .12em;
+}
+
+.faq-accordion .accordion-button::after {
+    filter: sepia(1) saturate(.7);
+}
+
+.faq-accordion .accordion-body {
+    padding: 0 3.35rem 1.75rem;
+    color: #686868;
+    font-size: .9rem;
+    line-height: 1.9;
+}
+
+.faq-disclaimer {
+    max-width: 920px;
+    margin: 2.5rem auto 0;
+    padding: 1rem 1.2rem;
+    background: #111111;
+    color: #a9a9a9;
+    font-size: .78rem;
+    line-height: 1.7;
+}
+
+.faq-disclaimer i {
+    margin-right: .55rem;
+    color: #B89047;
+}
+
+@media (max-width: 575.98px) {
+    .faq-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .faq-accordion .accordion-button {
+        gap: .8rem;
+        padding: 1.3rem 0;
+        font-size: .92rem;
+        line-height: 1.55;
+    }
+
+    .faq-accordion .accordion-body {
+        padding: 0 0 1.5rem 2rem;
+        font-size: .84rem;
+    }
+}

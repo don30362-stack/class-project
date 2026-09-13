@@ -30,20 +30,6 @@
     /* 變成點綴金色 */
 }
 
-/* 3. 社群圖示優化 */
-#footer .text-white-50 {
-    color: #888888 !important;
-    /* 預設暗灰 */
-    transition: all 0.3s ease;
-}
-
-#footer .text-white-50:hover {
-    color: #B89047 !important;
-    /* 懸停時社群圖示也同步變金色，非常有細節感 */
-    transform: translateY(-2px);
-    /* 微微上浮 */
-}
-
 /* 4. 🌟 全新加入：最下方的版權宣告線條與文字樣式 */
 .footer-bottom {
     border-top: 1px solid #1a1a1a;
@@ -60,17 +46,10 @@
     letter-spacing: 1px;
 }
 
-.footer-bottom-link {
+.portfolio-note {
     font-size: 11px;
-    color: #555555 !important;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    transition: color 0.3s ease;
-}
-
-.footer-bottom-link:hover {
-    color: #B89047 !important;
-    /* 懸停變金色 */
+    color: #555555;
+    letter-spacing: 1px;
 }
 
 .footer-logo {

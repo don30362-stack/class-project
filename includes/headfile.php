@@ -23,3 +23,5 @@
 <link rel="stylesheet" href="css/checkout.css">
 <link rel="stylesheet" href="css/login.css">
 <link rel="stylesheet" href="css/register.css">
+<link rel="stylesheet" href="css/brand.css">
+<link rel="stylesheet" href="css/faq.css">

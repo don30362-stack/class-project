@@ -45,7 +45,6 @@ if (isset($_SESSION['login'])) {
 
 </body>
 
-<script src="assets/js/commlib.js"></script>
 <script>
     $(function() {
         $("#form1").submit(function(e) {

@@ -244,38 +244,6 @@
 }
 
 
-/* 密碼 Label / 忘記密碼 */
-.login-label-row {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-.login-label-row label {
-    margin-bottom: 0.55rem;
-}
-
-
-.forgot-password {
-    margin-bottom: 0.55rem;
-
-    color: #999999;
-
-    text-decoration: none;
-
-    font-size: 0.72rem;
-
-    transition: color 0.25s ease;
-}
-
-
-.forgot-password:hover {
-    color: #B89047;
-}
-
-
 /* ==========================================================================
    Input
    ========================================================================== */

@@ -4,7 +4,8 @@ header('X-Content-Type-Options: nosniff');
 
 require_once dirname(__DIR__) . '/includes/session.php';
 require_once dirname(__DIR__) . '/includes/csrf.php';
-require_once dirname(__DIR__) . '/includes/register_validation.php';
+require_once dirname(__DIR__) . '/includes/registration_upload.php';
+require_once dirname(__DIR__) . '/config/conn_db.php';
 
 function uploadFailure($message, $status = 400)
 {
@@ -77,8 +78,14 @@ try {
 if (!move_uploaded_file($tempPath, $uploadDirectory . '/' . $fileName)) {
     uploadFailure('無法完成檔案上傳', 500);
 }
-if (!isset($_SESSION[REGISTER_UPLOADS_SESSION_KEY]) || !is_array($_SESSION[REGISTER_UPLOADS_SESSION_KEY])) {
-    $_SESSION[REGISTER_UPLOADS_SESSION_KEY] = array();
+$previousFileName = replaceRegistrationUpload($fileName);
+if ($previousFileName !== null && $previousFileName !== $fileName) {
+    try {
+        if (!deleteUnusedRegistrationAvatar($link, $previousFileName, $uploadDirectory)) {
+            error_log('Unable to remove the previous unused registration avatar.');
+        }
+    } catch (Throwable $error) {
+        error_log('Unable to verify or remove the previous unused registration avatar.');
+    }
 }
-$_SESSION[REGISTER_UPLOADS_SESSION_KEY][$fileName] = true;
 echo json_encode(array('success' => 'true', 'msg' => '完成檔案上傳', 'error' => '', 'fileName' => $fileName), JSON_UNESCAPED_UNICODE);

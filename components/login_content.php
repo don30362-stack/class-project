@@ -16,8 +16,8 @@
             </h1>
 
             <p>
-                登入會員帳號，查看訂單紀錄、會員資料，
-                並享受更完整的購物體驗。
+                登入會員帳號，接續您的購物車內容，
+                輕鬆探索適合居家空間的訓練器材。
             </p>
 
         </div>
@@ -80,17 +80,9 @@
                 <!-- Password -->
                 <div class="login-field">
 
-                    <div class="login-label-row">
-
-                        <label for="inputPassword">
-                            密碼
-                        </label>
-
-                        <a href="#" class="forgot-password">
-                            忘記密碼？
-                        </a>
-
-                    </div>
+                    <label for="inputPassword">
+                        密碼
+                    </label>
 
 
                     <div class="login-input-wrapper">

@@ -45,8 +45,8 @@
                 <div class="why-us-icon mb-3">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <h4 class="why-us-title">安心流程</h4>
-                <p class="why-us-desc">嚴格加密支付，提供最完善的售後保固</p>
+                <h4 class="why-us-title">清楚資訊</h4>
+                <p class="why-us-desc">以實際規格與頁面狀態，協助安心做出選擇</p>
             </div>
         </div>
 

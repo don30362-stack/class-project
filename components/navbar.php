@@ -63,10 +63,9 @@ require_once dirname(__DIR__) . '/includes/cart.php';
                 <ul class="navbar-nav account-nav flex-row justify-content-center mt-2 mt-lg-0">
                     <li class="nav-item dropdown account-dropdown">
 
-                        <a
+                        <button
+                            type="button"
                             class="nav-link dropdown-toggle account-toggle"
-                            href="#"
-                            role="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img
@@ -75,21 +74,9 @@ require_once dirname(__DIR__) . '/includes/cart.php';
                                 height="40"
                                 class="rounded-circle"
                                 alt="會員頭像">
-                        </a>
+                        </button>
 
                         <div class="dropdown-menu dropdown-menu-end account-dropdown-menu">
-                            <a class="dropdown-item" href="orderlist.php">
-                                <i class="fa-solid fa-receipt me-2"></i>
-                                訂單紀錄
-                            </a>
-
-                            <a class="dropdown-item" href="profile.php">
-                                <i class="fa-solid fa-user-pen me-2"></i>
-                                會員資料
-                            </a>
-
-                            <div class="dropdown-divider"></div>
-
                             <form method="POST" action="actions/logout.php" onsubmit="return confirm('請確定是否要登出');">
                                 <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
                                 <button type="submit" class="dropdown-item">
