@@ -87,10 +87,11 @@
 
                         <div style="width: 140px; flex-shrink: 0;">
                             <div class="input-group">
-                                <button class="btn btn-outline-dark px-3" type="button" onclick="changeQty(-1)">−</button>
-                                <input type="number" id="qty" name="qty" class="form-control text-center fw-bold border-secondary border-start-0 border-end-0" value="1" min="1" readonly>
-                                <button class="btn btn-outline-dark px-3" type="button" onclick="changeQty(1)">+</button>
+                                <button id="qtyMinus" class="btn btn-outline-dark px-3" type="button" onclick="changeQty(-1)" disabled>−</button>
+                                <input type="number" id="qty" name="qty" class="form-control text-center fw-bold border-secondary border-start-0 border-end-0" value="1" min="1" max="49" inputmode="numeric" aria-describedby="product-quantity-error">
+                                <button id="qtyPlus" class="btn btn-outline-dark px-3" type="button" onclick="changeQty(1)">+</button>
                             </div>
+                            <div id="product-quantity-error" class="text-danger small mt-2" role="alert" aria-live="polite"></div>
                         </div>
 
                         <div class="flex-grow-1">
@@ -99,6 +100,7 @@
                             </button>
                         </div>
                     </div>
+                    <div id="cart-feedback" class="alert alert-danger d-none mt-3 mb-0" role="alert" aria-live="polite"></div>
                 </div>
             </div>
         </div>

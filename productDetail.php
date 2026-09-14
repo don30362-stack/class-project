@@ -89,12 +89,25 @@ if (!is_string($rawProductId) || preg_match('/\A[1-9][0-9]*\z/D', $rawProductId)
         function changeQty(amount) {
             const qtyInput = document.getElementById('qty');
             let currentQty = parseInt(qtyInput.value) || 1;
-            currentQty += amount;
-            if (currentQty < 1) {
-                currentQty = 1;
-            }
+            currentQty = Math.min(49, Math.max(1, currentQty + amount));
             qtyInput.value = currentQty;
+            updateQuantityControls();
         }
+
+        function updateQuantityControls() {
+            const qtyInput = document.getElementById('qty');
+            const quantityError = document.getElementById('product-quantity-error');
+            let quantity = Number(qtyInput.value);
+            const valid = Number.isInteger(quantity) && quantity >= 1 && quantity <= 49;
+            quantityError.textContent = valid ? '' : '商品數量請輸入 1～49。';
+            qtyInput.setAttribute('aria-invalid', valid ? 'false' : 'true');
+            document.getElementById('qtyMinus').disabled = !valid || quantity <= 1;
+            document.getElementById('qtyPlus').disabled = !valid || quantity >= 49;
+        }
+
+        document.getElementById('qty')?.addEventListener('input', updateQuantityControls);
+        document.getElementById('qty')?.addEventListener('change', updateQuantityControls);
+        updateQuantityControls();
     </script>
 
     <script type="module">

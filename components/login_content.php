@@ -44,6 +44,7 @@
 
             </div>
 
+            <div id="login-feedback" class="alert alert-danger d-none" role="alert" aria-live="polite"></div>
 
             <form
                 action=""

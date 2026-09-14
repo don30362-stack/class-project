@@ -47,13 +47,25 @@ if (isset($_SESSION['login'])) {
 
 <script>
     $(function() {
+        let loginRequestPending = false;
+        let loginRedirecting = false;
+
+        function showLoginError(message) {
+            $('#login-feedback').text(message).removeClass('d-none');
+        }
+
         $("#form1").submit(function(e) {
             e.preventDefault();
+            if (loginRequestPending) return;
 
             const inputAccount = $("#inputAccount").val();
             const inputPassword = $("#inputPassword").val();
             const csrfToken = $("#loginCsrfToken").val();
+            const submitButton = $(this).find('.login-submit-btn');
 
+            loginRequestPending = true;
+            $('#login-feedback').addClass('d-none').text('');
+            submitButton.prop('disabled', true).attr('aria-busy', 'true').text('登入中…');
             $("#loading").css("display", "flex");
 
             $.ajax({
@@ -68,19 +80,23 @@ if (isset($_SESSION['login'])) {
 
                 success: function(data) {
                     if (data.c == true) {
-                        alert(data.m);
+                        loginRedirecting = true;
                         window.location.href = <?= jsValue($sPath) ?>;
                     } else {
-                        alert(data.m);
+                        showLoginError(typeof data.m === 'string' ? data.m : 'Email 或密碼錯誤。');
                     }
                 },
 
                 error: function() {
-                    alert("系統目前無法連接到後台資料庫。");
+                    showLoginError('系統目前無法連接，請稍後再試。');
                 },
 
                 complete: function() {
                     $("#loading").hide();
+                    if (!loginRedirecting) {
+                        loginRequestPending = false;
+                        submitButton.prop('disabled', false).removeAttr('aria-busy').html('登入 <i class="fa-solid fa-arrow-right"></i>');
+                    }
                 }
             });
         });

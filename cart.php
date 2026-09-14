@@ -28,6 +28,7 @@ require_once(__DIR__ . '/includes/cart.php');
 
     <section id="content" class="cart-page py-4 py-md-5">
         <div class="container">
+            <div id="cart-page-feedback" class="alert alert-danger d-none" role="alert" aria-live="polite"></div>
             <?php require_once(__DIR__ . '/components/cart_content.php'); ?>
         </div>
     </section>
@@ -49,16 +50,36 @@ require_once(__DIR__ . '/includes/cart.php');
 </body>
 
 <script>
+    function showCartPageError(message, input) {
+        const rowError = input?.closest('.cart-quantity')?.querySelector('.quantity-error');
+        if (rowError) {
+            rowError.textContent = message;
+            rowError.style.display = 'block';
+        } else {
+            $('#cart-page-feedback').text(message).removeClass('d-none');
+        }
+    }
+
+    $(".cart-quantity input").on('focus', function() {
+        $(this).data('previous-value', this.value);
+    });
+
     $(".cart-quantity input").change(function() {
+        const input = this;
+        const qty = Number($(this).val());
+        const cartid = $(this).data('cartid');
+        const error = this.closest('.cart-quantity').querySelector('.quantity-error');
 
-        var qty = $(this).val();
-        const cartid = $(this).attr("cartid");
-
-        if (qty < 1 || qty > 49) {
-            alert("商品數量請輸入 1～49。");
-            $(this).focus();
+        if (!Number.isInteger(qty) || qty < 1 || qty > 49) {
+            showCartPageError('商品數量請輸入 1～49。', input);
+            this.setAttribute('aria-invalid', 'true');
             return false;
         }
+
+        error.style.display = '';
+        error.textContent = '請輸入 1～49';
+        this.setAttribute('aria-invalid', 'false');
+        this.disabled = true;
 
         $.ajax({
             url: 'actions/change_qty.php',
@@ -74,12 +95,15 @@ require_once(__DIR__ . '/includes/cart.php');
                 if (data.c == true) {
                     window.location.reload();
                 } else {
-                    alert(data.m);
+                    showCartPageError(data.m, input);
                 }
 
             },
             error: function() {
-                alert("系統目前無法連接到後台資料庫");
+                showCartPageError('購物車更新失敗，請稍後再試。', input);
+            },
+            complete: function() {
+                input.disabled = false;
             }
         });
 

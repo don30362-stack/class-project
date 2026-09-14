@@ -1,15 +1,41 @@
+function showSiteToast(message) {
+    let container = document.getElementById('site-toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'site-toast-container';
+        container.className = 'toast-container position-fixed top-0 end-0 p-3';
+        container.style.zIndex = '1100';
+        container.innerHTML = '<div id="site-toast" class="toast align-items-center text-bg-dark border-0" role="status" aria-live="polite" aria-atomic="true"><div class="d-flex"><div class="toast-body"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="關閉"></button></div></div>';
+        document.body.appendChild(container);
+    }
+    const toastElement = document.getElementById('site-toast');
+    toastElement.querySelector('.toast-body').textContent = message;
+    bootstrap.Toast.getOrCreateInstance(toastElement, { delay: 1200 }).show();
+}
+
+function showCartFeedback(message) {
+    const feedback = document.getElementById('cart-feedback');
+    if (feedback) {
+        feedback.textContent = message;
+        feedback.classList.remove('d-none');
+    }
+}
+
 function addcart(p_id) {
-    var qty = $("#qty").val();
-    if (qty <= 0) {
-        alert("產品數量不得為或為負數，請再修改數量!");
-        return (false);
+    let qty = $("#qty").val();
+    if (qty === undefined) qty = 1;
+    qty = Number(qty);
+    if (!Number.isInteger(qty) || qty < 1 || qty > 49) {
+        const quantityError = document.getElementById('product-quantity-error');
+        if (quantityError) quantityError.textContent = '商品數量請輸入 1～49。';
+        document.getElementById('qty')?.focus();
+        return false;
     }
-    if (qty == undefined) {
-        qty = 1;
-    } else if (qty >= 50) {
-        alert("由於採購數量限制，產品數量將限制在50以下!");
-        return (false);
-    }
+
+    const addButton = document.getElementById('button01');
+    if (addButton?.disabled) return false;
+    document.getElementById('cart-feedback')?.classList.add('d-none');
+    if (addButton) addButton.disabled = true;
 
     $.ajax({
         url: 'actions/addcart.php',
@@ -22,16 +48,20 @@ function addcart(p_id) {
         },
         success: function (data) {
             if (data.c == true) {
-                alert(data.m);
-                window.location.reload();
+                showSiteToast(data.m);
+                window.setTimeout(function () { window.location.reload(); }, 700);
             } else {
-                alert(data.m);
+                showCartFeedback(data.m);
             }
         },
-        error: function (data) {
-            alert("系統目前無法連接到後台資料庫。");
+        error: function () {
+            showCartFeedback('系統目前無法連接，請稍後再試。');
+        },
+        complete: function () {
+            if (addButton) addButton.disabled = false;
         }
     });
+    return false;
 }
 
 

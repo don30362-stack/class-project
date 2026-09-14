@@ -89,17 +89,19 @@ $shipping = 100;
                             <div class="cart-item-bottom">
 
                                 <div class="cart-quantity">
-                                    <label>數量</label>
+                                    <label for="cart-quantity-<?= (int)$cart_data['cartid'] ?>">數量</label>
 
                                     <input
+                                        id="cart-quantity-<?= (int)$cart_data['cartid'] ?>"
                                         type="number"
                                         value="<?= $cart_data['qty']; ?>"
                                         min="1"
                                         max="49"
-                                        cartid="<?= $cart_data['cartid']; ?>"
+                                        data-cartid="<?= (int)$cart_data['cartid']; ?>"
+                                        aria-describedby="quantity-error-<?= (int)$cart_data['cartid'] ?>"
                                         required>
 
-                                    <small class="quantity-error">
+                                    <small id="quantity-error-<?= (int)$cart_data['cartid'] ?>" class="quantity-error" role="alert" aria-live="polite">
                                         請輸入 1～49
                                     </small>
                                 </div>

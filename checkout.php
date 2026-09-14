@@ -152,6 +152,8 @@ if ($selectedCityId !== null) {
                                     </div>
                                 </div>
 
+                                <div id="checkout-location-error" class="alert alert-danger d-none mt-3 mb-0" role="alert" aria-live="polite"></div>
+
                             </div>
 
                         </section>
@@ -367,7 +369,7 @@ if ($selectedCityId !== null) {
                             <button
                                 type="submit"
                                 class="checkout-submit-btn">
-                                確認下單
+                                <span class="checkout-submit-label">確認下單</span>
                                 <i class="fa-solid fa-arrow-right ms-2"></i>
                             </button>
 
@@ -433,12 +435,30 @@ if ($selectedCityId !== null) {
         const citySelect = document.getElementById('city_id');
         const townSelect = document.getElementById('town_id');
         const postalInput = document.getElementById('postal_code');
+        const locationError = document.getElementById('checkout-location-error');
+
+        function showLocationError(message) {
+            if (!locationError) return;
+            locationError.textContent = message;
+            locationError.classList.remove('d-none');
+        }
+
+        function clearLocationError() {
+            if (!locationError) return;
+            locationError.textContent = '';
+            locationError.classList.add('d-none');
+        }
 
         if (citySelect && townSelect && postalInput) {
             citySelect.addEventListener('change', function() {
+                clearLocationError();
                 townSelect.innerHTML = '<option value="">請選擇行政區</option>';
+                townSelect.disabled = true;
                 postalInput.value = '';
-                if (!this.value) return;
+                if (!this.value) {
+                    townSelect.disabled = false;
+                    return;
+                }
 
                 $.ajax({
                     url: 'api/Town_ajax.php',
@@ -446,12 +466,23 @@ if ($selectedCityId !== null) {
                     dataType: 'json',
                     data: { CNo: this.value },
                     success: function(data) {
-                        if (data.c == true) townSelect.innerHTML = data.m;
+                        if (data.c == true) {
+                            townSelect.innerHTML = data.m;
+                            townSelect.disabled = false;
+                        } else {
+                            townSelect.innerHTML = '<option value="">行政區載入失敗</option>';
+                            showLocationError(typeof data.m === 'string' ? data.m : '行政區資料載入失敗，請稍後再試。');
+                        }
+                    },
+                    error: function() {
+                        townSelect.innerHTML = '<option value="">行政區載入失敗</option>';
+                        showLocationError('行政區資料載入失敗，請稍後再試。');
                     }
                 });
             });
 
             townSelect.addEventListener('change', function() {
+                clearLocationError();
                 postalInput.value = '';
                 if (!this.value) return;
 
@@ -461,7 +492,15 @@ if ($selectedCityId !== null) {
                     dataType: 'json',
                     data: { AutoNo: this.value },
                     success: function(data) {
-                        if (data.c == true) postalInput.value = data.Post;
+                        if (data.c == true) {
+                            postalInput.value = data.Post;
+                        } else {
+                            showLocationError(typeof data.m === 'string' ? data.m : '郵遞區號資料載入失敗，請稍後再試。');
+                        }
+                    },
+                    error: function() {
+                        postalInput.value = '';
+                        showLocationError('郵遞區號資料載入失敗，請稍後再試。');
                     }
                 });
             });
@@ -470,11 +509,19 @@ if ($selectedCityId !== null) {
         if (checkoutForm) {
             checkoutForm.addEventListener('submit', function() {
                 const submitButton = checkoutForm.querySelector('.checkout-submit-btn');
-                if (submitButton) submitButton.disabled = true;
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.setAttribute('aria-busy', 'true');
+                    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span><span class="checkout-submit-label">訂單處理中…</span>';
+                }
             });
             window.addEventListener('pageshow', function() {
                 const submitButton = checkoutForm.querySelector('.checkout-submit-btn');
-                if (submitButton) submitButton.disabled = false;
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.removeAttribute('aria-busy');
+                    submitButton.innerHTML = '<span class="checkout-submit-label">確認下單</span><i class="fa-solid fa-arrow-right ms-2"></i>';
+                }
             });
         }
     </script>
