@@ -79,8 +79,8 @@ $registrationAvatar = registrationUploadFilename();
         extract($registrationResult, EXTR_SKIP);
         try {
             $link->beginTransaction();
-            $statement = $link->prepare('INSERT INTO member (email,pw1,cname,tssn,birthday,imgname) VALUES (:email,:password,:cname,:tssn,:birthday,:imgname)');
-            $statement->execute(array(':email'=>$email, ':password'=>$pw1, ':cname'=>$cname, ':tssn'=>$tssn, ':birthday'=>$birthday, ':imgname'=>$imgname));
+            $statement = $link->prepare('INSERT INTO member (email,pw1,cname,birthday,imgname) VALUES (:email,:password,:cname,:birthday,:imgname)');
+            $statement->execute(array(':email'=>$email, ':password'=>$pw1, ':cname'=>$cname, ':birthday'=>$birthday, ':imgname'=>$imgname));
             $emailid = (int)$link->lastInsertId();
             $statement = $link->prepare("INSERT INTO addbook (emailid,setdefault,cname,mobile,myZip,city_id,town_id,address) VALUES (:emailid, '1', :cname, :mobile, :zip, :city_id, :town_id, :address)");
             $statement->execute(array(':emailid'=>$emailid, ':cname'=>$cname, ':mobile'=>$mobile, ':zip'=>$zip, ':city_id'=>$city_id, ':town_id'=>$town_id, ':address'=>$address));
@@ -291,21 +291,6 @@ $registrationAvatar = registrationUploadFilename();
                                         id="cname"
                                         class="register-input"
                                         placeholder="請輸入姓名">
-                                </div>
-
-
-                                <div class="register-field">
-                                    <label for="tssn">
-                                        身分證字號
-                                        <span class="required-mark">*</span>
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        name="tssn"
-                                        id="tssn"
-                                        class="register-input"
-                                        placeholder="請輸入身分證字號">
                                 </div>
 
 
@@ -591,11 +576,6 @@ $registrationAvatar = registrationUploadFilename();
 
 
     <script>
-        jQuery.validator.addMethod("tssn", function(value, element, param) {
-            var tssn = /^[a-zA-Z]{1}[1-2]{1}[0-9]{8}$/;
-            return this.optional(element) || (tssn.test(value));
-        });
-
         jQuery.validator.addMethod("checkphone", function(value, element, param) {
             var checkphone = /^[0]{1}[9]{1}[0-9]{8}$/;
             return this.optional(element) || (checkphone.test(value));
@@ -650,10 +630,6 @@ $registrationAvatar = registrationUploadFilename();
                 cname: {
                     required: true,
                 },
-                tssn: {
-                    required: true,
-                    tssn: true
-                },
                 birthday: {
                     required: true,
                 },
@@ -685,10 +661,6 @@ $registrationAvatar = registrationUploadFilename();
                 },
                 cname: {
                     required: '使用者名稱不得為空白',
-                },
-                tssn: {
-                    required: '身份證ID不得為空白',
-                    tssn: '身份證ID格式有誤'
                 },
                 birthday: {
                     required: '生日不得為空白',

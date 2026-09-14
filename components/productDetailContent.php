@@ -1,4 +1,4 @@
-<div class="row gx-5">
+<div class="row gx-2 gx-lg-5">
     <div class="col-md-6 mb-4 mb-md-0">
         <?php
         $SQLstring = "SELECT p.p_id, p.p_name, p.p_intro, p.p_price, p.p_content, pi.img_file

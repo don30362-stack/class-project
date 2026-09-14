@@ -193,7 +193,6 @@ CREATE TABLE `member` (
   `pw1` varchar(255) NOT NULL COMMENT '密碼',
   `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否啟動',
   `cname` varchar(30) NOT NULL COMMENT '中文姓名',
-  `tssn` varchar(20) NOT NULL COMMENT '身份證字號',
   `birthday` date NOT NULL COMMENT '生日',
   `imgname` text DEFAULT NULL COMMENT '相片檔名',
   `create_date` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '建立日期'

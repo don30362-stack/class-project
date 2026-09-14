@@ -13,22 +13,10 @@ function stringLength(string $value): ?int
     return $result === false ? null : $result;
 }
 
-function validTaiwanId(string $value): bool
-{
-    $value = strtoupper($value);
-    if (preg_match('/\A[A-Z][12][0-9]{8}\z/D', $value) !== 1) return false;
-    $letters = array('A'=>10,'B'=>11,'C'=>12,'D'=>13,'E'=>14,'F'=>15,'G'=>16,'H'=>17,'I'=>34,'J'=>18,'K'=>19,'L'=>20,'M'=>21,'N'=>22,'O'=>35,'P'=>23,'Q'=>24,'R'=>25,'S'=>26,'T'=>27,'U'=>28,'V'=>29,'W'=>32,'X'=>30,'Y'=>31,'Z'=>33);
-    $code = $letters[$value[0]];
-    $sum = intdiv($code, 10) + ($code % 10) * 9;
-    for ($index = 1; $index <= 8; $index++) $sum += ((int)$value[$index]) * (9 - $index);
-    $sum += (int)$value[9];
-    return $sum % 10 === 0;
-}
-
 function validateRegistration(PDO $link, array $post): array
 {
     $email = requestString($post, 'email'); $cname = requestString($post, 'cname');
-    $tssn = requestString($post, 'tssn'); $birthday = requestString($post, 'birthday');
+    $birthday = requestString($post, 'birthday');
     $mobile = requestString($post, 'mobile'); $city = requestString($post, 'myCity');
     $town = requestString($post, 'myTown'); $zip = requestString($post, 'myZip');
     $address = requestString($post, 'address'); $upload = requestString($post, 'uploadname');
@@ -37,7 +25,6 @@ function validateRegistration(PDO $link, array $post): array
     if ($duplicate->fetchColumn()) return array(false, '此 Email 已註冊。');
     $nameLength = $cname === null ? null : stringLength($cname);
     if ($nameLength === null || $nameLength < 1 || $nameLength > 30) return array(false, '姓名必須為 1～30 個字元。');
-    if ($tssn === null || !validTaiwanId($tssn)) return array(false, '身分證字號格式不正確。');
     if ($mobile === null || preg_match('/\A09[0-9]{8}\z/D', $mobile) !== 1) return array(false, '手機號碼格式不正確。');
     if ($birthday === null || preg_match('/\A\d{4}-\d{2}-\d{2}\z/D', $birthday) !== 1) return array(false, '出生日期格式不正確。');
     $date = DateTimeImmutable::createFromFormat('!Y-m-d', $birthday); $dateErrors = DateTimeImmutable::getLastErrors();
@@ -53,5 +40,5 @@ function validateRegistration(PDO $link, array $post): array
         if (!isRegistrationAvatarFilename($upload) || registrationUploadFilename() !== $upload) return array(false, '上傳圖片驗證失敗，請重新上傳。');
         $imgname = $upload;
     }
-    return array(true, array('email'=>$email,'cname'=>$cname,'tssn'=>strtoupper($tssn),'birthday'=>$birthday,'mobile'=>$mobile,'zip'=>$zip,'city_id'=>(int)$city,'town_id'=>(int)$town,'address'=>$address,'imgname'=>$imgname));
+    return array(true, array('email'=>$email,'cname'=>$cname,'birthday'=>$birthday,'mobile'=>$mobile,'zip'=>$zip,'city_id'=>(int)$city,'town_id'=>(int)$town,'address'=>$address,'imgname'=>$imgname));
 }
