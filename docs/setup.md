@@ -2,7 +2,7 @@
 
 ## 需求
 
-- PHP 8.2 或更新版本，並啟用 PDO MySQL、fileinfo 與 GD。
+- PHP 8.2 或更新版本，並啟用 PDO、pdo_mysql 與 fileinfo。
 - MySQL 或 MariaDB。
 - 可連線至 CDN，以載入 Bootstrap、Font Awesome、jQuery 與 PhotoSwipe。
 
@@ -10,9 +10,9 @@
 
 匯入 `database/expstore.sample.sql`。這份公開範例包含完整資料表結構、商品、分類、輪播與台灣縣市資料，不包含會員、地址、購物車、訂單或管理員資料。
 
-```bash
-mysql -u root -p < database/expstore.sample.sql
-```
+Fresh install 匯入這份 sample SQL 即可；它已包含目前的訂單與地址 schema，不需要再執行 `database/migrations/20260913_order_core.sql`。該 migration 僅供既有舊資料庫升級參考。
+
+請使用 MySQL／MariaDB 資料庫管理工具匯入 `database/expstore.sample.sql`，例如 phpMyAdmin、Adminer 或 MySQL Workbench。
 
 資料庫名稱預設為 `expstore`。建議另外建立僅能存取這個資料庫的應用程式帳號，不要在正式環境使用 MySQL root 帳號。
 
@@ -55,7 +55,7 @@ php -S 127.0.0.1:8000
 
 然後開啟 `http://127.0.0.1:8000/`。
 
-上述 HTTP 網址僅供 localhost 本機開發。正式部署必須設定 HTTPS，讓會員註冊與登入密碼受到傳輸層保護；在瀏覽器先計算 MD5 並不能取代 HTTPS，MD5 值本身仍可能被重播並當作等效密碼使用。
+上述 HTTP 網址僅供 localhost 本機開發。正式部署必須設定 HTTPS，讓會員註冊與登入密碼受到傳輸層保護。專案目前不在瀏覽器端計算 MD5；伺服器端的 MD5 比對只用於舊會員登入後的密碼遷移，不能取代 HTTPS。
 
 ## Git 內容界線
 
