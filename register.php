@@ -615,6 +615,12 @@ if (preg_match('/\A[1-9][0-9]*\z/D', $registrationValues['myCity']) === 1) {
 
 
     <script>
+        // Replace the bundled validator's legacy email pattern with a practical
+        // format check. The server still performs the authoritative validation.
+        jQuery.validator.addMethod("email", function(value, element) {
+            return this.optional(element) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        });
+
         jQuery.validator.addMethod("checkphone", function(value, element, param) {
             var checkphone = /^[0]{1}[9]{1}[0-9]{8}$/;
             return this.optional(element) || (checkphone.test(value));
