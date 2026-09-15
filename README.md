@@ -4,7 +4,23 @@ Home Fitness 是一個由職訓課程專案持續重構與完善而成的原生 
 
 ## 專案畫面
 
-<!-- TODO: Add verified project screenshots: 首頁、商品列表、商品詳細、購物車、Checkout、訂單明細。 -->
+### 首頁
+
+![Home Fitness 首頁](docs/screenshots/01-home.png)
+
+### 購物流程
+
+| 商品列表 | 商品詳細 |
+| --- | --- |
+| ![商品列表](docs/screenshots/02-products.png) | ![商品詳細](docs/screenshots/03-product-detail.png) |
+
+| 購物車 | 訂單明細 |
+| --- | --- |
+| ![購物車](docs/screenshots/04-cart.png) | ![訂單明細](docs/screenshots/05-order-detail.png) |
+
+響應式頁面亦針對手機版進行調整：
+
+<img src="docs/screenshots/06-mobile-product-detail.png" width="320" alt="商品詳細手機版">
 
 ## 專案簡介
 
